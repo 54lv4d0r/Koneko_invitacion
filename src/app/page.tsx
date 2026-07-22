@@ -1,17 +1,13 @@
+// FUERZA A NEXT.JS A RENDERIZAR ESTA PÁGINA EN TIEMPO REAL (SOLUCIONA EL ERROR DE BUILD EN VERCEL)
+export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
+
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Volume2, VolumeX, Calendar, Sparkles } from 'lucide-react';
-import dynamic from 'next/dynamic'; // Importación clave para carga dinámica
 import { supabase } from '@/lib/supabase';
-
-// 1. Cargamos el componente del sello dinámicamente solo en el cliente.
-// Esto evita que Next.js intente renderizar el SVG complejo en el servidor durante el build.
-const SelloLacreRealista = dynamic(() => import('@/components/SelloLacreRealista'), {
-  ssr: false, // Desactiva el Server-Side Rendering para este componente
-  loading: () => <div className="w-56 h-56 rounded-full bg-teal-900/50 animate-pulse" /> // Opcional: placeholder mientras carga
-});
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,8 +15,10 @@ export default function Home() {
   const [portadaUrl, setPortadaUrl] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  // Consulta dinámica a Supabase Storage para obtener la URL de la portada
   useEffect(() => {
     const fetchAssets = () => {
+      // Intenta obtener la URL pública del archivo 'portadaXV.jpg' en el bucket 'invitaciones'
       const { data } = supabase.storage
         .from('invitaciones')
         .getPublicUrl('portadaXV.jpg');
@@ -35,11 +33,13 @@ export default function Home() {
 
   const handleOpenEnvelope = () => {
     setIsOpen(true);
+    // Intenta reproducir la música al abrir el sobre
     if (audioRef.current) {
       audioRef.current.play().then(() => {
         setIsPlaying(true);
       }).catch((err) => {
-        console.log("Audio play deferred:", err);
+        // El navegador puede bloquear la reproducción automática si no hay interacción previa
+        console.log("Audio play deferred or blocked by browser:", err);
       });
     }
   };
@@ -57,10 +57,11 @@ export default function Home() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#f8f6f0] overflow-x-hidden flex flex-col items-center select-none">
+    <div className="relative min-h-screen bg-[#f8f6f0] overflow-x-hidden flex flex-col items-center select-none font-sans">
+      {/* Elemento de audio oculto - Asegúrate de que la URL sea válida */}
       <audio ref={audioRef} loop src="https://invitacion-celebriq.b-cdn.net/wp-content/uploads/2025/07/Coldplay.mp3" />
 
-      {/* Botón flotante de audio */}
+      {/* Botón flotante de control de audio (solo visible cuando el sobre está abierto) */}
       {isOpen && (
         <motion.button
           initial={{ opacity: 0, scale: 0.8 }}
@@ -73,7 +74,7 @@ export default function Home() {
         </motion.button>
       )}
 
-      {/* Sobre de entrada */}
+      {/* PANTALLA INICIAL: SOBRE DE ENTRADA */}
       <AnimatePresence>
         {!isOpen && (
           <motion.div
@@ -82,9 +83,10 @@ export default function Home() {
             exit={{ opacity: 0, transition: { duration: 0.8, delay: 0.2 } }}
             className="fixed inset-0 z-40 flex items-center justify-center bg-[#f4f0e6] shadow-inner p-4"
           >
+            {/* Cuerpo del sobre */}
             <div className="relative w-full max-w-4xl h-[85vh] max-h-[600px] bg-[#fcfaf7] border border-[#e5dec9] rounded-lg shadow-2xl overflow-hidden flex items-center justify-center">
               
-              {/* Solapas del sobre */}
+              {/* Solapas decorativas del sobre (SVG de fondo) */}
               <div className="absolute inset-0 pointer-events-none opacity-40">
                 <svg className="absolute top-0 left-0 w-full h-1/2" viewBox="0 0 100 50" preserveAspectRatio="none">
                   <polygon points="0,0 100,0 50,50" fill="#f5f0e3" stroke="#e0d5be" strokeWidth="0.4" />
@@ -94,7 +96,7 @@ export default function Home() {
                 </svg>
               </div>
 
-              {/* Indicador flotante superior */}
+              {/* Indicador flotante de "Toca para abrir" */}
               <div className="absolute z-20 flex flex-col items-center top-[18%] sm:top-[22%]">
                 <motion.div
                   animate={{ y: [0, -6, 0] }}
@@ -106,15 +108,117 @@ export default function Home() {
                 </motion.div>
               </div>
 
-              {/* SELLO DE LACRE - CARGADO DINÁMICAMENTE */}
+              {/* SELLO DE LACRE ARTESANAL (SVG CON DISEÑO REALISTA E IRREGULAR) */}
               <motion.button
                 whileHover={{ scale: 1.05, rotate: 1 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleOpenEnvelope}
-                className="relative z-30 w-56 h-56 flex items-center justify-center cursor-pointer drop-shadow-2xl"
+                className="relative z-30 w-52 h-52 sm:w-60 sm:h-60 flex items-center justify-center cursor-pointer drop-shadow-2xl"
               >
-                {/* Este componente carga el SVG complejo solo en el navegador */}
-                <SelloLacreRealista />
+                <svg viewBox="0 0 200 200" className="w-full h-full overflow-visible">
+                  <defs>
+                    {/* Gradiente de volumen para la cera (Verde Esmeralda Profundo) */}
+                    <radialGradient id="realWaxGrad" cx="35%" cy="30%" r="70%">
+                      <stop offset="0%" stopColor="#216a70" />
+                      <stop offset="35%" stopColor="#124f53" />
+                      <stop offset="70%" stopColor="#082d30" />
+                      <stop offset="100%" stopColor="#031617" />
+                    </radialGradient>
+
+                    {/* Gradiente de profundidad interior para el efecto troquelado */}
+                    <radialGradient id="pitDepth" cx="45%" cy="40%" r="55%">
+                      <stop offset="0%" stopColor="#1a6266" />
+                      <stop offset="75%" stopColor="#082d30" />
+                      <stop offset="100%" stopColor="#021112" />
+                    </radialGradient>
+
+                    {/* Gradiente metálico dorado para el monograma grabado */}
+                    <linearGradient id="goldReliefGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#fff2c2" />
+                      <stop offset="30%" stopColor="#d8a84e" />
+                      <stop offset="70%" stopColor="#a37622" />
+                      <stop offset="100%" stopColor="#5e410b" />
+                    </linearGradient>
+                  </defs>
+
+                  {/* Trazado orgánico asimétrico del cuerpo de la cera derretida */}
+                  <path
+                    d="M 100,10 C 130,4 168,14 182,42 C 196,70 198,106 182,138 C 166,170 138,194 102,190 C 66,186 28,172 14,138 C 0,104 10,64 32,34 C 54,4 68,16 100,10 Z"
+                    fill="url(#realWaxGrad)"
+                  />
+
+                  {/* Gotas de cera desbordadas en el borde */}
+                  <circle cx="176" cy="132" r="7" fill="#082d30" />
+                  <circle cx="25" cy="58" r="9" fill="#124f53" />
+                  <circle cx="135" cy="184" r="6" fill="#031617" />
+                  <circle cx="55" cy="180" r="8" fill="#062224" />
+
+                  {/* Bisel del pozo central (donde presiona el timbre metálico) */}
+                  <path
+                    d="M 100,36 C 132,34 158,54 160,88 C 162,122 140,154 108,158 C 76,162 44,142 40,108 C 36,74 68,38 100,36 Z"
+                    fill="url(#pitDepth)"
+                    stroke="#021112"
+                    strokeWidth="2.5"
+                  />
+
+                  {/* Brillo especular curvo para simular la superficie pulida de la cera */}
+                  <path
+                    d="M 48,36 C 70,20 130,18 152,34"
+                    fill="none"
+                    stroke="#ffffff"
+                    strokeWidth="3.5"
+                    strokeLinecap="round"
+                    opacity="0.3"
+                  />
+
+                  {/* Anillo de troquelado interno sutil */}
+                  <path
+                    d="M 100,44 C 126,42 148,58 150,86 C 152,114 134,142 106,144 C 78,146 50,130 48,102 C 46,74 74,46 100,44 Z"
+                    fill="none"
+                    stroke="#d8a84e"
+                    strokeWidth="1.2"
+                    strokeDasharray="4 2"
+                    opacity="0.45"
+                  />
+
+                  {/* Monograma central "N" y textos grabados */}
+                  <g transform="translate(100, 100)" textAnchor="middle" dominantBaseline="central">
+                    {/* Sombra proyectada del grabado para dar profundidad */}
+                    <text
+                      x="1"
+                      y="3"
+                      fill="#01090a"
+                      fontSize="62"
+                      fontFamily="Georgia, serif"
+                      fontWeight="bold"
+                      fontStyle="italic"
+                      opacity="0.8"
+                    >
+                      N
+                    </text>
+                    
+                    {/* Letra principal con degradado dorado metálico */}
+                    <text
+                      x="0"
+                      y="0"
+                      fill="url(#goldReliefGrad)"
+                      fontSize="62"
+                      fontFamily="Georgia, serif"
+                      fontWeight="bold"
+                      fontStyle="italic"
+                    >
+                      N
+                    </text>
+
+                    {/* Leyendas grabadas en la cera alrededor del monograma */}
+                    <text y="-38" fill="#d8a84e" fontSize="8.5" fontFamily="sans-serif" letterSpacing="3" opacity="0.8">
+                      MIS XV
+                    </text>
+                    <text y="40" fill="#d8a84e" fontSize="8.5" fontFamily="Georgia, serif" letterSpacing="2" opacity="0.8">
+                      NATASHA
+                    </text>
+                  </g>
+                </svg>
               </motion.button>
 
             </div>
@@ -122,9 +226,10 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      {/* Contenido principal */}
+      {/* CONTENIDO PRINCIPAL DE LA INVITACIÓN (VISIBLE CUANDO EL SOBRE ESTÁ ABIERTO) */}
       <div className={`w-full max-w-xl mx-auto px-4 py-10 transition-all duration-1000 ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`}>
         
+        {/* Encabezado con animaciones */}
         <motion.header 
           initial={{ y: 20, opacity: 0 }}
           animate={isOpen ? { y: 0, opacity: 1 } : {}}
@@ -138,7 +243,7 @@ export default function Home() {
           <p className="text-teal-700/80 font-serif italic text-lg">Mis XV Años</p>
         </motion.header>
 
-        {/* Imagen cargada dinámicamente desde Supabase Storage */}
+        {/* Imagen de portada cargada dinámicamente desde Supabase Storage */}
         <motion.div 
           initial={{ scale: 0.95, opacity: 0 }}
           animate={isOpen ? { scale: 1, opacity: 1 } : {}}
@@ -152,13 +257,17 @@ export default function Home() {
               className="w-full h-full object-cover"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-teal-800 text-sm">
+            // Placeholder o estado de carga mientras se obtiene la imagen
+            <div className="w-full h-full flex flex-col items-center justify-center text-teal-800 text-sm p-6 bg-teal-900/5">
+              <Sparkles className="w-10 h-10 animate-pulse mb-3 text-teal-600/50" />
               Cargando portada desde Supabase...
             </div>
           )}
+          {/* Degradado de superposición para mejorar contraste */}
           <div className="absolute inset-0 bg-gradient-to-t from-teal-950/40 via-transparent to-transparent"></div>
         </motion.div>
 
+        {/* Sección de detalles (frase y fecha) */}
         <motion.section 
           initial={{ y: 20, opacity: 0 }}
           animate={isOpen ? { y: 0, opacity: 1 } : {}}
@@ -169,6 +278,7 @@ export default function Home() {
             "Hay momentos inolvidables que se atesoran en el corazón para siempre. Por esa razón, quiero que compartas conmigo este día tan especial."
           </p>
 
+          {/* Divisor y fecha */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4 border-t border-teal-900/10 text-teal-900">
             <div className="flex items-center gap-2">
               <Calendar className="w-5 h-5 text-teal-700" />
