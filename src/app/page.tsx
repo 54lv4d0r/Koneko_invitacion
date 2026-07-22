@@ -440,8 +440,8 @@ export default function Home() {
               {/* Espacio reservado para foto */}
             </div>
           </LuxuryPanel>
-
-          {/* PANEL 6: UBICACIÓN Y MAPAS DE MISA Y RECEPCIÓN */}
+      
+         {/* PANEL 6: UBICACIÓN Y MAPAS DE MISA Y RECEPCIÓN */}
           <LuxuryPanel>
             <div className="w-full h-full flex flex-col justify-between py-1 relative z-10 overflow-y-auto no-scrollbar gap-2">
               <div className="text-center">
@@ -463,24 +463,25 @@ export default function Home() {
                   </p>
                 </div>
 
-                <div className="w-full h-32 rounded-xl overflow-hidden border border-amber-500/30 shadow-lg relative">
+                {/* Contenedor del mapa envuelto completamente en el enlace */}
+                <a
+                  href={EVENT_DATA.locations.church.directMapUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full h-32 rounded-xl overflow-hidden border border-amber-500/30 shadow-lg relative block group cursor-pointer"
+                >
                   <iframe
                     src={EVENT_DATA.locations.church.mapEmbedUrl}
                     width="100%"
                     height="100%"
                     style={{ border: 0 }}
-                    allowFullScreen
                     loading="lazy"
+                    className="pointer-events-none" /* Desactiva la interacción directa con el iframe para que responda al clic del contenedor */
                   />
-                  <a
-                    href={EVENT_DATA.locations.church.directMapUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="absolute top-2 left-2 bg-white/95 text-neutral-900 text-[10px] font-medium px-2 py-1 rounded shadow border border-neutral-300 flex items-center gap-1 hover:bg-white transition-all z-20"
-                  >
+                  <div className="absolute top-2 left-2 bg-white/95 text-neutral-900 text-[10px] font-medium px-2 py-1 rounded shadow border border-neutral-300 flex items-center gap-1 group-hover:bg-amber-100 transition-all z-20">
                     <span>Abrir Misa en Maps</span>
-                  </a>
-                </div>
+                  </div>
+                </a>
               </div>
 
               {/* 2. RECEPCIÓN - DIRECCIÓN Y MAPA */}
@@ -497,24 +498,25 @@ export default function Home() {
                   </p>
                 </div>
 
-                <div className="w-full h-32 rounded-xl overflow-hidden border border-amber-500/30 shadow-lg relative">
+                {/* Contenedor del mapa envuelto completamente en el enlace */}
+                <a
+                  href={EVENT_DATA.locations.reception.directMapUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full h-32 rounded-xl overflow-hidden border border-amber-500/30 shadow-lg relative block group cursor-pointer"
+                >
                   <iframe
                     src={EVENT_DATA.locations.reception.mapEmbedUrl}
                     width="100%"
                     height="100%"
                     style={{ border: 0 }}
-                    allowFullScreen
                     loading="lazy"
+                    className="pointer-events-none" /* Desactiva la interacción directa con el iframe para que responda al clic del contenedor */
                   />
-                  <a
-                    href={EVENT_DATA.locations.reception.directMapUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="absolute top-2 left-2 bg-white/95 text-neutral-900 text-[10px] font-medium px-2 py-1 rounded shadow border border-neutral-300 flex items-center gap-1 hover:bg-white transition-all z-20"
-                  >
+                  <div className="absolute top-2 left-2 bg-white/95 text-neutral-900 text-[10px] font-medium px-2 py-1 rounded shadow border border-neutral-300 flex items-center gap-1 group-hover:bg-amber-100 transition-all z-20">
                     <span>Abrir Recepción en Maps</span>
-                  </a>
-                </div>
+                  </div>
+                </a>
               </div>
 
             </div>
