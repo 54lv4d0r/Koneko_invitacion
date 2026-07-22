@@ -71,26 +71,40 @@ export default function Home() {
             exit={{ opacity: 0, transition: { duration: 0.8, delay: 0.2 } }}
             className="fixed inset-0 z-40 flex items-center justify-center bg-[#f4f0e6] shadow-inner p-4"
           >
-            <div className="relative w-full max-w-4xl h-[85vh] max-h-[600px] bg-[#fcfaf7] border border-[#e5dec9] rounded-lg shadow-2xl overflow-hidden flex items-center justify-center">
+            <div className="relative w-full max-w-4xl h-[85vh] max-h-[600px] bg-[#f7f3e8] border-2 border-[#dcd3bd] rounded-xl shadow-2xl overflow-hidden flex items-center justify-center">
               
-              {/* Solapas del sobre creadas con bordes CSS puros (Cero SVG) */}
+              {/* SOLAPAS DEL SOBRE EN CSS PURO */}
               <div className="absolute inset-0 pointer-events-none">
-                {/* Solapa superior */}
-                <div className="absolute top-0 left-0 w-full h-1/2 bg-[#f5f0e3] border-b border-[#dcd3bd] origin-top"
-                     style={{ clipPath: 'polygon(0 0, 100% 0, 50% 100%)' }} />
-                {/* Solapa inferior */}
-                <div className="absolute bottom-0 left-0 w-full h-1/2 bg-[#f1ead7] border-t border-[#dcd3bd] origin-bottom"
-                     style={{ clipPath: 'polygon(0 100%, 100% 100%, 50% 0)' }} />
+                {/* Fondo base del interior del sobre */}
+                <div className="absolute inset-0 bg-[#f3ede0]" />
+
                 {/* Solapa izquierda */}
-                <div className="absolute top-0 left-0 w-1/2 h-full bg-[#ede6d2] opacity-40"
-                     style={{ clipPath: 'polygon(0 0, 100% 50%, 0 100%)' }} />
+                <div 
+                  className="absolute top-0 left-0 w-1/2 h-full bg-[#ebdcc2]/60 border-r border-[#cfc3a9]"
+                  style={{ clipPath: 'polygon(0 0, 100% 50%, 0 100%)' }} 
+                />
+
                 {/* Solapa derecha */}
-                <div className="absolute top-0 right-0 w-1/2 h-full bg-[#ede6d2] opacity-40"
-                     style={{ clipPath: 'polygon(100% 0, 0 50%, 100% 100%)' }} />
+                <div 
+                  className="absolute top-0 right-0 w-1/2 h-full bg-[#ebdcc2]/60 border-l border-[#cfc3a9]"
+                  style={{ clipPath: 'polygon(100% 0, 0 50%, 100% 100%)' }} 
+                />
+
+                {/* Solapa inferior */}
+                <div 
+                  className="absolute bottom-0 left-0 w-full h-[55%] bg-[#f0e4ce] border-t-2 border-[#c5b89c] drop-shadow-md"
+                  style={{ clipPath: 'polygon(0 100%, 100% 100%, 50% 0)' }} 
+                />
+
+                {/* Solapa superior (La que cierra el sobre hacia abajo) */}
+                <div 
+                  className="absolute top-0 left-0 w-full h-[58%] bg-[#f8f2e4] border-b-2 border-[#bfae8f] drop-shadow-lg z-10"
+                  style={{ clipPath: 'polygon(0 0, 100% 0, 50% 100%)' }} 
+                />
               </div>
 
               {/* Indicador flotante */}
-              <div className="absolute z-20 flex flex-col items-center top-[14%] sm:top-[18%]">
+              <div className="absolute z-20 flex flex-col items-center top-[12%] sm:top-[15%]">
                 <motion.div
                   animate={{ y: [0, -6, 0] }}
                   transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
@@ -101,25 +115,29 @@ export default function Home() {
                 </motion.div>
               </div>
 
-              {/* Sello de lacre con borde ondulado (usando border-style scalloped/rounded CSS) */}
+              {/* SELLO DE LACRE ONDULADO CON BORDES ESTILIZADOS (CSS PURÍSIMO) */}
               <motion.button
                 whileHover={{ scale: 1.05, rotate: 2 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleOpenEnvelope}
-                className="relative z-30 w-52 h-52 sm:w-60 sm:h-60 rounded-full cursor-pointer shadow-2xl bg-gradient-to-br from-[#23686c] via-[#0f3c3f] to-[#051718] p-3 flex items-center justify-center border-4 border-dashed border-[#1a5255]"
+                className="relative z-30 w-52 h-52 sm:w-60 sm:h-60 rounded-full cursor-pointer p-2.5 flex items-center justify-center bg-[#0d3437] shadow-[0_15px_35px_rgba(0,0,0,0.5)] border-4 border-[#164d51]"
                 style={{
-                  boxShadow: '0 12px 30px -5px rgba(0,0,0,0.6), inset 0 2px 6px rgba(255,255,255,0.2)',
-                  outline: '8px solid #0f3c3f',
-                  outlineOffset: '-12px'
+                  boxShadow: '0 0 0 6px #072022, 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 2px 8px rgba(255, 255, 255, 0.25)',
+                  borderRadius: '48% 52% 51% 49% / 51% 48% 52% 49%' // Deformación suave para efecto cera real
                 }}
               >
-                {/* Borde punteado de oro interno */}
-                <div className="w-full h-full rounded-full border-2 border-dashed border-[#d4af37]/70 flex flex-col items-center justify-center p-4 text-center bg-[#0f3c3f]/30 backdrop-blur-[1px]">
+                {/* Anillo interior punteado en dorado */}
+                <div 
+                  className="w-full h-full rounded-full border-2 border-dashed border-[#d4af37]/80 flex flex-col items-center justify-center p-4 text-center bg-gradient-to-br from-[#1e5f64] via-[#0f3c3f] to-[#061c1e]"
+                  style={{
+                    borderRadius: '49% 51% 50% 50% / 50% 49% 51% 50%'
+                  }}
+                >
                   <span className="text-[10px] font-sans italic tracking-[0.25em] text-[#d4af37] opacity-90 uppercase mb-0.5">
                     Mis XV
                   </span>
                   
-                  <span className="text-5xl sm:text-6xl font-serif font-bold italic text-transparent bg-clip-text bg-gradient-to-r from-[#ffe699] via-[#d4af37] to-[#aa7c11] drop-shadow my-0.5">
+                  <span className="text-5xl sm:text-6xl font-serif font-bold italic text-transparent bg-clip-text bg-gradient-to-r from-[#ffe699] via-[#d4af37] to-[#aa7c11] drop-shadow-md my-0.5">
                     N
                   </span>
 
