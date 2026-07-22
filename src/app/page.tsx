@@ -425,44 +425,32 @@ export default function Home() {
           </LuxuryPanel>
 
           {/* PANEL 6: UBICACIÓN Y MAPA (MISA Y RECEPCIÓN SEPARADAS) */}
-          <LuxuryPanel>
-            <div className="w-full h-full flex flex-col justify-between py-2 relative z-10">
-              <div className="text-center mt-2">
-                <MapPin className="w-6 h-6 text-amber-300 mx-auto mb-1" />
-                <h3 className="text-xl font-serif text-amber-200 mb-3">Ubicación del Evento</h3>
-                
-                {/* Bloque Misa */}
-                <div className="bg-[#092b27]/80 border border-amber-500/20 rounded-xl p-2.5 mb-2.5 text-left flex items-start gap-2.5 shadow-md">
-                  <Church className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
-                  <div>
-                    <span className="text-xs font-serif font-bold text-amber-300 block uppercase tracking-wider">Misa</span>
-                    <p className="text-[11px] text-amber-100/90 leading-tight">{EVENT_DATA.churchAddress}</p>
-                  </div>
-                </div>
-
-                {/* Bloque Recepción */}
-                <div className="bg-[#092b27]/80 border border-amber-500/20 rounded-xl p-2.5 text-left flex items-start gap-2.5 shadow-md">
-                  <PartyPopper className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
-                  <div>
-                    <span className="text-xs font-serif font-bold text-amber-300 block uppercase tracking-wider">Recepción</span>
-                    <p className="text-[11px] text-amber-100/90 leading-tight">{EVENT_DATA.receptionAddress}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Mini mapa interactivo */}
-              <div className="w-full aspect-[4/3] rounded-2xl overflow-hidden border border-amber-500/30 shadow-2xl my-auto">
-                <iframe
-                  src={EVENT_DATA.googleMapsEmbedUrl}
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                />
-              </div>
-            </div>
-          </LuxuryPanel>
+        // 1. ACTUALIZA EVENT_DATA
+const EVENT_DATA = {
+  quinceaneraName: "Natasha",
+  subtitle: "TE INVITO A MIS XV AÑOS",
+  dateText: "15 de Agosto, 2026",
+  targetDate: "2026-08-15T18:00:00",
+  quote: '"Hay momentos inolvidables que se atesoran en el corazón para siempre. Por esa razón, quiero que compartas conmigo este día tan especial."',
+  whatsappNumber: "50500000000",
+  whatsappMessage: "¡Hola! Confirmo mi asistencia a los XV Años de Natasha ✨",
+  
+  // Datos separados para Misa y Recepción
+  locations: {
+    church: {
+      title: "MISA",
+      address: "Capilla de la Iglesia San Felipe, León — 6:00 PM",
+      mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3895.845383921041!2d-86.8795!3d12.4358!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f711e38a202bfad%3A0x86b039dbd8c9a3d4!2sIglesia%20San%20Felipe!5e0!3m2!1ses!2sni!4v1620000000000!5m2!1es!2sni",
+      directMapUrl: "https://maps.google.com/?q=Iglesia+San+Felipe+Leon+Nicaragua"
+    },
+    reception: {
+      title: "RECEPCIÓN",
+      address: "Sutiaba, Casa Cural 1c. al oeste, 1/2c. al sur, León",
+      mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3896.000000000000!2d-86.8950!3d12.4280!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDI1JzQwLjgiTiA4NsKwNTMnNDI.0Ilc!5e0!3m2!1ses!2sni!4v1620000000000!5m2!1es!2sni",
+      directMapUrl: "https://maps.google.com/?q=Casa+Cural+Sutiaba+Leon+Nicaragua"
+    }
+  }
+};
 
           {/* PANEL 7: CÓDIGO DE VESTIMENTA */}
           <LuxuryPanel>
