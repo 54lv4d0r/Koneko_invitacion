@@ -69,42 +69,61 @@ export default function Home() {
             key="envelope"
             initial={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { duration: 0.8, delay: 0.2 } }}
-            className="fixed inset-0 z-40 flex items-center justify-center bg-[#f4f0e6] shadow-inner p-4"
+            className="fixed inset-0 z-40 flex items-center justify-center bg-[#eae3d2] shadow-inner p-4"
           >
-            <div className="relative w-full max-w-4xl h-[85vh] max-h-[600px] bg-[#f7f3e8] border-2 border-[#dcd3bd] rounded-xl shadow-2xl overflow-hidden flex items-center justify-center">
+            <div className="relative w-full max-w-4xl h-[85vh] max-h-[600px] bg-[#e3d8c4] border border-[#d2c3a7] rounded-xl shadow-2xl overflow-hidden flex items-center justify-center">
               
-              {/* SOLAPAS DEL SOBRE EN CSS PURO */}
+              {/* ESTRUCTURA REALISTA DEL SOBRE CERRADO */}
               <div className="absolute inset-0 pointer-events-none">
-                {/* Fondo base del interior del sobre */}
-                <div className="absolute inset-0 bg-[#f3ede0]" />
+                
+                {/* 1. Fondo base (Interior del sobre) */}
+                <div className="absolute inset-0 bg-[#d9cdb6]" />
 
-                {/* Solapa izquierda */}
+                {/* 2. Solapa inferior (Brazos que suben suavemente) */}
                 <div 
-                  className="absolute top-0 left-0 w-1/2 h-full bg-[#ebdcc2]/60 border-r border-[#cfc3a9]"
-                  style={{ clipPath: 'polygon(0 0, 100% 50%, 0 100%)' }} 
+                  className="absolute bottom-0 left-0 w-full h-[65%] bg-[#ebdcc3] border-t border-[#d5c5a8]"
+                  style={{ 
+                    clipPath: 'polygon(0 100%, 100% 100%, 50% 20%)',
+                    filter: 'drop-shadow(0px -2px 3px rgba(0,0,0,0.05))'
+                  }} 
                 />
 
-                {/* Solapa derecha */}
+                {/* 3. Solapa izquierda */}
                 <div 
-                  className="absolute top-0 right-0 w-1/2 h-full bg-[#ebdcc2]/60 border-l border-[#cfc3a9]"
-                  style={{ clipPath: 'polygon(100% 0, 0 50%, 100% 100%)' }} 
+                  className="absolute top-0 left-0 w-[55%] h-full bg-[#f2e4cc]"
+                  style={{ 
+                    clipPath: 'polygon(0 0, 100% 50%, 0 100%)',
+                    filter: 'drop-shadow(2px 0px 4px rgba(0,0,0,0.06))'
+                  }} 
                 />
 
-                {/* Solapa inferior */}
+                {/* 4. Solapa derecha */}
                 <div 
-                  className="absolute bottom-0 left-0 w-full h-[55%] bg-[#f0e4ce] border-t-2 border-[#c5b89c] drop-shadow-md"
-                  style={{ clipPath: 'polygon(0 100%, 100% 100%, 50% 0)' }} 
+                  className="absolute top-0 right-0 w-[55%] h-full bg-[#eee0c8]"
+                  style={{ 
+                    clipPath: 'polygon(100% 0, 0 50%, 100% 100%)',
+                    filter: 'drop-shadow(-2px 0px 4px rgba(0,0,0,0.06))'
+                  }} 
                 />
 
-                {/* Solapa superior (La que cierra el sobre hacia abajo) */}
+                {/* 5. Solapa Superior Principal (VA CERRADA HACIA ABAJO) */}
                 <div 
-                  className="absolute top-0 left-0 w-full h-[58%] bg-[#f8f2e4] border-b-2 border-[#bfae8f] drop-shadow-lg z-10"
-                  style={{ clipPath: 'polygon(0 0, 100% 0, 50% 100%)' }} 
+                  className="absolute top-0 left-0 w-full h-[62%] bg-[#f7ebd7] z-10"
+                  style={{ 
+                    clipPath: 'polygon(0 0, 100% 0, 50% 100%)',
+                    filter: 'drop-shadow(0px 8px 12px rgba(0,0,0,0.18))'
+                  }} 
+                />
+
+                {/* Sombra de pliegue sutil en la punta de la solapa superior */}
+                <div 
+                  className="absolute top-0 left-0 w-full h-[62%] bg-black/5 z-10"
+                  style={{ clipPath: 'polygon(0 0, 100% 0, 50% 100%)' }}
                 />
               </div>
 
               {/* Indicador flotante */}
-              <div className="absolute z-20 flex flex-col items-center top-[12%] sm:top-[15%]">
+              <div className="absolute z-20 flex flex-col items-center top-[10%] sm:top-[12%]">
                 <motion.div
                   animate={{ y: [0, -6, 0] }}
                   transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
@@ -115,37 +134,43 @@ export default function Home() {
                 </motion.div>
               </div>
 
-              {/* SELLO DE LACRE ONDULADO CON BORDES ESTILIZADOS (CSS PURÍSIMO) */}
-              <motion.button
-                whileHover={{ scale: 1.05, rotate: 2 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={handleOpenEnvelope}
-                className="relative z-30 w-52 h-52 sm:w-60 sm:h-60 rounded-full cursor-pointer p-2.5 flex items-center justify-center bg-[#0d3437] shadow-[0_15px_35px_rgba(0,0,0,0.5)] border-4 border-[#164d51]"
-                style={{
-                  boxShadow: '0 0 0 6px #072022, 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 2px 8px rgba(255, 255, 255, 0.25)',
-                  borderRadius: '48% 52% 51% 49% / 51% 48% 52% 49%' // Deformación suave para efecto cera real
-                }}
-              >
-                {/* Anillo interior punteado en dorado */}
-                <div 
-                  className="w-full h-full rounded-full border-2 border-dashed border-[#d4af37]/80 flex flex-col items-center justify-center p-4 text-center bg-gradient-to-br from-[#1e5f64] via-[#0f3c3f] to-[#061c1e]"
+              {/* SELLO DE LACRE CON BORDE ONDULADO/FESTONADO (CSS MASK) */}
+              <div className="relative z-30 flex items-center justify-center top-[6%]">
+                <motion.button
+                  whileHover={{ scale: 1.05, rotate: 2 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handleOpenEnvelope}
+                  className="relative w-48 h-48 sm:w-56 sm:h-56 cursor-pointer flex items-center justify-center p-3 bg-[#0a2e31] drop-shadow-[0_12px_20px_rgba(0,0,0,0.45)]"
                   style={{
-                    borderRadius: '49% 51% 50% 50% / 50% 49% 51% 50%'
+                    // Genera las ondas circulares (scalloped edge) en el borde externo
+                    WebkitMaskImage: 'radial-gradient(circle 10px at 10px 10px, transparent 98%, black 100%)',
+                    WebkitMaskSize: '20px 20px',
+                    WebkitMaskComposite: 'exclude',
+                    maskImage: 'radial-gradient(circle 10px at 10px 10px, transparent 98%, black 100%)',
+                    maskSize: '20px 20px',
+                    maskComposite: 'exclude',
+                    borderRadius: '50%'
                   }}
                 >
-                  <span className="text-[10px] font-sans italic tracking-[0.25em] text-[#d4af37] opacity-90 uppercase mb-0.5">
-                    Mis XV
-                  </span>
-                  
-                  <span className="text-5xl sm:text-6xl font-serif font-bold italic text-transparent bg-clip-text bg-gradient-to-r from-[#ffe699] via-[#d4af37] to-[#aa7c11] drop-shadow-md my-0.5">
-                    N
-                  </span>
+                  {/* Borde exterior acentuado */}
+                  <div className="absolute inset-0 rounded-full border-4 border-[#164d51] shadow-inner" />
 
-                  <span className="text-[10px] font-serif italic tracking-[0.2em] text-[#d4af37] opacity-90 uppercase mt-0.5">
-                    Natasha
-                  </span>
-                </div>
-              </motion.button>
+                  {/* Círculo interno decorativo */}
+                  <div className="w-full h-full rounded-full border-2 border-dashed border-[#d4af37]/80 flex flex-col items-center justify-center p-4 text-center bg-gradient-to-br from-[#1b565a] via-[#0f3c3f] to-[#061c1e] shadow-inner">
+                    <span className="text-[10px] font-sans italic tracking-[0.25em] text-[#d4af37] opacity-90 uppercase mb-0.5">
+                      Mis XV
+                    </span>
+                    
+                    <span className="text-5xl sm:text-6xl font-serif font-bold italic text-transparent bg-clip-text bg-gradient-to-r from-[#ffe699] via-[#d4af37] to-[#aa7c11] drop-shadow-md my-0.5">
+                      N
+                    </span>
+
+                    <span className="text-[10px] font-serif italic tracking-[0.2em] text-[#d4af37] opacity-90 uppercase mt-0.5">
+                      Natasha
+                    </span>
+                  </div>
+                </motion.button>
+              </div>
 
             </div>
           </motion.div>
