@@ -367,7 +367,7 @@ export default function Home() {
           {/* PANEL 1: BANNER PORTADA */}
           <LuxuryPanel>
             <div className="absolute inset-0 z-0">
-              <img src="/public/galeria/banner_portada.jpg" alt="Portada" className="w-full h-full object-cover opacity-50" />
+              <img src="/public/banner_portada.jpg" alt="Portada" className="w-full h-full object-cover opacity-50" />
               <div className="absolute inset-0 bg-gradient-to-b from-[#061917]/80 via-transparent to-[#041211]/90" />
             </div>
             <LuxuryGlitterOverlay />
