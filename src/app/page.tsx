@@ -82,7 +82,7 @@ export default function Home() {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           onClick={toggleAudio}
-          className="fixed top-5 right-5 z-50 bg-teal-800/80 hover:bg-teal-800 text-white p-3 rounded-full shadow-lg backdrop-blur-md transition-all border border-teal-600/30 cursor-pointer"
+          className="fixed top-4 right-4 z-50 bg-teal-800/80 hover:bg-teal-800 text-white p-3 rounded-full shadow-lg backdrop-blur-md transition-all border border-teal-600/30 cursor-pointer"
           title={isPlaying ? "Pausar música" : "Reproducir música"}
         >
           {isPlaying ? <Volume2 className="w-5 h-5 animate-pulse" /> : <VolumeX className="w-5 h-5" />}
@@ -96,15 +96,16 @@ export default function Home() {
             key="envelope"
             initial={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { duration: 0.8, delay: 0.2 } }}
-            className="fixed inset-0 z-40 flex items-center justify-center bg-[#eae3d2] p-4"
+            className="fixed inset-0 z-40 flex items-center justify-center bg-[#eae3d2] p-4 sm:p-6"
           >
-            <div className="relative w-full max-w-2xl h-[62vh] max-h-[440px] flex items-center justify-center filter drop-shadow-2xl">
+            {/* Contenedor principal con relación de aspecto fija 3:2 optimizado para móvil */}
+            <div className="relative w-full max-w-md sm:max-w-lg aspect-[3/2] flex items-center justify-center filter drop-shadow-2xl">
               
               {/* VECTOR DEL SOBRE */}
               <svg 
                 viewBox="0 0 600 400" 
                 className="absolute inset-0 w-full h-full"
-                preserveAspectRatio="none"
+                preserveAspectRatio="xMidYMid meet"
               >
                 <defs>
                   <linearGradient id="envelopeBg" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -153,41 +154,41 @@ export default function Home() {
               </svg>
 
               {/* Indicador flotante superior */}
-              <div className="absolute z-20 flex flex-col items-center top-[8%] sm:top-[10%]">
+              <div className="absolute z-20 flex flex-col items-center top-3 sm:top-5">
                 <motion.div
-                  animate={{ y: [0, -4, 0] }}
+                  animate={{ y: [0, -3, 0] }}
                   transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                  className="bg-[#1b3d3b] text-amber-100 text-xs font-serif italic tracking-wider px-4 py-1.5 rounded-full shadow-xl border border-amber-500/30 flex items-center gap-1.5"
+                  className="bg-[#1b3d3b] text-amber-100 text-[10px] sm:text-xs font-serif italic tracking-wider px-3 py-1 sm:px-4 sm:py-1.5 rounded-full shadow-xl border border-amber-500/30 flex items-center gap-1.5"
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                  <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-300" />
                   <span>Toca el sello para abrir la invitación</span>
                 </motion.div>
               </div>
 
-              {/* SELLO CON DISTANCIA INTERMEDIA PERFECTA (80% DEL CONTENEDOR) */}
+              {/* SELLO DE LACRE CON TAMAÑO RESPONSIVO */}
               <div className="absolute z-30 flex items-center justify-center top-[52%] left-[50%] -translate-x-1/2 -translate-y-1/2">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={handleOpenEnvelope}
-                  className="relative w-40 h-40 sm:w-44 sm:h-44 cursor-pointer flex items-center justify-center filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.35)]"
+                  className="relative w-32 h-32 sm:w-40 sm:h-40 cursor-pointer flex items-center justify-center filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.35)]"
                 >
                   {/* Vector exterior del sello */}
                   <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full text-[#0a2e31]" fill="currentColor">
                     <path d={generateScallopedPath(44, 24, 3)} />
                   </svg>
 
-                  {/* Contenedor equilibrado al 80% */}
+                  {/* Contenedor interior equilibrado al 80% */}
                   <div className="relative z-10 w-[80%] h-[80%] rounded-full border border-dashed border-[#d4af37]/80 flex flex-col items-center justify-center p-2 text-center bg-gradient-to-br from-[#1c5559] via-[#0f3c3f] to-[#061c1e] shadow-inner">
-                    <span className="text-[8px] sm:text-[9px] font-sans italic tracking-[0.2em] text-[#d4af37] opacity-90 uppercase mb-0.5">
+                    <span className="text-[7px] sm:text-[9px] font-sans italic tracking-[0.2em] text-[#d4af37] opacity-90 uppercase mb-0.5">
                       Mis XV
                     </span>
                     
-                    <span className="text-3xl sm:text-4xl font-serif font-bold italic text-transparent bg-clip-text bg-gradient-to-r from-[#ffe699] via-[#d4af37] to-[#aa7c11] drop-shadow-md my-0">
+                    <span className="text-2xl sm:text-4xl font-serif font-bold italic text-transparent bg-clip-text bg-gradient-to-r from-[#ffe699] via-[#d4af37] to-[#aa7c11] drop-shadow-md my-0">
                       N
                     </span>
 
-                    <span className="text-[8px] sm:text-[9px] font-serif italic tracking-[0.18em] text-[#d4af37] opacity-90 uppercase mt-0.5">
+                    <span className="text-[7px] sm:text-[9px] font-serif italic tracking-[0.18em] text-[#d4af37] opacity-90 uppercase mt-0.5">
                       Natasha
                     </span>
                   </div>
@@ -200,7 +201,7 @@ export default function Home() {
       </AnimatePresence>
 
       {/* Contenido principal de la invitación */}
-      <div className={`w-full max-w-xl mx-auto px-4 py-10 transition-all duration-1000 ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`}>
+      <div className={`w-full max-w-md sm:max-w-xl mx-auto px-4 py-8 sm:py-10 transition-all duration-1000 ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`}>
         
         <motion.header 
           initial={{ y: 20, opacity: 0 }}
@@ -209,17 +210,17 @@ export default function Home() {
           className="text-center mb-8"
         >
           <span className="text-teal-800 tracking-[0.3em] uppercase text-xs font-bold block mb-2">Te invito a celebrar</span>
-          <h1 className="text-5xl sm:text-6xl font-serif text-teal-950 font-normal my-2">
+          <h1 className="text-4xl sm:text-6xl font-serif text-teal-950 font-normal my-2">
             Natasha
           </h1>
-          <p className="text-teal-700/80 font-serif italic text-lg">Mis XV Años</p>
+          <p className="text-teal-700/80 font-serif italic text-base sm:text-lg">Mis XV Años</p>
         </motion.header>
 
         <motion.section 
           initial={{ y: 20, opacity: 0 }}
           animate={isOpen ? { y: 0, opacity: 1 } : {}}
           transition={{ duration: 0.8, delay: 0.8 }}
-          className="bg-white/80 backdrop-blur-sm border border-teal-900/10 rounded-2xl p-8 text-center shadow-lg mb-8"
+          className="bg-white/80 backdrop-blur-sm border border-teal-900/10 rounded-2xl p-6 sm:p-8 text-center shadow-lg mb-8"
         >
           <p className="text-gray-600 italic text-sm leading-relaxed max-w-sm mx-auto mb-6">
             "Hay momentos inolvidables que se atesoran en el corazón para siempre. Por esa razón, quiero que compartas conmigo este día tan especial."
