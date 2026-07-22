@@ -1,8 +1,5 @@
 'use client';
 
-export const dynamic = 'force-dynamic';
-export const fetchCache = 'force-no-store';
-
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Volume2, VolumeX, Calendar, Sparkles } from 'lucide-react';
@@ -12,9 +9,13 @@ export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [portadaUrl, setPortadaUrl] = useState<string | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
+    // Garantiza que los SVG complejos solo se rendericen en el cliente
+    setIsMounted(true);
+
     const fetchAssets = () => {
       const { data } = supabase.storage
         .from('invitaciones')
@@ -68,9 +69,9 @@ export default function Home() {
         </motion.button>
       )}
 
-      {/* Sobre de entrada */}
+      {/* Sobre de entrada: Solo se renderiza cuando el cliente ya está listo */}
       <AnimatePresence>
-        {!isOpen && (
+        {isMounted && !isOpen && (
           <motion.div
             key="envelope"
             initial={{ opacity: 1 }}
