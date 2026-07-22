@@ -21,14 +21,15 @@ const EVENT_DATA = {
     church: {
       title: "MISA",
       address: "Capilla de la Iglesia San Felipe, León — 6:00 PM",
-      mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3895.845383921041!2d-86.8795!3d12.4358!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f711e38a202bfad%3A0x86b039dbd8c9a3d4!2sIglesia%20San%20Felipe!5e0!3m2!1ses!2sni!4v1620000000000!5m2!1es!2sni",
-      directMapUrl: "https://maps.google.com/?q=Iglesia+San+Felipe+Leon+Nicaragua"
+      mapEmbedUrl: "https://maps.google.com/maps?q=12.4358,-86.8795&z=16&output=embed",
+      directMapUrl: "https://www.google.com/maps/search/?api=1&query=12.4358,-86.8795"
     },
     reception: {
       title: "RECEPCIÓN",
       address: "Sutiaba, Casa Cural 1c. al oeste, 1/2c. al sur, León",
-      mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3896.000000000000!2d-86.8950!3d12.4280!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDI1JzQwLjgiTiA8NsKwNTMnNDI.0Ilc!5e0!3m2!1ses!2sni!4v1620000000000!5m2!1es!2sni",
-      directMapUrl: "https://maps.google.com/?q=Casa+Cural+Sutiaba+Leon+Nicaragua"
+      // Coordenadas exactas: 12°25'57.9"N 86°53'46.0"W -> 12.432750, -86.896111
+      mapEmbedUrl: "https://maps.google.com/maps?q=12.432750,-86.896111&z=16&output=embed",
+      directMapUrl: "https://www.google.com/maps/search/?api=1&query=12.432750,-86.896111"
     }
   }
 };
@@ -440,8 +441,8 @@ export default function Home() {
               {/* Espacio reservado para foto */}
             </div>
           </LuxuryPanel>
-      
-         {/* PANEL 6: UBICACIÓN Y MAPAS DE MISA Y RECEPCIÓN */}
+        
+          {/* PANEL 6: UBICACIÓN Y MAPAS DE MISA Y RECEPCIÓN */}
           <LuxuryPanel>
             <div className="w-full h-full flex flex-col justify-between py-1 relative z-10 overflow-y-auto no-scrollbar gap-2">
               <div className="text-center">
@@ -476,7 +477,7 @@ export default function Home() {
                     height="100%"
                     style={{ border: 0 }}
                     loading="lazy"
-                    className="pointer-events-none" /* Desactiva la interacción directa con el iframe para que responda al clic del contenedor */
+                    className="pointer-events-none"
                   />
                   <div className="absolute top-2 left-2 bg-white/95 text-neutral-900 text-[10px] font-medium px-2 py-1 rounded shadow border border-neutral-300 flex items-center gap-1 group-hover:bg-amber-100 transition-all z-20">
                     <span>Abrir Misa en Maps</span>
@@ -511,7 +512,7 @@ export default function Home() {
                     height="100%"
                     style={{ border: 0 }}
                     loading="lazy"
-                    className="pointer-events-none" /* Desactiva la interacción directa con el iframe para que responda al clic del contenedor */
+                    className="pointer-events-none"
                   />
                   <div className="absolute top-2 left-2 bg-white/95 text-neutral-900 text-[10px] font-medium px-2 py-1 rounded shadow border border-neutral-300 flex items-center gap-1 group-hover:bg-amber-100 transition-all z-20">
                     <span>Abrir Recepción en Maps</span>
