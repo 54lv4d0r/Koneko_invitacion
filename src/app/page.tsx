@@ -5,6 +5,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Volume2, VolumeX, Calendar, Sparkles } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
+// SVG del sello de lacre convertido a Data URI (cadena pura para evitar errores de renderizado en servidor)
+const SELLO_LACRE_SVG = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><radialGradient id="wax" cx="40%" cy="30%" r="70%"><stop offset="0%" stop-color="%231e5f64"/><stop offset="60%" stop-color="%230f3c3f"/><stop offset="100%" stop-color="%23061c1e"/></radialGradient><linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="%23ffe699"/><stop offset="50%" stop-color="%23d4af37"/><stop offset="100%" stop-color="%23aa7c11"/></linearGradient></defs><circle cx="100" cy="100" r="90" fill="url(%23wax)" stroke="%230b292c" stroke-width="4"/><circle cx="100" cy="100" r="72" fill="none" stroke="%23082224" stroke-width="4" opacity="0.6"/><circle cx="100" cy="100" r="68" fill="none" stroke="%23d4af37" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.6"/><text x="100" y="112" text-anchor="middle" fill="url(%23gold)" font-size="64" font-family="Georgia, serif" font-weight="bold" font-style="italic">N</text><text x="100" y="58" text-anchor="middle" fill="%23d4af37" font-size="8" font-family="sans-serif" font-style="italic" letter-spacing="3" opacity="0.85">MIS XV</text><text x="100" y="148" text-anchor="middle" fill="%23d4af37" font-size="8" font-family="Georgia, serif" font-style="italic" letter-spacing="2" opacity="0.85">NATASHA</text></svg>`;
+
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -79,14 +82,10 @@ export default function Home() {
           >
             <div className="relative w-full max-w-4xl h-[85vh] max-h-[600px] bg-[#fcfaf7] border border-[#e5dec9] rounded-lg shadow-2xl overflow-hidden flex items-center justify-center">
               
-              {/* Solapas decorativas básicas */}
+              {/* Solapas del sobre */}
               <div className="absolute inset-0 pointer-events-none opacity-40">
-                <svg className="absolute top-0 left-0 w-full h-1/2" viewBox="0 0 100 50" preserveAspectRatio="none">
-                  <polygon points="0,0 100,0 50,50" fill="#f5f0e3" stroke="#e0d5be" strokeWidth="0.4" />
-                </svg>
-                <svg className="absolute bottom-0 left-0 w-full h-1/2" viewBox="0 0 100 50" preserveAspectRatio="none">
-                  <polygon points="0,50 100,50 50,0" fill="#f1ead7" stroke="#e0d5be" strokeWidth="0.4" />
-                </svg>
+                <div className="absolute top-0 left-0 w-full h-1/2 bg-[#f5f0e3] [clip-path:polygon(0_0,_100%_0,_50%_100%)] border-b border-[#e0d5be]" />
+                <div className="absolute bottom-0 left-0 w-full h-1/2 bg-[#f1ead7] [clip-path:polygon(0_100%,_100%_100%,_50%_0)] border-t border-[#e0d5be]" />
               </div>
 
               {/* Indicador flotante */}
@@ -101,65 +100,18 @@ export default function Home() {
                 </motion.div>
               </div>
 
-              {/* SELLO DE LACRE - FORMA ONDULADA / FLORAL SIMPLIFICADA */}
+              {/* SELLO RENDERIZADO COMO IMAGEN PURA (CERO ERRORES DE SVG) */}
               <motion.button
                 whileHover={{ scale: 1.05, rotate: 2 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleOpenEnvelope}
                 className="relative z-30 w-52 h-52 sm:w-60 sm:h-60 flex items-center justify-center cursor-pointer drop-shadow-2xl"
               >
-                <svg viewBox="0 0 200 200" className="w-full h-full">
-                  <defs>
-                    <radialGradient id="waxBase" cx="40%" cy="30%" r="70%">
-                      <stop offset="0%" stopColor="#1e5f64" />
-                      <stop offset="60%" stopColor="#0f3c3f" />
-                      <stop offset="100%" stopColor="#061c1e" />
-                    </radialGradient>
-                    
-                    <linearGradient id="goldText" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#ffe699" />
-                      <stop offset="50%" stopColor="#d4af37" />
-                      <stop offset="100%" stopColor="#aa7c11" />
-                    </linearGradient>
-                  </defs>
-
-                  {/* Círculo con 16 ondas en los bordes para simular lacre real */}
-                  <path
-                    d="
-                      M 100,10 
-                      Q 108,12 115,16 Q 123,12 130,19 Q 138,20 143,29 Q 152,32 155,42 Q 164,48 165,59 Q 173,68 171,79 Q 178,90 174,101 Q 178,112 171,123 Q 173,134 165,143 Q 164,154 155,160 Q 152,170 143,173 Q 138,182 130,183 Q 123,190 115,186 Q 108,190 100,190 Q 92,190 85,186 Q 77,190 70,183 Q 62,182 57,173 Q 48,170 45,160 Q 36,154 35,143 Q 27,134 29,123 Q 22,112 26,101 Q 22,90 29,79 Q 27,68 35,59 Q 36,48 45,42 Q 48,32 57,29 Q 62,20 70,19 Q 77,12 85,16 Q 92,12 100,10 Z
-                    "
-                    fill="url(#waxBase)"
-                    stroke="#0b292c"
-                    strokeWidth="3"
-                  />
-
-                  {/* Anillo de hendidura interno */}
-                  <circle cx="100" cy="100" r="62" fill="none" stroke="#082224" strokeWidth="4" opacity="0.6" />
-                  <circle cx="100" cy="100" r="59" fill="none" stroke="#d4af37" strokeWidth="1" strokeDasharray="3 3" opacity="0.5" />
-
-                  {/* Monograma y Textos Dorados */}
-                  <g textAnchor="middle" dominantBaseline="central">
-                    <text
-                      x="100"
-                      y="98"
-                      fill="url(#goldText)"
-                      fontSize="64"
-                      fontFamily="Georgia, serif"
-                      fontWeight="bold"
-                      fontStyle="italic"
-                    >
-                      N
-                    </text>
-
-                    <text x="100" y="60" fill="#d4af37" fontSize="8" fontStyle="italic" letterSpacing="3" opacity="0.85">
-                      MIS XV
-                    </text>
-                    <text x="100" y="140" fill="#d4af37" fontSize="8" fontStyle="italic" letterSpacing="2" opacity="0.85">
-                      NATASHA
-                    </text>
-                  </g>
-                </svg>
+                <img 
+                  src={SELLO_LACRE_SVG} 
+                  alt="Sello de Lacre Natasha" 
+                  className="w-full h-full object-contain pointer-events-none select-none"
+                />
               </motion.button>
 
             </div>
@@ -167,7 +119,7 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      {/* Contenido de la invitación */}
+      {/* Contenido principal */}
       <div className={`w-full max-w-xl mx-auto px-4 py-10 transition-all duration-1000 ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`}>
         
         <motion.header 
