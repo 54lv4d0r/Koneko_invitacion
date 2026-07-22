@@ -11,7 +11,6 @@ export default function Home() {
   const [portadaUrl, setPortadaUrl] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Consulta dinámica a Supabase Storage
   useEffect(() => {
     const fetchAssets = () => {
       const { data } = supabase.storage
@@ -50,7 +49,7 @@ export default function Home() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#f8f6f0] overflow-x-hidden flex flex-col items-center">
+    <div className="relative min-h-screen bg-[#f8f6f0] overflow-x-hidden flex flex-col items-center select-none">
       <audio ref={audioRef} loop src="https://invitacion-celebriq.b-cdn.net/wp-content/uploads/2025/07/Coldplay.mp3" />
 
       {/* Botón flotante de audio */}
@@ -77,6 +76,7 @@ export default function Home() {
           >
             <div className="relative w-full max-w-4xl h-[85vh] max-h-[600px] bg-[#fcfaf7] border border-[#e5dec9] rounded-lg shadow-2xl overflow-hidden flex items-center justify-center">
               
+              {/* Solapas del sobre */}
               <div className="absolute inset-0 pointer-events-none opacity-40">
                 <svg className="absolute top-0 left-0 w-full h-1/2" viewBox="0 0 100 50" preserveAspectRatio="none">
                   <polygon points="0,0 100,0 50,50" fill="#f5f0e3" stroke="#e0d5be" strokeWidth="0.4" />
@@ -86,31 +86,151 @@ export default function Home() {
                 </svg>
               </div>
 
-              <div className="absolute z-20 flex flex-col items-center top-[38%] sm:top-[36%]">
+              {/* Indicador flotante superior */}
+              <div className="absolute z-20 flex flex-col items-center top-[22%] sm:top-[25%]">
                 <motion.div
                   animate={{ y: [0, -6, 0] }}
                   transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                  className="bg-[#3a3a3a] text-white text-xs font-semibold px-4 py-1.5 rounded-md shadow-md border border-gray-600 mb-2"
+                  className="bg-[#1b3d3b] text-amber-100 text-xs font-serif italic tracking-wider px-4 py-1.5 rounded-full shadow-xl border border-amber-500/30 flex items-center gap-1.5"
                 >
-                  ¡Toca aquí!
+                  <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                  <span>Toca el sello para abrir la invitación</span>
                 </motion.div>
               </div>
 
+              {/* SELLO DE LACRE ARTESANAL EN SVG */}
               <motion.button
-                whileHover={{ scale: 1.08 }}
+                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleOpenEnvelope}
-                className="relative z-30 w-36 h-36 sm:w-40 sm:h-40 rounded-full bg-teal-800 shadow-2xl flex flex-col items-center justify-center text-amber-100 p-2 cursor-pointer border-4 border-teal-900 transition-all group"
-                style={{
-                  boxShadow: '0 10px 25px -5px rgba(20, 82, 86, 0.6), inset 0 2px 6px rgba(255, 255, 255, 0.4), inset 0 -4px 8px rgba(0, 0, 0, 0.5)'
-                }}
+                className="relative z-30 w-48 h-48 sm:w-56 sm:h-56 flex items-center justify-center cursor-pointer filter drop-shadow-[0_15px_25px_rgba(10,40,40,0.45)] group"
               >
-                <div className="text-amber-200 mb-1 group-hover:scale-110 transition-transform">
-                  <Sparkles className="w-7 h-7" />
-                </div>
-                <span className="text-xs font-serif italic tracking-wide text-amber-100/90">Mis XV</span>
-                <span className="text-xl sm:text-2xl font-serif font-bold text-amber-100 tracking-wider">Natasha</span>
+                <svg viewBox="0 0 200 200" className="w-full h-full">
+                  <defs>
+                    {/* Gradiente principal de cera verde esmeralda / azul petróleo */}
+                    <radialGradient id="waxBase" cx="35%" cy="30%" r="70%">
+                      <stop offset="0%" stopColor="#1a5a5e" />
+                      <stop offset="45%" stopColor="#0d3b3e" />
+                      <stop offset="85%" stopColor="#062224" />
+                      <stop offset="100%" stopColor="#021112" />
+                    </radialGradient>
+
+                    {/* Gradiente para el bisel interior grabado */}
+                    <radialGradient id="waxInner" cx="40%" cy="35%" r="60%">
+                      <stop offset="0%" stopColor="#1e666a" />
+                      <stop offset="70%" stopColor="#0a3235" />
+                      <stop offset="100%" stopColor="#041a1c" />
+                    </radialGradient>
+
+                    {/* Gradiente dorado metálico para la "N" */}
+                    <linearGradient id="goldText" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#fff5d0" />
+                      <stop offset="30%" stopColor="#e5ba63" />
+                      <stop offset="70%" stopColor="#b88628" />
+                      <stop offset="100%" stopColor="#7a5310" />
+                    </linearGradient>
+
+                    {/* Filtro de relieve 3D realista para la cera */}
+                    <filter id="waxRelief" x="-20%" y="-20%" width="140%" height="140%">
+                      <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur" />
+                      <feSpecularLighting in="blur" surfaceScale="4" specularConstant="0.8" specularExponent="15" lightingColor="#ffffff" result="specular">
+                        <fePointLight x="-20" y="-30" z="80" />
+                      </feSpecularLighting>
+                      <feComposite in="specular" in2="SourceAlpha" operator="in" result="specularCombined" />
+                      <feMerge>
+                        <feMergeNode in="SourceGraphic" />
+                        <feMergeNode in="specularCombined" />
+                      </feMerge>
+                    </filter>
+                  </defs>
+
+                  {/* Capa de sombra posterior de la cera */}
+                  <path
+                    d="M 100,10 C 135,8 165,22 182,50 C 198,78 190,115 180,145 C 170,175 138,194 102,190 C 66,186 32,172 18,140 C 4,108 12,72 30,42 C 48,12 65,12 100,10 Z"
+                    fill="rgba(0,0,0,0.25)"
+                    transform="translate(2, 6)"
+                  />
+
+                  {/* Cuerpo principal fluido e irregular del sello de lacre */}
+                  <path
+                    d="M 100,12 C 128,9 152,18 170,38 C 188,58 196,88 188,116 C 180,144 162,170 134,182 C 106,194 72,188 48,174 C 24,160 10,132 12,104 C 14,76 28,52 48,34 C 68,16 72,15 100,12 Z"
+                    fill="url(#waxBase)"
+                    filter="url(#waxRelief)"
+                  />
+
+                  {/* Pequeños goteos y deformaciones orgánicas de la cera en los bordes */}
+                  <circle cx="178" cy="128" r="7" fill="#0c373a" />
+                  <circle cx="28" cy="65" r="9" fill="#12484c" />
+                  <circle cx="148" cy="178" r="6" fill="#08282a" />
+                  <circle cx="58" cy="176" r="8" fill="#0a2e31" />
+
+                  {/* Hundimiento/pozo central donde presiona el timbre de metal */}
+                  <path
+                    d="M 100,38 C 130,36 158,54 160,88 C 162,122 142,152 110,158 C 78,164 46,146 42,114 C 38,82 70,40 100,38 Z"
+                    fill="url(#waxInner)"
+                    stroke="#05191b"
+                    strokeWidth="3"
+                  />
+
+                  {/* Anillo de presión troquelado en la cera */}
+                  <path
+                    d="M 100,44 C 125,42 150,58 152,86 C 154,114 136,142 108,146 C 80,150 52,134 48,106 C 44,78 75,46 100,44 Z"
+                    fill="none"
+                    stroke="#e5ba63"
+                    strokeWidth="1.2"
+                    strokeDasharray="4 2"
+                    opacity="0.4"
+                  />
+
+                  {/* Brillo curvo de superficie pulida */}
+                  <path
+                    d="M 60,55 C 80,42 115,40 135,48"
+                    fill="none"
+                    stroke="#ffffff"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    opacity="0.25"
+                  />
+
+                  {/* Monograma "N" y detalles dorados grabados */}
+                  <g transform="translate(100, 102)" textAnchor="middle" dominantBaseline="central">
+                    {/* Sombra del grabado */}
+                    <text
+                      y="2"
+                      x="1"
+                      fill="#020b0c"
+                      fontSize="58"
+                      fontFamily="Georgia, serif"
+                      fontWeight="bold"
+                      fontStyle="italic"
+                      opacity="0.8"
+                    >
+                      N
+                    </text>
+                    {/* Letra principal en oro metálico */}
+                    <text
+                      y="0"
+                      x="0"
+                      fill="url(#goldText)"
+                      fontSize="58"
+                      fontFamily="Georgia, serif"
+                      fontWeight="bold"
+                      fontStyle="italic"
+                    >
+                      N
+                    </text>
+
+                    {/* Leyenda sutil superior/inferior */}
+                    <text y="-36" fill="#e5ba63" fontSize="8" fontFamily="sans-serif" letterSpacing="3" opacity="0.6">
+                      MIS XV
+                    </text>
+                    <text y="38" fill="#e5ba63" fontSize="8" fontFamily="Georgia, serif" letterSpacing="2" opacity="0.6">
+                      NATASHA
+                    </text>
+                  </g>
+                </svg>
               </motion.button>
+
             </div>
           </motion.div>
         )}
@@ -132,7 +252,7 @@ export default function Home() {
           <p className="text-teal-700/80 font-serif italic text-lg">Mis XV Años</p>
         </motion.header>
 
-        {/* Imagen cargada dinámicamente desde Supabase */}
+        {/* Imagen de portada desde Supabase */}
         <motion.div 
           initial={{ scale: 0.95, opacity: 0 }}
           animate={isOpen ? { scale: 1, opacity: 1 } : {}}
