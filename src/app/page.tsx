@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Volume2, VolumeX, Calendar, MapPin, Gift, Mail, ChevronLeft, ChevronRight, MessageCircle, Church, PartyPopper } from 'lucide-react';
 
 // ==========================================
-// CONFIGURACIÓN DE DATOS
+// CONFIGURACIÓN DE DATOS Y FUNCIONES AUXILIARES
 // ==========================================
 const EVENT_DATA = {
   quinceaneraName: "Natasha",
@@ -13,14 +13,52 @@ const EVENT_DATA = {
   dateText: "15 de Agosto, 2026",
   targetDate: "2026-08-15T18:00:00",
   quote: '"Hay momentos inolvidables que se atesoran en el corazón para siempre. Por esa razón, quiero que compartas conmigo este día tan especial."',
-  whatsappNumber: "50500000000", // Cambia por tu número
+  whatsappNumber: "50500000000",
   whatsappMessage: "¡Hola! Confirmo mi asistencia a los XV Años de Natasha ✨",
   
-  // Ubicaciones actualizadas
-  churchAddress: "Capilla de la Iglesia San Felipe, León — 6:00 PM",
-  receptionAddress: "Sutiaba, Casa Cural 1c. al oeste, 1/2c. al sur, León",
-  googleMapsEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15582.528343764511!2d-86.883333!3d12.433333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f711e30a5ad8f6b%3A0xa618dbb2b622c7a!2sLe%C3%B3n!5e0!3m2!1ses!2sni!4v1620000000000!5m2!1es!2sni",
+  // Ubicaciones
+  locations: {
+    church: {
+      title: "MISA",
+      address: "Capilla de la Iglesia San Felipe, León — 6:00 PM",
+      mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3895.845383921041!2d-86.8795!3d12.4358!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f711e38a202bfad%3A0x86b039dbd8c9a3d4!2sIglesia%20San%20Felipe!5e0!3m2!1ses!2sni!4v1620000000000!5m2!1es!2sni",
+      directMapUrl: "https://maps.google.com/?q=Iglesia+San+Felipe+Leon+Nicaragua"
+    },
+    reception: {
+      title: "RECEPCIÓN",
+      address: "Sutiaba, Casa Cural 1c. al oeste, 1/2c. al sur, León",
+      mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3896.000000000000!2d-86.8950!3d12.4280!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDI1JzQwLjgiTiA8NsKwNTMnNDI.0Ilc!5e0!3m2!1ses!2sni!4v1620000000000!5m2!1es!2sni",
+      directMapUrl: "https://maps.google.com/?q=Casa+Cural+Sutiaba+Leon+Nicaragua"
+    }
+  }
 };
+
+// Generador del borde festoneado/ondulado para el sello de lacre
+function generateScallopedPath(radius = 48, numScallops = 24, scallopDepth = 3.5) {
+  const center = 50;
+  let path = '';
+  for (let i = 0; i < numScallops; i++) {
+    const angleStep = (Math.PI * 2) / numScallops;
+    const a1 = i * angleStep;
+    const a2 = (i + 1) * angleStep;
+    const aMid = (a1 + a2) / 2;
+
+    const x1 = center + radius * Math.cos(a1);
+    const y1 = center + radius * Math.sin(a1);
+    
+    const xMid = center + (radius + scallopDepth) * Math.cos(aMid);
+    const yMid = center + (radius + scallopDepth) * Math.sin(aMid);
+
+    const x2 = center + radius * Math.cos(a2);
+    const y2 = center + radius * Math.sin(a2);
+
+    if (i === 0) {
+      path += `M ${x1.toFixed(2)} ${y1.toFixed(2)} `;
+    }
+    path += `Q ${xMid.toFixed(2)} ${yMid.toFixed(2)}, ${x2.toFixed(2)} ${y2.toFixed(2)} `;
+  }
+  return path + 'Z';
+}
 
 // Componente de Brillo Lujoso
 const LuxurySparkle = ({ size = 16, className = "" }: { size?: number; className?: string }) => (
@@ -169,13 +207,13 @@ const PolaroidCarousel = () => {
       <div className="flex justify-between w-full mt-4 px-2">
         <button
           onClick={prevSlide}
-          className="bg-[#082824] border border-amber-500/30 text-amber-200 p-2 rounded-full shadow-lg hover:bg-amber-500/20 active:scale-95 transition-all"
+          className="bg-[#082824] border border-amber-500/30 text-amber-200 p-2 rounded-full shadow-lg hover:bg-amber-500/20 active:scale-95 transition-all cursor-pointer"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
         <button
           onClick={nextSlide}
-          className="bg-[#082824] border border-amber-500/30 text-amber-200 p-2 rounded-full shadow-lg hover:bg-amber-500/20 active:scale-95 transition-all"
+          className="bg-[#082824] border border-amber-500/30 text-amber-200 p-2 rounded-full shadow-lg hover:bg-amber-500/20 active:scale-95 transition-all cursor-pointer"
         >
           <ChevronRight className="w-5 h-5" />
         </button>
@@ -184,6 +222,9 @@ const PolaroidCarousel = () => {
   );
 };
 
+// ==========================================
+// COMPONENTE PRINCIPAL
+// ==========================================
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -208,31 +249,7 @@ export default function Home() {
     }
   };
 
-  const generateScallopedPath = (radius = 48, numScallops = 24, scallopDepth = 3.5) => {
-    const center = 50;
-    let path = '';
-    for (let i = 0; i < numScallops; i++) {
-      const angleStep = (Math.PI * 2) / numScallops;
-      const a1 = i * angleStep;
-      const a2 = (i + 1) * angleStep;
-      const aMid = (a1 + a2) / 2;
-
-      const x1 = center + radius * Math.cos(a1);
-      const y1 = center + radius * Math.sin(a1);
-      
-      const xMid = center + (radius + scallopDepth) * Math.cos(aMid);
-      const yMid = center + (radius + scallopDepth) * Math.sin(aMid);
-
-      const x2 = center + radius * Math.cos(a2);
-      const y2 = center + radius * Math.sin(a2);
-
-      if (i === 0) {
-        path += `M ${x1.toFixed(2)} ${y1.toFixed(2)} `;
-      }
-      path += `Q ${xMid.toFixed(2)} ${yMid.toFixed(2)}, ${x2.toFixed(2)} ${y2.toFixed(2)} `;
-    }
-    return path + 'Z';
-  };
+  const scallopedPath = generateScallopedPath(44, 24, 3);
 
   return (
     <div className="relative min-h-screen bg-[#040e0d] text-amber-50 select-none font-sans">
@@ -320,7 +337,7 @@ export default function Home() {
                   className="relative w-32 h-32 sm:w-36 sm:h-36 cursor-pointer flex items-center justify-center filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.4)]"
                 >
                   <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full text-[#0a2b27]" fill="currentColor">
-                    <path d={generateScallopedPath(44, 24, 3)} />
+                    <path d={scallopedPath} />
                   </svg>
 
                   <div className="relative z-10 w-[80%] h-[80%] rounded-full border border-dashed border-[#d4af37]/80 flex flex-col items-center justify-center p-2 text-center bg-gradient-to-br from-[#12423c] via-[#0b2b27] to-[#041210] shadow-inner">
@@ -420,37 +437,88 @@ export default function Home() {
               <img src="/galeria/foto_panel5.jpg" alt="Panel 5" className="w-full h-full object-cover opacity-60" />
             </div>
             <div className="my-auto z-10 text-center">
-              {/* Espacio reservado para tu foto */}
+              {/* Espacio reservado para foto */}
             </div>
           </LuxuryPanel>
 
-          {/* PANEL 6: UBICACIÓN Y MAPA (MISA Y RECEPCIÓN SEPARADAS) */}
-        // 1. ACTUALIZA EVENT_DATA
-const EVENT_DATA = {
-  quinceaneraName: "Natasha",
-  subtitle: "TE INVITO A MIS XV AÑOS",
-  dateText: "15 de Agosto, 2026",
-  targetDate: "2026-08-15T18:00:00",
-  quote: '"Hay momentos inolvidables que se atesoran en el corazón para siempre. Por esa razón, quiero que compartas conmigo este día tan especial."',
-  whatsappNumber: "50500000000",
-  whatsappMessage: "¡Hola! Confirmo mi asistencia a los XV Años de Natasha ✨",
-  
-  // Datos separados para Misa y Recepción
-  locations: {
-    church: {
-      title: "MISA",
-      address: "Capilla de la Iglesia San Felipe, León — 6:00 PM",
-      mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3895.845383921041!2d-86.8795!3d12.4358!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f711e38a202bfad%3A0x86b039dbd8c9a3d4!2sIglesia%20San%20Felipe!5e0!3m2!1ses!2sni!4v1620000000000!5m2!1es!2sni",
-      directMapUrl: "https://maps.google.com/?q=Iglesia+San+Felipe+Leon+Nicaragua"
-    },
-    reception: {
-      title: "RECEPCIÓN",
-      address: "Sutiaba, Casa Cural 1c. al oeste, 1/2c. al sur, León",
-      mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3896.000000000000!2d-86.8950!3d12.4280!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDI1JzQwLjgiTiA4NsKwNTMnNDI.0Ilc!5e0!3m2!1ses!2sni!4v1620000000000!5m2!1es!2sni",
-      directMapUrl: "https://maps.google.com/?q=Casa+Cural+Sutiaba+Leon+Nicaragua"
-    }
-  }
-};
+          {/* PANEL 6: UBICACIÓN Y MAPAS DE MISA Y RECEPCIÓN */}
+          <LuxuryPanel>
+            <div className="w-full h-full flex flex-col justify-between py-1 relative z-10 overflow-y-auto no-scrollbar gap-2">
+              <div className="text-center">
+                <MapPin className="w-5 h-5 text-amber-300 mx-auto mb-0.5" />
+                <h3 className="text-lg font-serif text-amber-200">Ubicación del Evento</h3>
+              </div>
+
+              {/* 1. MISA - DIRECCIÓN Y MAPA */}
+              <div className="flex flex-col gap-1.5">
+                <div className="bg-[#092b27]/90 border border-amber-500/30 rounded-xl p-2.5 text-left shadow-md">
+                  <div className="flex items-center gap-1.5 mb-0.5">
+                    <Church className="w-3.5 h-3.5 text-amber-300" />
+                    <span className="text-[10px] font-serif font-bold text-amber-300 uppercase tracking-widest">
+                      {EVENT_DATA.locations.church.title}
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-amber-100/90 leading-snug">
+                    {EVENT_DATA.locations.church.address}
+                  </p>
+                </div>
+
+                <div className="w-full h-32 rounded-xl overflow-hidden border border-amber-500/30 shadow-lg relative">
+                  <iframe
+                    src={EVENT_DATA.locations.church.mapEmbedUrl}
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                  />
+                  <a
+                    href={EVENT_DATA.locations.church.directMapUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute top-2 left-2 bg-white/95 text-neutral-900 text-[10px] font-medium px-2 py-1 rounded shadow border border-neutral-300 flex items-center gap-1 hover:bg-white transition-all z-20"
+                  >
+                    <span>Abrir Misa en Maps</span>
+                  </a>
+                </div>
+              </div>
+
+              {/* 2. RECEPCIÓN - DIRECCIÓN Y MAPA */}
+              <div className="flex flex-col gap-1.5">
+                <div className="bg-[#092b27]/90 border border-amber-500/30 rounded-xl p-2.5 text-left shadow-md">
+                  <div className="flex items-center gap-1.5 mb-0.5">
+                    <PartyPopper className="w-3.5 h-3.5 text-amber-300" />
+                    <span className="text-[10px] font-serif font-bold text-amber-300 uppercase tracking-widest">
+                      {EVENT_DATA.locations.reception.title}
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-amber-100/90 leading-snug">
+                    {EVENT_DATA.locations.reception.address}
+                  </p>
+                </div>
+
+                <div className="w-full h-32 rounded-xl overflow-hidden border border-amber-500/30 shadow-lg relative">
+                  <iframe
+                    src={EVENT_DATA.locations.reception.mapEmbedUrl}
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                  />
+                  <a
+                    href={EVENT_DATA.locations.reception.directMapUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute top-2 left-2 bg-white/95 text-neutral-900 text-[10px] font-medium px-2 py-1 rounded shadow border border-neutral-300 flex items-center gap-1 hover:bg-white transition-all z-20"
+                  >
+                    <span>Abrir Recepción en Maps</span>
+                  </a>
+                </div>
+              </div>
+
+            </div>
+          </LuxuryPanel>
 
           {/* PANEL 7: CÓDIGO DE VESTIMENTA */}
           <LuxuryPanel>
@@ -481,7 +549,7 @@ const EVENT_DATA = {
               <img src="/galeria/foto_panel9.jpg" alt="Panel 9" className="w-full h-full object-cover opacity-60" />
             </div>
             <div className="my-auto z-10 text-center">
-              {/* Espacio reservado para tu foto */}
+              {/* Espacio reservado para foto */}
             </div>
           </LuxuryPanel>
 
