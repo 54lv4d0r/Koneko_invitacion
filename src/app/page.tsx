@@ -98,73 +98,67 @@ export default function Home() {
                 </motion.div>
               </div>
 
-              {/* SELLO DE LACRE ARTESANAL BORDES ORGÁNICOS */}
+              {/* NUEVO SELLO DE LACRE REALISTA CON BORDES ORGÁNICOS */}
               <motion.button
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.05, rotate: 1 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleOpenEnvelope}
-                className="relative z-30 w-52 h-52 sm:w-60 sm:h-60 flex items-center justify-center cursor-pointer drop-shadow-2xl"
+                className="relative z-30 w-56 h-56 flex items-center justify-center cursor-pointer drop-shadow-2xl"
               >
                 <svg viewBox="0 0 200 200" className="w-full h-full overflow-visible">
                   <defs>
-                    {/* Gradiente de volumen para la cera */}
+                    {/* Gradiente de volumen para la cera (Verde Esmeralda Profundo) */}
                     <radialGradient id="realWaxGrad" cx="35%" cy="30%" r="70%">
-                      <stop offset="0%" stopColor="#257a80" />
-                      <stop offset="40%" stopColor="#125155" />
-                      <stop offset="80%" stopColor="#082d30" />
-                      <stop offset="100%" stopColor="#021213" />
+                      <stop offset="0%" stopColor="#216a70" />
+                      <stop offset="35%" stopColor="#124f53" />
+                      <stop offset="70%" stopColor="#082d30" />
+                      <stop offset="100%" stopColor="#031617" />
                     </radialGradient>
 
-                    {/* Gradiente de profundidad interior */}
+                    {/* Gradiente de profundidad interior para el troquel */}
                     <radialGradient id="pitDepth" cx="45%" cy="40%" r="55%">
                       <stop offset="0%" stopColor="#1a6266" />
-                      <stop offset="70%" stopColor="#093538" />
-                      <stop offset="100%" stopColor="#031718" />
+                      <stop offset="75%" stopColor="#082d30" />
+                      <stop offset="100%" stopColor="#021112" />
                     </radialGradient>
 
-                    {/* Gradiente metálico para el monograma */}
-                    <linearGradient id="goldRelief" x1="0%" y1="0%" x2="100%" y2="100%">
+                    {/* Gradiente metálico dorado para el monograma */}
+                    <linearGradient id="goldReliefGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                       <stop offset="0%" stopColor="#fff2c2" />
                       <stop offset="30%" stopColor="#d8a84e" />
                       <stop offset="70%" stopColor="#a37622" />
                       <stop offset="100%" stopColor="#5e410b" />
                     </linearGradient>
-
-                    {/* Sombra suave proyectada */}
-                    <filter id="shadow3d" x="-20%" y="-20%" width="140%" height="140%">
-                      <feDropShadow dx="2" dy="8" stdDeviation="6" floodColor="#021213" floodOpacity="0.5" />
-                    </filter>
                   </defs>
 
-                  {/* Cuerpo fluido e irregular de la cera derretida con filtro de sombra */}
-                  <g filter="url(#shadow3d)">
-                    <path
-                      d="M 100,10 C 135,4 172,18 185,46 C 198,74 195,112 178,142 C 161,172 130,196 95,192 C 60,188 22,170 12,136 C 2,102 12,62 36,34 C 60,6 65,16 100,10 Z"
-                      fill="url(#realWaxGrad)"
-                    />
-                  </g>
+                  {/* Cuerpo fluido e irregular de la cera derretida */}
+                  <path
+                    d="M 100,10 C 130,4 168,14 182,42 C 196,70 198,106 182,138 C 166,170 138,194 102,190 C 66,186 28,172 14,138 C 0,104 10,64 32,34 C 54,4 68,16 100,10 Z"
+                    fill="url(#realWaxGrad)"
+                  />
 
-                  {/* Gotas de cera desbordadas en el borde */}
-                  <circle cx="178" cy="138" r="8" fill="#082d30" />
-                  <circle cx="20" cy="62" r="10" fill="#125155" />
-                  <circle cx="128" cy="186" r="7" fill="#021213" />
+                  {/* Gotas orgánicas de cera derretida en los bordes */}
+                  <circle cx="176" cy="132" r="7" fill="#082d30" />
+                  <circle cx="25" cy="58" r="9" fill="#124f53" />
+                  <circle cx="135" cy="184" r="6" fill="#031617" />
+                  <circle cx="55" cy="180" r="8" fill="#062224" />
 
                   {/* Bisel del pozo donde presiona el timbre */}
                   <path
                     d="M 100,36 C 132,34 158,54 160,88 C 162,122 140,154 108,158 C 76,162 44,142 40,108 C 36,74 68,38 100,36 Z"
                     fill="url(#pitDepth)"
-                    stroke="#021213"
+                    stroke="#021112"
                     strokeWidth="2.5"
                   />
 
                   {/* Brillo curvo reflectante de cera pulida */}
                   <path
-                    d="M 52,48 C 75,32 125,30 148,42"
+                    d="M 48,36 C 70,20 130,18 152,34"
                     fill="none"
                     stroke="#ffffff"
                     strokeWidth="3.5"
                     strokeLinecap="round"
-                    opacity="0.35"
+                    opacity="0.3"
                   />
 
                   {/* Anillo troquelado interno */}
@@ -179,26 +173,26 @@ export default function Home() {
 
                   {/* Monograma "N" y detalles grabados */}
                   <g transform="translate(100, 100)" textAnchor="middle" dominantBaseline="central">
-                    {/* Sombras de profundidad del grabado */}
+                    {/* Sombra de grabado */}
                     <text
                       x="1"
                       y="3"
                       fill="#01090a"
-                      fontSize="60"
+                      fontSize="62"
                       fontFamily="Georgia, serif"
                       fontWeight="bold"
                       fontStyle="italic"
-                      opacity="0.85"
+                      opacity="0.8"
                     >
                       N
                     </text>
                     
-                    {/* Letra principal en oro */}
+                    {/* Letra principal en oro metálico */}
                     <text
                       x="0"
                       y="0"
-                      fill="url(#goldRelief)"
-                      fontSize="60"
+                      fill="url(#goldReliefGrad)"
+                      fontSize="62"
                       fontFamily="Georgia, serif"
                       fontWeight="bold"
                       fontStyle="italic"
@@ -206,11 +200,11 @@ export default function Home() {
                       N
                     </text>
 
-                    {/* Leyendas grabadas en la cera */}
-                    <text y="-38" fill="#d8a84e" fontSize="8" fontFamily="sans-serif" letterSpacing="3" opacity="0.8">
+                    {/* Leyendas grabadas */}
+                    <text y="-38" fill="#d8a84e" fontSize="8.5" fontFamily="sans-serif" letterSpacing="3" opacity="0.8">
                       MIS XV
                     </text>
-                    <text y="38" fill="#d8a84e" fontSize="8" fontFamily="Georgia, serif" letterSpacing="2" opacity="0.8">
+                    <text y="40" fill="#d8a84e" fontSize="8.5" fontFamily="Georgia, serif" letterSpacing="2" opacity="0.8">
                       NATASHA
                     </text>
                   </g>
@@ -222,7 +216,7 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      {/* Contenido principal */}
+      {/* Contenido principal de la invitación */}
       <div className={`w-full max-w-xl mx-auto px-4 py-10 transition-all duration-1000 ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`}>
         
         <motion.header 
@@ -238,7 +232,7 @@ export default function Home() {
           <p className="text-teal-700/80 font-serif italic text-lg">Mis XV Años</p>
         </motion.header>
 
-        {/* Imagen de portada desde Supabase */}
+        {/* Imagen cargada dinámicamente desde Supabase Storage */}
         <motion.div 
           initial={{ scale: 0.95, opacity: 0 }}
           animate={isOpen ? { scale: 1, opacity: 1 } : {}}
