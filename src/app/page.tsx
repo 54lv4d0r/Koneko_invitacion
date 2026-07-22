@@ -37,7 +37,7 @@ export default function Home() {
     }
   };
 
-  // Generador geométrico de floripondio/festoneado perfectamente simétrico (24 ondas impecables)
+  // Generador geométrico de floripondio/festoneado perfectamente simétrico (24 ondas)
   const generateScallopedPath = (radius = 48, numScallops = 24, scallopDepth = 3.5) => {
     const center = 50;
     let path = '';
@@ -164,7 +164,7 @@ export default function Home() {
                 </motion.div>
               </div>
 
-              {/* SELLO CON LÍNEA DISCONTINUA AJUSTADA AL BORDE */}
+              {/* SELLO CON DISTANCIA INTERMEDIA PERFECTA (80% DEL CONTENEDOR) */}
               <div className="absolute z-30 flex items-center justify-center top-[52%] left-[50%] -translate-x-1/2 -translate-y-1/2">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
@@ -177,8 +177,8 @@ export default function Home() {
                     <path d={generateScallopedPath(44, 24, 3)} />
                   </svg>
 
-                  {/* Contenedor interior ampliado al 86% para pegar la línea discontinua al borde festoneado */}
-                  <div className="relative z-10 w-[86%] h-[86%] rounded-full border border-dashed border-[#d4af37]/80 flex flex-col items-center justify-center p-2 text-center bg-gradient-to-br from-[#1c5559] via-[#0f3c3f] to-[#061c1e] shadow-inner">
+                  {/* Contenedor equilibrado al 80% */}
+                  <div className="relative z-10 w-[80%] h-[80%] rounded-full border border-dashed border-[#d4af37]/80 flex flex-col items-center justify-center p-2 text-center bg-gradient-to-br from-[#1c5559] via-[#0f3c3f] to-[#061c1e] shadow-inner">
                     <span className="text-[8px] sm:text-[9px] font-sans italic tracking-[0.2em] text-[#d4af37] opacity-90 uppercase mb-0.5">
                       Mis XV
                     </span>
