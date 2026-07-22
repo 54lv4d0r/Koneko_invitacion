@@ -2,21 +2,24 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Volume2, VolumeX, Calendar } from 'lucide-react';
+import { Volume2, VolumeX, Calendar, MapPin, Gift, Mail, ChevronLeft, ChevronRight, MessageCircle } from 'lucide-react';
 
 // ==========================================
-// CONFIGURACIÓN RÁPIDA DE DATOS
+// CONFIGURACIÓN DE DATOS
 // ==========================================
 const EVENT_DATA = {
   quinceaneraName: "Natasha",
-  subtitle: "TE INVITO A CELEBRAR MIS XV AÑOS",
-  dateText: "27 de Septiembre, 2025",
+  subtitle: "TE INVITO A MIS XV AÑOS",
+  dateText: "15 de Agosto, 2026",
+  targetDate: "2026-08-15T18:00:00", // Fecha exacta para el contador
   quote: '"Hay momentos inolvidables que se atesoran en el corazón para siempre. Por esa razón, quiero que compartas conmigo este día tan especial."',
-  // Ruta local en public/galeria/foto_banner001.jpg o URL de Supabase Storage
-  bannerImage: "/galeria/foto_banner001.jpg", 
+  whatsappNumber: "50500000000", // Cambia por tu número con código de país
+  whatsappMessage: "¡Hola! Confirmo mi asistencia a los XV Años de Natasha ✨",
+  locationAddress: "Salón de Eventos El Imperio, León, Nicaragua",
+  googleMapsEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15582.528343764511!2d-86.883333!3d12.433333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f711e30a5ad8f6b%3A0xa618dbb2b622c7a!2sLe%C3%B3n!5e0!3m2!1ses!2sni!4v1620000000000!5m2!1es!2sni",
 };
 
-// Componente de Destello Elegante de 4 Puntas (Luxury Diamond Sparkle)
+// Componente de Brillo Lujoso
 const LuxurySparkle = ({ size = 16, className = "" }: { size?: number; className?: string }) => (
   <svg 
     width={size} 
@@ -30,18 +33,17 @@ const LuxurySparkle = ({ size = 16, className = "" }: { size?: number; className
   </svg>
 );
 
-// Generador de destellos lujosos animados sobre la imagen
+// Destellos flotantes animados
 const LuxuryGlitterOverlay = () => {
-  const sparkles = Array.from({ length: 16 });
-
+  const sparkles = Array.from({ length: 12 });
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden z-10">
       {sparkles.map((_, i) => {
         const top = Math.floor(Math.random() * 88) + 6;
         const left = Math.floor(Math.random() * 88) + 6;
         const duration = 2.5 + Math.random() * 2.5;
-        const delay = Math.random() * 3;
-        const size = Math.floor(Math.random() * 12) + 8; // tamaños sutiles (8px - 20px)
+        const delay = Math.random() * 2;
+        const size = Math.floor(Math.random() * 10) + 8;
 
         return (
           <motion.div
@@ -50,7 +52,7 @@ const LuxuryGlitterOverlay = () => {
             style={{ top: `${top}%`, left: `${left}%` }}
             initial={{ opacity: 0, scale: 0 }}
             animate={{
-              opacity: [0, 0.95, 0],
+              opacity: [0, 0.9, 0],
               scale: [0.2, 1.1, 0.2],
               rotate: [0, 45, 90],
             }}
@@ -69,24 +71,129 @@ const LuxuryGlitterOverlay = () => {
   );
 };
 
+// Componente Wrapper para los Paneles con Animación In/Out en Scroll
+const LuxuryPanel = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => {
+  return (
+    <section className="h-screen w-full snap-start flex flex-col justify-center items-center relative overflow-hidden p-4 sm:p-6">
+      <motion.div
+        initial={{ opacity: 0, y: 40, scale: 0.96 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+        viewport={{ amount: 0.4 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className={`w-full h-full max-w-md mx-auto rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.7)] border border-amber-500/20 relative flex flex-col items-center justify-between p-6 bg-[#071e1c] ${className}`}
+      >
+        {children}
+      </motion.div>
+    </section>
+  );
+};
+
+// Lógica de Conteo Regresivo
+const CountdownTimer = ({ targetDate }: { targetDate: string }) => {
+  const [timeLeft, setTimeLeft] = useState({ dias: 0, horas: 0, min: 0, seg: 0 });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = new Date(targetDate).getTime() - now;
+
+      if (distance < 0) {
+        clearInterval(interval);
+      } else {
+        setTimeLeft({
+          dias: Math.floor(distance / (1000 * 60 * 60 * 24)),
+          horas: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          min: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+          seg: Math.floor((distance % (1000 * 60)) / 1000),
+        });
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [targetDate]);
+
+  return (
+    <div className="grid grid-cols-4 gap-2 w-full max-w-xs text-center my-4">
+      {[
+        { label: 'Días', val: timeLeft.dias },
+        { label: 'Horas', val: timeLeft.horas },
+        { label: 'Min', val: timeLeft.min },
+        { label: 'Seg', val: timeLeft.seg },
+      ].map((item, idx) => (
+        <div key={idx} className="bg-[#092b27]/80 backdrop-blur-md border border-amber-500/30 rounded-xl p-2 flex flex-col items-center shadow-lg">
+          <span className="text-2xl font-serif font-bold text-amber-200">{item.val}</span>
+          <span className="text-[9px] uppercase tracking-wider text-amber-100/70">{item.label}</span>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+// Carrusel Estilo Polaroid para 30 fotos
+const PolaroidCarousel = () => {
+  // Array de ejemplo - Puedes poner hasta 30 rutas de imagen aquí
+  const photos = Array.from({ length: 30 }, (_, i) => `/galeria/foto_${i + 1}.jpg`);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const prevSlide = () => {
+    setCurrentIndex((prev) => (prev === 0 ? photos.length - 1 : prev - 1));
+  };
+
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev === photos.length - 1 ? 0 : prev + 1));
+  };
+
+  return (
+    <div className="relative w-full max-w-xs flex flex-col items-center">
+      {/* Marco Polaroid */}
+      <div className="w-full bg-amber-50/95 p-3 pb-8 rounded-sm shadow-2xl transform rotate-1 border border-amber-200/50">
+        <div className="relative w-full aspect-[4/5] bg-neutral-900 overflow-hidden rounded-sm">
+          <img
+            src={photos[currentIndex]}
+            alt={`Recuerdo ${currentIndex + 1}`}
+            className="w-full h-full object-cover transition-opacity duration-300"
+            onError={(e) => {
+              // Fallback si aún no has subido las fotos reales
+              (e.target as HTMLElement).style.display = 'none';
+            }}
+          />
+          <div className="absolute inset-0 flex items-center justify-center text-amber-200/40 text-xs italic font-serif">
+            Foto #{currentIndex + 1}
+          </div>
+        </div>
+        <p className="text-center font-serif italic text-neutral-800 text-xs mt-3 tracking-widest">
+          Recuerdos ✨ ({currentIndex + 1} / {photos.length})
+        </p>
+      </div>
+
+      {/* Botones de Navegación Lateral */}
+      <div className="flex justify-between w-full mt-4 px-2">
+        <button
+          onClick={prevSlide}
+          className="bg-[#082824] border border-amber-500/30 text-amber-200 p-2 rounded-full shadow-lg hover:bg-amber-500/20 active:scale-95 transition-all"
+        >
+          <ChevronLeft className="w-5 h-5" />
+        </button>
+        <button
+          onClick={nextSlide}
+          className="bg-[#082824] border border-amber-500/30 text-amber-200 p-2 rounded-full shadow-lg hover:bg-amber-500/20 active:scale-95 transition-all"
+        >
+          <ChevronRight className="w-5 h-5" />
+        </button>
+      </div>
+    </div>
+  );
+};
+
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   const handleOpenEnvelope = () => {
     setIsOpen(true);
     if (audioRef.current) {
-      audioRef.current.play().then(() => {
-        setIsPlaying(true);
-      }).catch((err) => {
-        console.log("Audio play deferred or blocked:", err);
-      });
+      audioRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
     }
   };
 
@@ -102,213 +209,203 @@ export default function Home() {
     }
   };
 
-  // Generador geométrico de floripondio para el sello de lacre
-  const generateScallopedPath = (radius = 48, numScallops = 24, scallopDepth = 3.5) => {
-    const center = 50;
-    let path = '';
-    for (let i = 0; i < numScallops; i++) {
-      const angleStep = (Math.PI * 2) / numScallops;
-      const a1 = i * angleStep;
-      const a2 = (i + 1) * angleStep;
-      const aMid = (a1 + a2) / 2;
-
-      const x1 = center + radius * Math.cos(a1);
-      const y1 = center + radius * Math.sin(a1);
-      
-      const xMid = center + (radius + scallopDepth) * Math.cos(aMid);
-      const yMid = center + (radius + scallopDepth) * Math.sin(aMid);
-
-      const x2 = center + radius * Math.cos(a2);
-      const y2 = center + radius * Math.sin(a2);
-
-      if (i === 0) {
-        path += `M ${x1.toFixed(2)} ${y1.toFixed(2)} `;
-      }
-      path += `Q ${xMid.toFixed(2)} ${yMid.toFixed(2)}, ${x2.toFixed(2)} ${y2.toFixed(2)} `;
-    }
-    return path + 'Z';
-  };
-
-  if (!isMounted) {
-    return (
-      <div className="min-h-screen bg-[#081a18] flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-amber-300 border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
-  }
-
   return (
-    <div className="relative min-h-screen bg-[#081816] text-amber-50 overflow-x-hidden flex flex-col items-center select-none font-sans">
+    <div className="relative min-h-screen bg-[#040e0d] text-amber-50 select-none font-sans">
       <audio ref={audioRef} loop src="https://invitacion-celebriq.b-cdn.net/wp-content/uploads/2025/07/Coldplay.mp3" />
 
-      {/* Botón flotante de audio */}
+      {/* BOTÓN FLOTANTE DE AUDIO */}
       {isOpen && (
-        <motion.button
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
+        <button
           onClick={toggleAudio}
-          className="fixed top-4 right-4 z-50 bg-[#09221f]/80 hover:bg-[#0d2e2b] text-amber-200 p-3 rounded-full shadow-2xl backdrop-blur-md transition-all border border-amber-500/30 cursor-pointer"
-          title={isPlaying ? "Pausar música" : "Reproducir música"}
+          className="fixed top-4 right-4 z-50 bg-[#09221f]/90 text-amber-200 p-3 rounded-full shadow-2xl backdrop-blur-md border border-amber-500/30 cursor-pointer"
         >
           {isPlaying ? <Volume2 className="w-5 h-5 animate-pulse" /> : <VolumeX className="w-5 h-5" />}
-        </motion.button>
+        </button>
       )}
 
-      {/* VISTA 1: SOBRE DE BIENVENIDA */}
+      {/* PANTALLA INICIAL: SOBRE (Intro) */}
       <AnimatePresence>
         {!isOpen && (
           <motion.div
-            key="envelope"
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0, transition: { duration: 0.8, delay: 0.2 } }}
-            className="fixed inset-0 z-40 flex items-center justify-center bg-[#0d2220] p-4 sm:p-6"
+            exit={{ opacity: 0, transition: { duration: 0.8 } }}
+            className="fixed inset-0 z-40 flex items-center justify-center bg-[#061816] p-4"
           >
-            <div className="relative w-full max-w-md sm:max-w-lg aspect-[3/2] flex items-center justify-center filter drop-shadow-2xl">
-              
-              <svg 
-                viewBox="0 0 600 400" 
-                className="absolute inset-0 w-full h-full"
-                preserveAspectRatio="xMidYMid meet"
-              >
-                <defs>
-                  <linearGradient id="envelopeBg" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#eedfcc" />
-                    <stop offset="100%" stopColor="#d9c5a7" />
-                  </linearGradient>
-
-                  <linearGradient id="flapTop" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#f8edd8" />
-                    <stop offset="100%" stopColor="#e2ceb0" />
-                  </linearGradient>
-
-                  <linearGradient id="flapBottom" x1="0%" y1="100%" x2="0%" y2="0%">
-                    <stop offset="0%" stopColor="#e2d0b5" />
-                    <stop offset="100%" stopColor="#cbba9b" />
-                  </linearGradient>
-
-                  <linearGradient id="flapSide" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#ebdcc8" />
-                    <stop offset="100%" stopColor="#cfbc9b" />
-                  </linearGradient>
-
-                  <filter id="shadowFlap" x="-10%" y="-10%" width="120%" height="130%">
-                    <feDropShadow dx="0" dy="5" stdDeviation="4" floodColor="#000000" floodOpacity="0.25" />
-                  </filter>
-                </defs>
-
-                <rect x="0" y="0" width="600" height="400" rx="6" fill="url(#envelopeBg)" />
-                <path d="M 0 400 L 300 210 L 600 400 Z" fill="url(#flapBottom)" />
-                <path d="M 0 0 L 285 200 L 0 400 Z" fill="url(#flapSide)" opacity="0.9" />
-                <path d="M 600 0 L 315 200 L 600 400 Z" fill="url(#flapSide)" opacity="0.85" />
-                <path 
-                  d="M 0 0 L 600 0 L 318 212 Q 300 226, 282 212 Z" 
-                  fill="url(#flapTop)" 
-                  filter="url(#shadowFlap)"
-                />
-              </svg>
-
-              <div className="absolute z-20 flex flex-col items-center top-3 sm:top-5">
-                <motion.div
-                  animate={{ y: [0, -3, 0] }}
-                  transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                  className="bg-[#081a18] text-amber-200 text-[10px] sm:text-xs font-serif italic tracking-wider px-4 py-1.5 rounded-full shadow-xl border border-amber-500/30 flex items-center gap-1.5"
-                >
-                  <LuxurySparkle size={12} />
-                  <span>Toca el sello para abrir la invitación</span>
-                </motion.div>
-              </div>
-
-              {/* SELLO DE LACRE */}
-              <div className="absolute z-30 flex items-center justify-center top-[52%] left-[50%] -translate-x-1/2 -translate-y-1/2">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={handleOpenEnvelope}
-                  className="relative w-32 h-32 sm:w-40 sm:h-40 cursor-pointer flex items-center justify-center filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.4)]"
-                >
-                  <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full text-[#0a2b27]" fill="currentColor">
-                    <path d={generateScallopedPath(44, 24, 3)} />
-                  </svg>
-
-                  <div className="relative z-10 w-[80%] h-[80%] rounded-full border border-dashed border-[#d4af37]/80 flex flex-col items-center justify-center p-2 text-center bg-gradient-to-br from-[#12423c] via-[#0b2b27] to-[#041210] shadow-inner">
-                    <span className="text-[7px] sm:text-[9px] font-sans italic tracking-[0.2em] text-[#d4af37] opacity-90 uppercase mb-0.5">
-                      Mis XV
-                    </span>
-                    <span className="text-2xl sm:text-4xl font-serif font-bold italic text-transparent bg-clip-text bg-gradient-to-r from-[#ffe699] via-[#d4af37] to-[#aa7c11] drop-shadow-md my-0">
-                      {EVENT_DATA.quinceaneraName.charAt(0)}
-                    </span>
-                    <span className="text-[7px] sm:text-[9px] font-serif italic tracking-[0.18em] text-[#d4af37] opacity-90 uppercase mt-0.5">
-                      {EVENT_DATA.quinceaneraName}
-                    </span>
-                  </div>
-                </motion.button>
-              </div>
-
-            </div>
+            <button
+              onClick={handleOpenEnvelope}
+              className="bg-[#0a2c28] border border-amber-500/40 p-8 rounded-3xl shadow-2xl text-center max-w-xs flex flex-col items-center gap-4 cursor-pointer active:scale-95 transition-transform"
+            >
+              <LuxurySparkle size={32} />
+              <span className="text-amber-200 font-serif italic text-lg">Tienes una invitación especial</span>
+              <span className="bg-amber-400/10 text-amber-300 text-xs uppercase tracking-widest px-4 py-2 rounded-full border border-amber-400/30">
+                Toca para abrir
+              </span>
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* CONTENEDOR PRINCIPAL SCROLLABLE (PANELES) */}
-      <div className={`w-full max-w-md sm:max-w-xl mx-auto px-4 py-8 sm:py-12 transition-all duration-1000 ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`}>
-        
-        {/* PANEL 1: BANNER PRINCIPAL HERO (Scrollable) */}
-        <section className="min-h-[85vh] flex flex-col justify-center items-center py-4">
-          <motion.div 
-            initial={{ y: 30, opacity: 0 }}
-            animate={isOpen ? { y: 0, opacity: 1 } : {}}
-            transition={{ duration: 0.9, delay: 0.3 }}
-            className="relative w-full rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.6)] border border-amber-500/20 bg-[#071e1c] flex flex-col justify-between p-6 sm:p-8 text-center min-h-[500px]"
-          >
-            {/* Foto de Banner de Fondo */}
-            <img 
-              src={EVENT_DATA.bannerImage} 
-              alt={`Banner de ${EVENT_DATA.quinceaneraName}`}
-              className="absolute inset-0 w-full h-full object-cover object-center opacity-60"
-              onError={(e) => {
-                (e.target as HTMLElement).style.display = 'none';
-              }}
-            />
+      {/* CONTENEDOR PRINCIPAL SCROLLABLE SNAP (ANCHO MÓVIL) */}
+      {isOpen && (
+        <main className="h-screen w-full snap-y snap-mandatory overflow-y-scroll scroll-smooth">
 
-            {/* Overlay suave para máxima legibilidad */}
-            <div className="absolute inset-0 bg-gradient-to-b from-[#061917]/70 via-[#071f1d]/50 to-[#041211]/90 z-0" />
-
-            {/* Brillos Luxury Animados */}
+          {/* PANEL 1: BANNER PORTADA */}
+          <LuxuryPanel>
+            <div className="absolute inset-0 z-0">
+              <img src="/galeria/banner_portada.jpg" alt="Portada" className="w-full h-full object-cover opacity-50" />
+              <div className="absolute inset-0 bg-gradient-to-b from-[#061917]/80 via-transparent to-[#041211]/90" />
+            </div>
             <LuxuryGlitterOverlay />
 
-            {/* Encabezado Nombres */}
-            <div className="relative z-20 pt-6">
-              <span className="text-amber-200/90 tracking-[0.3em] uppercase text-[10px] sm:text-xs font-serif font-light drop-shadow-md block mb-4">
+            <div className="relative z-20 text-center pt-8">
+              <span className="text-amber-200/90 tracking-[0.3em] uppercase text-xs font-serif block mb-3">
                 {EVENT_DATA.subtitle}
               </span>
-              
-              <h1 className="text-5xl sm:text-7xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#fff3cc] via-[#f7d774] to-[#cba33f] drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)] my-2 tracking-wide">
+              <h1 className="text-5xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#fff3cc] via-[#f7d774] to-[#cba33f] drop-shadow-md">
                 {EVENT_DATA.quinceaneraName}
               </h1>
             </div>
 
-            {/* Tarjeta de Cita + Fecha integrada en la parte inferior */}
-            <div className="relative z-20 mt-8 bg-[#092b27]/80 backdrop-blur-md border border-amber-500/20 rounded-2xl p-6 text-amber-100/90 shadow-2xl">
-              <p className="italic text-xs sm:text-sm leading-relaxed max-w-sm mx-auto mb-5 font-serif font-light tracking-wide">
+            <div className="relative z-20 pb-4 text-center border-t border-amber-500/20 pt-3 w-full">
+              <span className="text-amber-300 font-serif text-sm tracking-widest uppercase flex items-center justify-center gap-2">
+                <Calendar className="w-4 h-4 text-amber-400" />
+                {EVENT_DATA.dateText}
+              </span>
+            </div>
+          </LuxuryPanel>
+
+          {/* PANEL 2: MENSAJE CON FONDO PERSONALIZABLE */}
+          <LuxuryPanel>
+            <div className="absolute inset-0 z-0">
+              <img src="/galeria/fondo_panel2.jpg" alt="Fondo Mensaje" className="w-full h-full object-cover opacity-40" />
+              <div className="absolute inset-0 bg-[#061917]/70 backdrop-blur-xs" />
+            </div>
+            <div className="my-auto relative z-10 text-center px-4">
+              <LuxurySparkle size={24} className="mx-auto mb-6" />
+              <p className="italic text-base sm:text-lg leading-relaxed font-serif text-amber-100/90 drop-shadow-md">
                 {EVENT_DATA.quote}
               </p>
+            </div>
+          </LuxuryPanel>
 
-              <div className="flex items-center justify-center gap-2 pt-4 border-t border-amber-500/15 text-amber-300">
-                <Calendar className="w-4 h-4 text-amber-400" />
-                <span className="font-serif text-xs sm:text-sm tracking-widest uppercase">{EVENT_DATA.dateText}</span>
+          {/* PANEL 3: CONTEO REGRESIVO */}
+          <LuxuryPanel>
+            <div className="absolute inset-0 z-0">
+              <img src="/galeria/fondo_panel3.jpg" alt="Fondo Contador" className="w-full h-full object-cover opacity-40" />
+              <div className="absolute inset-0 bg-[#061917]/75" />
+            </div>
+            <div className="my-auto relative z-10 text-center flex flex-col items-center w-full">
+              <span className="text-amber-300 text-xs tracking-widest uppercase mb-2 font-serif">Faltan tan solo:</span>
+              <CountdownTimer targetDate={EVENT_DATA.targetDate} />
+              <span className="text-amber-200/80 text-xs italic font-serif mt-2">Para el gran día</span>
+            </div>
+          </LuxuryPanel>
+
+          {/* PANEL 4: CONFIRMACIÓN WHATSAPP */}
+          <LuxuryPanel>
+            <div className="my-auto text-center relative z-10 flex flex-col items-center gap-6 px-4">
+              <MessageCircle className="w-12 h-12 text-amber-300" />
+              <h2 className="text-2xl font-serif text-amber-200 italic">"Nos encantaría que nos acompañes"</h2>
+              <a
+                href={`https://wa.me/${EVENT_DATA.whatsappNumber}?text=${encodeURIComponent(EVENT_DATA.whatsappMessage)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-amber-50 font-medium px-6 py-3 rounded-full shadow-lg border border-amber-300/30 flex items-center gap-2 active:scale-95 transition-all text-sm tracking-wide"
+              >
+                Confirmar por WhatsApp
+              </a>
+            </div>
+          </LuxuryPanel>
+
+          {/* PANEL 5: CAJÓN VACÍO PARA FOTO 1 */}
+          <LuxuryPanel>
+            <div className="absolute inset-0 z-0">
+              <img src="/galeria/foto_panel5.jpg" alt="Panel 5" className="w-full h-full object-cover opacity-60" />
+            </div>
+            <div className="my-auto z-10 text-center">
+              {/* Espacio reservado para tu foto */}
+            </div>
+          </LuxuryPanel>
+
+          {/* PANEL 6: UBICACIÓN Y MAPA */}
+          <LuxuryPanel>
+            <div className="w-full h-full flex flex-col justify-between py-2 relative z-10">
+              <div className="text-center mt-4">
+                <MapPin className="w-8 h-8 text-amber-300 mx-auto mb-2" />
+                <h3 className="text-xl font-serif text-amber-200">Ubicación del Evento</h3>
+                <p className="text-xs text-amber-100/80 mt-1 max-w-xs mx-auto">{EVENT_DATA.locationAddress}</p>
+              </div>
+
+              {/* Mini mapa interactivo */}
+              <div className="w-full aspect-square rounded-2xl overflow-hidden border border-amber-500/30 shadow-2xl my-auto">
+                <iframe
+                  src={EVENT_DATA.googleMapsEmbedUrl}
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                />
               </div>
             </div>
+          </LuxuryPanel>
 
-          </motion.div>
-        </section>
+          {/* PANEL 7: CÓDIGO DE VESTIMENTA */}
+          <LuxuryPanel>
+            <div className="my-auto text-center relative z-10 flex flex-col items-center gap-4 px-4">
+              <div className="w-12 h-12 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center">
+                <LuxurySparkle size={20} />
+              </div>
+              <h3 className="text-2xl font-serif text-amber-200">Código de Vestimenta</h3>
+              <p className="text-lg font-serif italic text-amber-100">Traje Formal</p>
+              <div className="w-12 h-[1px] bg-amber-500/40 my-1" />
+              <p className="text-xs text-amber-200/80 tracking-wide max-w-xs bg-[#092b27]/80 p-3 rounded-xl border border-amber-500/20">
+                Se reserva amablemente el color <span className="text-emerald-400 font-bold">Verde</span> para la quinceañera.
+              </p>
+            </div>
+          </LuxuryPanel>
 
-        {/* 
-          PANEL 2, PANEL 3, ETC.
-          Aquí iremos añadiendo los siguientes paneles conforme los vayamos diseñando 
-          (ej. Cuenta Regresiva, Ubicación, Dresscode, Confirmación de asistencia).
-        */}
+          {/* PANEL 8: CARRUSEL RECUERDOS (POLAROID - 30 FOTOS) */}
+          <LuxuryPanel>
+            <div className="my-auto w-full flex flex-col items-center z-10">
+              <h3 className="text-xl font-serif text-amber-200 mb-4">Mis Recuerdos</h3>
+              <PolaroidCarousel />
+            </div>
+          </LuxuryPanel>
 
-      </div>
+          {/* PANEL 9: CAJÓN VACÍO PARA FOTO 2 */}
+          <LuxuryPanel>
+            <div className="absolute inset-0 z-0">
+              <img src="/galeria/foto_panel9.jpg" alt="Panel 9" className="w-full h-full object-cover opacity-60" />
+            </div>
+            <div className="my-auto z-10 text-center">
+              {/* Espacio reservado para tu foto */}
+            </div>
+          </LuxuryPanel>
+
+          {/* PANEL 10: MESA DE REGALOS Y LLUVIA DE SOBRES */}
+          <LuxuryPanel>
+            <div className="my-auto text-center relative z-10 flex flex-col items-center gap-6 px-4 w-full">
+              <div className="flex gap-4">
+                <Gift className="w-8 h-8 text-amber-300" />
+                <Mail className="w-8 h-8 text-amber-300" />
+              </div>
+              
+              <h3 className="text-2xl font-serif text-amber-200">Mesa de Regalos</h3>
+
+              <div className="bg-[#092b27]/90 border border-amber-500/30 rounded-2xl p-5 w-full max-w-xs text-center shadow-xl space-y-3">
+                <p className="text-xs italic font-serif text-amber-100/90 leading-relaxed">
+                  "Tu presencia es nuestro mejor regalo, pero si deseas hacernos un presente..."
+                </p>
+                <div className="pt-2 border-t border-amber-500/20">
+                  <span className="text-sm font-serif font-bold text-amber-300 block">Lluvia de Sobres</span>
+                  <span className="text-[10px] text-amber-100/70">Habrá una urna disponible el día del evento</span>
+                </div>
+              </div>
+            </div>
+          </LuxuryPanel>
+
+        </main>
+      )}
     </div>
   );
 }
