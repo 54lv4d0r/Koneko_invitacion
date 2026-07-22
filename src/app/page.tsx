@@ -1,17 +1,30 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Volume2, VolumeX, Calendar, MapPin, Sparkles } from 'lucide-react';
+import { Volume2, VolumeX, Calendar, Sparkles } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [portadaUrl, setPortadaUrl] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Reemplaza esta URL con la URL base de tu bucket de Supabase
-  const SUPABASE_STORAGE_URL = 'https://TU-PROYECTO.supabase.co/storage/v1/object/public/invitaciones';
-  const portadaUrl = `${SUPABASE_STORAGE_URL}/portadaXV.jpg`;
+  // Consulta dinámica a Supabase Storage
+  useEffect(() => {
+    const fetchAssets = () => {
+      const { data } = supabase.storage
+        .from('invitaciones')
+        .getPublicUrl('portadaXV.jpg');
+
+      if (data?.publicUrl) {
+        setPortadaUrl(data.publicUrl);
+      }
+    };
+
+    fetchAssets();
+  }, []);
 
   const handleOpenEnvelope = () => {
     setIsOpen(true);
@@ -103,10 +116,9 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      {/* Contenido principal de la invitación */}
+      {/* Contenido principal */}
       <div className={`w-full max-w-xl mx-auto px-4 py-10 transition-all duration-1000 ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`}>
         
-        {/* Encabezado / Bienvenida */}
         <motion.header 
           initial={{ y: 20, opacity: 0 }}
           animate={isOpen ? { y: 0, opacity: 1 } : {}}
@@ -120,28 +132,27 @@ export default function Home() {
           <p className="text-teal-700/80 font-serif italic text-lg">Mis XV Años</p>
         </motion.header>
 
-        {/* Foto de portada (Supabase) */}
+        {/* Imagen cargada dinámicamente desde Supabase */}
         <motion.div 
           initial={{ scale: 0.95, opacity: 0 }}
           animate={isOpen ? { scale: 1, opacity: 1 } : {}}
           transition={{ duration: 0.8, delay: 0.6 }}
           className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl border-4 border-white mb-10 bg-teal-900/10"
         >
-          <img 
-            src={portadaUrl} 
-            alt="Portada Natasha XV Años" 
-            className="w-full h-full object-cover"
-            onError={(e) => {
-              // Si la imagen de Supabase aún no está subida, muestra un placeholder elegante temporal
-              const target = e.target as HTMLImageElement;
-              target.onerror = null;
-              target.src = "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1000&auto=format&fit=crop";
-            }}
-          />
+          {portadaUrl ? (
+            <img 
+              src={portadaUrl} 
+              alt="Portada Natasha XV Años" 
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-teal-800 text-sm">
+              Cargando portada desde Supabase...
+            </div>
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-teal-950/40 via-transparent to-transparent"></div>
         </motion.div>
 
-        {/* Tarjeta de Mensaje y Fecha */}
         <motion.section 
           initial={{ y: 20, opacity: 0 }}
           animate={isOpen ? { y: 0, opacity: 1 } : {}}
