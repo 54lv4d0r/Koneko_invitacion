@@ -100,7 +100,7 @@ export default function Home() {
           >
             <div className="relative w-full max-w-2xl h-[62vh] max-h-[440px] flex items-center justify-center filter drop-shadow-2xl">
               
-              {/* VECTOR DEL SOBRE CON SOLAPAS Y SOMBRAS UNIFICADAS */}
+              {/* VECTOR DEL SOBRE */}
               <svg 
                 viewBox="0 0 600 400" 
                 className="absolute inset-0 w-full h-full"
@@ -132,19 +132,15 @@ export default function Home() {
                   </filter>
                 </defs>
 
-                {/* 1. Fondo base del sobre */}
+                {/* Base del sobre */}
                 <rect x="0" y="0" width="600" height="400" rx="6" fill="url(#envelopeBg)" />
 
-                {/* 2. Solapa Inferior */}
+                {/* Solapas inferiores y laterales */}
                 <path d="M 0 400 L 300 210 L 600 400 Z" fill="url(#flapBottom)" />
-
-                {/* 3. Solapa Izquierda */}
                 <path d="M 0 0 L 285 200 L 0 400 Z" fill="url(#flapSide)" opacity="0.9" />
-
-                {/* 4. Solapa Derecha */}
                 <path d="M 600 0 L 315 200 L 600 400 Z" fill="url(#flapSide)" opacity="0.85" />
 
-                {/* 5. Solapa Superior Principal Limpia (Sin trazos o líneas superpuestas) */}
+                {/* Solapa Superior */}
                 <path 
                   d="M 0 0 
                      L 600 0 
@@ -168,7 +164,7 @@ export default function Home() {
                 </motion.div>
               </div>
 
-              {/* SELLO DE LACRE PERFECTAMENTE CONCÉNTRICO Y SIMÉTRICO */}
+              {/* SELLO CON LÍNEA DISCONTINUA AJUSTADA AL BORDE */}
               <div className="absolute z-30 flex items-center justify-center top-[52%] left-[50%] -translate-x-1/2 -translate-y-1/2">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
@@ -176,13 +172,13 @@ export default function Home() {
                   onClick={handleOpenEnvelope}
                   className="relative w-40 h-40 sm:w-44 sm:h-44 cursor-pointer flex items-center justify-center filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.35)]"
                 >
-                  {/* Vector del sello con bordes matemáticamente simétricos */}
+                  {/* Vector exterior del sello */}
                   <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full text-[#0a2e31]" fill="currentColor">
                     <path d={generateScallopedPath(44, 24, 3)} />
                   </svg>
 
-                  {/* Contenido interior centrado milimétricamente */}
-                  <div className="relative z-10 w-[72%] h-[72%] rounded-full border border-dashed border-[#d4af37]/80 flex flex-col items-center justify-center p-2 text-center bg-gradient-to-br from-[#1c5559] via-[#0f3c3f] to-[#061c1e] shadow-inner">
+                  {/* Contenedor interior ampliado al 86% para pegar la línea discontinua al borde festoneado */}
+                  <div className="relative z-10 w-[86%] h-[86%] rounded-full border border-dashed border-[#d4af37]/80 flex flex-col items-center justify-center p-2 text-center bg-gradient-to-br from-[#1c5559] via-[#0f3c3f] to-[#061c1e] shadow-inner">
                     <span className="text-[8px] sm:text-[9px] font-sans italic tracking-[0.2em] text-[#d4af37] opacity-90 uppercase mb-0.5">
                       Mis XV
                     </span>
