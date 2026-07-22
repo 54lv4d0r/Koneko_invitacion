@@ -11,9 +11,9 @@ const EVENT_DATA = {
   quinceaneraName: "Natasha",
   subtitle: "TE INVITO A MIS XV AÑOS",
   dateText: "15 de Agosto, 2026",
-  targetDate: "2026-08-15T18:00:00", // Fecha exacta para el contador
+  targetDate: "2026-08-15T18:00:00",
   quote: '"Hay momentos inolvidables que se atesoran en el corazón para siempre. Por esa razón, quiero que compartas conmigo este día tan especial."',
-  whatsappNumber: "50500000000", // Cambia por tu número con código de país
+  whatsappNumber: "50500000000", // Cambia por tu número
   whatsappMessage: "¡Hola! Confirmo mi asistencia a los XV Años de Natasha ✨",
   locationAddress: "Salón de Eventos El Imperio, León, Nicaragua",
   googleMapsEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15582.528343764511!2d-86.883333!3d12.433333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f711e30a5ad8f6b%3A0xa618dbb2b622c7a!2sLe%C3%B3n!5e0!3m2!1ses!2sni!4v1620000000000!5m2!1es!2sni",
@@ -129,9 +129,8 @@ const CountdownTimer = ({ targetDate }: { targetDate: string }) => {
   );
 };
 
-// Carrusel Estilo Polaroid para 30 fotos
+// Carrusel Estilo Polaroid
 const PolaroidCarousel = () => {
-  // Array de ejemplo - Puedes poner hasta 30 rutas de imagen aquí
   const photos = Array.from({ length: 30 }, (_, i) => `/galeria/foto_${i + 1}.jpg`);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -145,7 +144,6 @@ const PolaroidCarousel = () => {
 
   return (
     <div className="relative w-full max-w-xs flex flex-col items-center">
-      {/* Marco Polaroid */}
       <div className="w-full bg-amber-50/95 p-3 pb-8 rounded-sm shadow-2xl transform rotate-1 border border-amber-200/50">
         <div className="relative w-full aspect-[4/5] bg-neutral-900 overflow-hidden rounded-sm">
           <img
@@ -153,7 +151,6 @@ const PolaroidCarousel = () => {
             alt={`Recuerdo ${currentIndex + 1}`}
             className="w-full h-full object-cover transition-opacity duration-300"
             onError={(e) => {
-              // Fallback si aún no has subido las fotos reales
               (e.target as HTMLElement).style.display = 'none';
             }}
           />
@@ -166,7 +163,6 @@ const PolaroidCarousel = () => {
         </p>
       </div>
 
-      {/* Botones de Navegación Lateral */}
       <div className="flex justify-between w-full mt-4 px-2">
         <button
           onClick={prevSlide}
@@ -209,6 +205,33 @@ export default function Home() {
     }
   };
 
+  // Generador geométrico de floripondio para el sello de lacre
+  const generateScallopedPath = (radius = 48, numScallops = 24, scallopDepth = 3.5) => {
+    const center = 50;
+    let path = '';
+    for (let i = 0; i < numScallops; i++) {
+      const angleStep = (Math.PI * 2) / numScallops;
+      const a1 = i * angleStep;
+      const a2 = (i + 1) * angleStep;
+      const aMid = (a1 + a2) / 2;
+
+      const x1 = center + radius * Math.cos(a1);
+      const y1 = center + radius * Math.sin(a1);
+      
+      const xMid = center + (radius + scallopDepth) * Math.cos(aMid);
+      const yMid = center + (radius + scallopDepth) * Math.sin(aMid);
+
+      const x2 = center + radius * Math.cos(a2);
+      const y2 = center + radius * Math.sin(a2);
+
+      if (i === 0) {
+        path += `M ${x1.toFixed(2)} ${y1.toFixed(2)} `;
+      }
+      path += `Q ${xMid.toFixed(2)} ${yMid.toFixed(2)}, ${x2.toFixed(2)} ${y2.toFixed(2)} `;
+    }
+    return path + 'Z';
+  };
+
   return (
     <div className="relative min-h-screen bg-[#040e0d] text-amber-50 select-none font-sans">
       <audio ref={audioRef} loop src="https://invitacion-celebriq.b-cdn.net/wp-content/uploads/2025/07/Coldplay.mp3" />
@@ -223,28 +246,103 @@ export default function Home() {
         </button>
       )}
 
-      {/* PANTALLA INICIAL: SOBRE (Intro) */}
+      {/* PANTALLA INICIAL: SOBRE VECTORIAL CON SELLO DE LACRE */}
       <AnimatePresence>
         {!isOpen && (
           <motion.div
-            exit={{ opacity: 0, transition: { duration: 0.8 } }}
-            className="fixed inset-0 z-40 flex items-center justify-center bg-[#061816] p-4"
+            key="envelope"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0, transition: { duration: 0.8, delay: 0.1 } }}
+            className="fixed inset-0 z-40 flex items-center justify-center bg-[#061816] p-4 sm:p-6"
           >
-            <button
-              onClick={handleOpenEnvelope}
-              className="bg-[#0a2c28] border border-amber-500/40 p-8 rounded-3xl shadow-2xl text-center max-w-xs flex flex-col items-center gap-4 cursor-pointer active:scale-95 transition-transform"
-            >
-              <LuxurySparkle size={32} />
-              <span className="text-amber-200 font-serif italic text-lg">Tienes una invitación especial</span>
-              <span className="bg-amber-400/10 text-amber-300 text-xs uppercase tracking-widest px-4 py-2 rounded-full border border-amber-400/30">
-                Toca para abrir
-              </span>
-            </button>
+            <div className="relative w-full max-w-md aspect-[3/2] flex items-center justify-center filter drop-shadow-2xl">
+              
+              <svg 
+                viewBox="0 0 600 400" 
+                className="absolute inset-0 w-full h-full"
+                preserveAspectRatio="xMidYMid meet"
+              >
+                <defs>
+                  <linearGradient id="envelopeBg" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="#eedfcc" />
+                    <stop offset="100%" stopColor="#d9c5a7" />
+                  </linearGradient>
+
+                  <linearGradient id="flapTop" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="#f8edd8" />
+                    <stop offset="100%" stopColor="#e2ceb0" />
+                  </linearGradient>
+
+                  <linearGradient id="flapBottom" x1="0%" y1="100%" x2="0%" y2="0%">
+                    <stop offset="0%" stopColor="#e2d0b5" />
+                    <stop offset="100%" stopColor="#cbba9b" />
+                  </linearGradient>
+
+                  <linearGradient id="flapSide" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#ebdcc8" />
+                    <stop offset="100%" stopColor="#cfbc9b" />
+                  </linearGradient>
+
+                  <filter id="shadowFlap" x="-10%" y="-10%" width="120%" height="130%">
+                    <feDropShadow dx="0" dy="5" stdDeviation="4" floodColor="#000000" floodOpacity="0.25" />
+                  </filter>
+                </defs>
+
+                <rect x="0" y="0" width="600" height="400" rx="6" fill="url(#envelopeBg)" />
+                <path d="M 0 400 L 300 210 L 600 400 Z" fill="url(#flapBottom)" />
+                <path d="M 0 0 L 285 200 L 0 400 Z" fill="url(#flapSide)" opacity="0.9" />
+                <path d="M 600 0 L 315 200 L 600 400 Z" fill="url(#flapSide)" opacity="0.85" />
+                <path 
+                  d="M 0 0 L 600 0 L 318 212 Q 300 226, 282 212 Z" 
+                  fill="url(#flapTop)" 
+                  filter="url(#shadowFlap)"
+                />
+              </svg>
+
+              {/* Mensaje de apoyo arriba del sobre */}
+              <div className="absolute z-20 flex flex-col items-center top-3 sm:top-5">
+                <motion.div
+                  animate={{ y: [0, -3, 0] }}
+                  transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                  className="bg-[#081a18] text-amber-200 text-[10px] sm:text-xs font-serif italic tracking-wider px-4 py-1.5 rounded-full shadow-xl border border-amber-500/30 flex items-center gap-1.5"
+                >
+                  <LuxurySparkle size={12} />
+                  <span>Toca el sello para abrir la invitación</span>
+                </motion.div>
+              </div>
+
+              {/* SELLO DE LACRE INTERACTIVO */}
+              <div className="absolute z-30 flex items-center justify-center top-[52%] left-[50%] -translate-x-1/2 -translate-y-1/2">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handleOpenEnvelope}
+                  className="relative w-32 h-32 sm:w-36 sm:h-36 cursor-pointer flex items-center justify-center filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.4)]"
+                >
+                  <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full text-[#0a2b27]" fill="currentColor">
+                    <path d={generateScallopedPath(44, 24, 3)} />
+                  </svg>
+
+                  <div className="relative z-10 w-[80%] h-[80%] rounded-full border border-dashed border-[#d4af37]/80 flex flex-col items-center justify-center p-2 text-center bg-gradient-to-br from-[#12423c] via-[#0b2b27] to-[#041210] shadow-inner">
+                    <span className="text-[7px] sm:text-[8px] font-sans italic tracking-[0.2em] text-[#d4af37] opacity-90 uppercase mb-0.5">
+                      Mis XV
+                    </span>
+                    <span className="text-2xl sm:text-3xl font-serif font-bold italic text-transparent bg-clip-text bg-gradient-to-r from-[#ffe699] via-[#d4af37] to-[#aa7c11] drop-shadow-md my-0">
+                      {EVENT_DATA.quinceaneraName.charAt(0)}
+                    </span>
+                    <span className="text-[7px] sm:text-[8px] font-serif italic tracking-[0.18em] text-[#d4af37] opacity-90 uppercase mt-0.5">
+                      {EVENT_DATA.quinceaneraName}
+                    </span>
+                  </div>
+                </motion.button>
+              </div>
+
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* CONTENEDOR PRINCIPAL SCROLLABLE SNAP (ANCHO MÓVIL) */}
+      {/* CONTENEDOR PRINCIPAL SCROLLABLE SNAP (10 PANELES) */}
       {isOpen && (
         <main className="h-screen w-full snap-y snap-mandatory overflow-y-scroll scroll-smooth">
 
@@ -335,7 +433,6 @@ export default function Home() {
                 <p className="text-xs text-amber-100/80 mt-1 max-w-xs mx-auto">{EVENT_DATA.locationAddress}</p>
               </div>
 
-              {/* Mini mapa interactivo */}
               <div className="w-full aspect-square rounded-2xl overflow-hidden border border-amber-500/30 shadow-2xl my-auto">
                 <iframe
                   src={EVENT_DATA.googleMapsEmbedUrl}
