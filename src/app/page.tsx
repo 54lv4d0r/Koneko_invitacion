@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Volume2, VolumeX, Calendar, Sparkles } from 'lucide-react';
+import { Volume2, VolumeX, Calendar } from 'lucide-react';
 
 // ==========================================
 // CONFIGURACIÓN RÁPIDA DE DATOS
@@ -16,31 +16,43 @@ const EVENT_DATA = {
   bannerImage: "/galeria/foto_banner001.jpg", 
 };
 
-// Generador de destellos/estrellas animadas para el banner
-const SparkleStars = () => {
-  // Arreglo de 12 estrellas con posiciones y animaciones independientes
-  const stars = Array.from({ length: 12 });
+// Componente de Destello Elegante de 4 Puntas (Luxury Diamond Sparkle)
+const LuxurySparkle = ({ size = 16, className = "" }: { size?: number; className?: string }) => (
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="currentColor" 
+    className={`text-amber-200/90 ${className}`}
+    style={{ filter: 'drop-shadow(0px 0px 6px rgba(251, 191, 36, 0.85))' }}
+  >
+    <path d="M12 0C12 6.627 6.627 12 0 12C6.627 12 12 17.373 12 24C12 17.373 17.373 12 24 12C17.373 12 12 6.627 12 0Z" />
+  </svg>
+);
+
+// Generador de destellos lujosos animados sobre la imagen
+const LuxuryGlitterOverlay = () => {
+  const sparkles = Array.from({ length: 16 });
 
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden z-10">
-      {stars.map((_, i) => {
-        const top = Math.floor(Math.random() * 90) + 5;
-        const left = Math.floor(Math.random() * 90) + 5;
-        const duration = 2 + Math.random() * 2.5;
-        const delay = Math.random() * 2;
-        const size = Math.floor(Math.random() * 12) + 10;
+      {sparkles.map((_, i) => {
+        const top = Math.floor(Math.random() * 88) + 6;
+        const left = Math.floor(Math.random() * 88) + 6;
+        const duration = 2.5 + Math.random() * 2.5;
+        const delay = Math.random() * 3;
+        const size = Math.floor(Math.random() * 12) + 8; // tamaños sutiles (8px - 20px)
 
         return (
           <motion.div
             key={i}
-            className="absolute text-amber-200/90 filter drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]"
+            className="absolute"
             style={{ top: `${top}%`, left: `${left}%` }}
             initial={{ opacity: 0, scale: 0 }}
             animate={{
-              opacity: [0, 0.9, 0],
-              scale: [0.3, 1.2, 0.3],
-              rotate: [0, 90, 180],
-              y: [0, -12, 0],
+              opacity: [0, 0.95, 0],
+              scale: [0.2, 1.1, 0.2],
+              rotate: [0, 45, 90],
             }}
             transition={{
               duration: duration,
@@ -49,7 +61,7 @@ const SparkleStars = () => {
               ease: "easeInOut",
             }}
           >
-            <Sparkles style={{ width: `${size}px`, height: `${size}px` }} />
+            <LuxurySparkle size={size} />
           </motion.div>
         );
       })}
@@ -90,7 +102,7 @@ export default function Home() {
     }
   };
 
-  // Generador geométrico de floripondio/festoneado perfectamente simétrico (24 ondas)
+  // Generador geométrico de floripondio para el sello de lacre
   const generateScallopedPath = (radius = 48, numScallops = 24, scallopDepth = 3.5) => {
     const center = 50;
     let path = '';
@@ -119,14 +131,14 @@ export default function Home() {
 
   if (!isMounted) {
     return (
-      <div className="min-h-screen bg-[#f8f6f0] flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-teal-800 border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen bg-[#081a18] flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-amber-300 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="relative min-h-screen bg-[#f8f6f0] overflow-x-hidden flex flex-col items-center select-none font-sans">
+    <div className="relative min-h-screen bg-[#081816] text-amber-50 overflow-x-hidden flex flex-col items-center select-none font-sans">
       <audio ref={audioRef} loop src="https://invitacion-celebriq.b-cdn.net/wp-content/uploads/2025/07/Coldplay.mp3" />
 
       {/* Botón flotante de audio */}
@@ -135,25 +147,24 @@ export default function Home() {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           onClick={toggleAudio}
-          className="fixed top-4 right-4 z-50 bg-teal-900/80 hover:bg-teal-900 text-white p-3 rounded-full shadow-lg backdrop-blur-md transition-all border border-amber-500/30 cursor-pointer"
+          className="fixed top-4 right-4 z-50 bg-[#09221f]/80 hover:bg-[#0d2e2b] text-amber-200 p-3 rounded-full shadow-2xl backdrop-blur-md transition-all border border-amber-500/30 cursor-pointer"
           title={isPlaying ? "Pausar música" : "Reproducir música"}
         >
           {isPlaying ? <Volume2 className="w-5 h-5 animate-pulse" /> : <VolumeX className="w-5 h-5" />}
         </motion.button>
       )}
 
-      {/* Sobre de entrada */}
+      {/* VISTA 1: SOBRE DE BIENVENIDA */}
       <AnimatePresence>
         {!isOpen && (
           <motion.div
             key="envelope"
             initial={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { duration: 0.8, delay: 0.2 } }}
-            className="fixed inset-0 z-40 flex items-center justify-center bg-[#eae3d2] p-4 sm:p-6"
+            className="fixed inset-0 z-40 flex items-center justify-center bg-[#0d2220] p-4 sm:p-6"
           >
             <div className="relative w-full max-w-md sm:max-w-lg aspect-[3/2] flex items-center justify-center filter drop-shadow-2xl">
               
-              {/* VECTOR DEL SOBRE */}
               <svg 
                 viewBox="0 0 600 400" 
                 className="absolute inset-0 w-full h-full"
@@ -181,7 +192,7 @@ export default function Home() {
                   </linearGradient>
 
                   <filter id="shadowFlap" x="-10%" y="-10%" width="120%" height="130%">
-                    <feDropShadow dx="0" dy="5" stdDeviation="4" floodColor="#000000" floodOpacity="0.22" />
+                    <feDropShadow dx="0" dy="5" stdDeviation="4" floodColor="#000000" floodOpacity="0.25" />
                   </filter>
                 </defs>
 
@@ -196,14 +207,13 @@ export default function Home() {
                 />
               </svg>
 
-              {/* Indicador flotante superior */}
               <div className="absolute z-20 flex flex-col items-center top-3 sm:top-5">
                 <motion.div
                   animate={{ y: [0, -3, 0] }}
                   transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                  className="bg-[#1b3d3b] text-amber-100 text-[10px] sm:text-xs font-serif italic tracking-wider px-3 py-1 sm:px-4 sm:py-1.5 rounded-full shadow-xl border border-amber-500/30 flex items-center gap-1.5"
+                  className="bg-[#081a18] text-amber-200 text-[10px] sm:text-xs font-serif italic tracking-wider px-4 py-1.5 rounded-full shadow-xl border border-amber-500/30 flex items-center gap-1.5"
                 >
-                  <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-300" />
+                  <LuxurySparkle size={12} />
                   <span>Toca el sello para abrir la invitación</span>
                 </motion.div>
               </div>
@@ -214,13 +224,13 @@ export default function Home() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={handleOpenEnvelope}
-                  className="relative w-32 h-32 sm:w-40 sm:h-40 cursor-pointer flex items-center justify-center filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.35)]"
+                  className="relative w-32 h-32 sm:w-40 sm:h-40 cursor-pointer flex items-center justify-center filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.4)]"
                 >
-                  <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full text-[#0a2e31]" fill="currentColor">
+                  <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full text-[#0a2b27]" fill="currentColor">
                     <path d={generateScallopedPath(44, 24, 3)} />
                   </svg>
 
-                  <div className="relative z-10 w-[80%] h-[80%] rounded-full border border-dashed border-[#d4af37]/80 flex flex-col items-center justify-center p-2 text-center bg-gradient-to-br from-[#1c5559] via-[#0f3c3f] to-[#061c1e] shadow-inner">
+                  <div className="relative z-10 w-[80%] h-[80%] rounded-full border border-dashed border-[#d4af37]/80 flex flex-col items-center justify-center p-2 text-center bg-gradient-to-br from-[#12423c] via-[#0b2b27] to-[#041210] shadow-inner">
                     <span className="text-[7px] sm:text-[9px] font-sans italic tracking-[0.2em] text-[#d4af37] opacity-90 uppercase mb-0.5">
                       Mis XV
                     </span>
@@ -239,57 +249,64 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      {/* CONTENIDO PRINCIPAL DE LA INVITACIÓN */}
-      <div className={`w-full max-w-md sm:max-w-xl mx-auto px-4 py-6 sm:py-8 transition-all duration-1000 ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`}>
+      {/* CONTENEDOR PRINCIPAL SCROLLABLE (PANELES) */}
+      <div className={`w-full max-w-md sm:max-w-xl mx-auto px-4 py-8 sm:py-12 transition-all duration-1000 ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`}>
         
-        {/* TARJETA HERO DE BANNER CON FOTO + DESTELLOS + NOMBRES */}
-        <motion.div 
-          initial={{ y: 20, opacity: 0 }}
-          animate={isOpen ? { y: 0, opacity: 1 } : {}}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="relative w-full rounded-3xl overflow-hidden shadow-2xl mb-8 border border-teal-900/10 bg-teal-950 min-h-[380px] sm:min-h-[440px] flex flex-col justify-between p-6 sm:p-8 text-center"
-        >
-          {/* 1. Foto de Fondo Banner */}
-          <img 
-            src={EVENT_DATA.bannerImage} 
-            alt={`Banner de ${EVENT_DATA.quinceaneraName}`}
-            className="absolute inset-0 w-full h-full object-cover object-center opacity-70"
-            onError={(e) => {
-              // Fallback elegante mientras no está subida la foto real
-              (e.target as HTMLElement).style.display = 'none';
-            }}
-          />
+        {/* PANEL 1: BANNER PRINCIPAL HERO (Scrollable) */}
+        <section className="min-h-[85vh] flex flex-col justify-center items-center py-4">
+          <motion.div 
+            initial={{ y: 30, opacity: 0 }}
+            animate={isOpen ? { y: 0, opacity: 1 } : {}}
+            transition={{ duration: 0.9, delay: 0.3 }}
+            className="relative w-full rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.6)] border border-amber-500/20 bg-[#071e1c] flex flex-col justify-between p-6 sm:p-8 text-center min-h-[500px]"
+          >
+            {/* Foto de Banner de Fondo */}
+            <img 
+              src={EVENT_DATA.bannerImage} 
+              alt={`Banner de ${EVENT_DATA.quinceaneraName}`}
+              className="absolute inset-0 w-full h-full object-cover object-center opacity-60"
+              onError={(e) => {
+                (e.target as HTMLElement).style.display = 'none';
+              }}
+            />
 
-          {/* 2. Capa de degradado para asegurar contraste legibilidad de textos */}
-          <div className="absolute inset-0 bg-gradient-to-t from-teal-950 via-teal-950/40 to-black/30 z-0" />
+            {/* Overlay suave para máxima legibilidad */}
+            <div className="absolute inset-0 bg-gradient-to-b from-[#061917]/70 via-[#071f1d]/50 to-[#041211]/90 z-0" />
 
-          {/* 3. Animación de destellos brillantes flotantes */}
-          <SparkleStars />
+            {/* Brillos Luxury Animados */}
+            <LuxuryGlitterOverlay />
 
-          {/* 4. Textos Superpuestos */}
-          <div className="relative z-20 pt-4">
-            <span className="text-amber-200 tracking-[0.25em] uppercase text-[10px] sm:text-xs font-semibold drop-shadow-md block mb-3">
-              {EVENT_DATA.subtitle}
-            </span>
-            
-            <h1 className="text-5xl sm:text-7xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#fff5d6] via-[#ffd97d] to-[#d4af37] drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)] my-1 tracking-wide">
-              {EVENT_DATA.quinceaneraName}
-            </h1>
-          </div>
-
-          {/* Tarjeta inferior con cita y fecha integrada en la tarjeta del banner */}
-          <div className="relative z-20 mt-6 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-5 text-white shadow-lg">
-            <p className="text-amber-100/90 italic text-xs sm:text-sm leading-relaxed max-w-sm mx-auto mb-4 font-serif">
-              {EVENT_DATA.quote}
-            </p>
-
-            <div className="flex items-center justify-center gap-2 pt-3 border-t border-white/15 text-amber-200">
-              <Calendar className="w-4 h-4 text-amber-300" />
-              <span className="font-medium text-xs sm:text-sm tracking-wide">{EVENT_DATA.dateText}</span>
+            {/* Encabezado Nombres */}
+            <div className="relative z-20 pt-6">
+              <span className="text-amber-200/90 tracking-[0.3em] uppercase text-[10px] sm:text-xs font-serif font-light drop-shadow-md block mb-4">
+                {EVENT_DATA.subtitle}
+              </span>
+              
+              <h1 className="text-5xl sm:text-7xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#fff3cc] via-[#f7d774] to-[#cba33f] drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)] my-2 tracking-wide">
+                {EVENT_DATA.quinceaneraName}
+              </h1>
             </div>
-          </div>
 
-        </motion.div>
+            {/* Tarjeta de Cita + Fecha integrada en la parte inferior */}
+            <div className="relative z-20 mt-8 bg-[#092b27]/80 backdrop-blur-md border border-amber-500/20 rounded-2xl p-6 text-amber-100/90 shadow-2xl">
+              <p className="italic text-xs sm:text-sm leading-relaxed max-w-sm mx-auto mb-5 font-serif font-light tracking-wide">
+                {EVENT_DATA.quote}
+              </p>
+
+              <div className="flex items-center justify-center gap-2 pt-4 border-t border-amber-500/15 text-amber-300">
+                <Calendar className="w-4 h-4 text-amber-400" />
+                <span className="font-serif text-xs sm:text-sm tracking-widest uppercase">{EVENT_DATA.dateText}</span>
+              </div>
+            </div>
+
+          </motion.div>
+        </section>
+
+        {/* 
+          PANEL 2, PANEL 3, ETC.
+          Aquí iremos añadiendo los siguientes paneles conforme los vayamos diseñando 
+          (ej. Cuenta Regresiva, Ubicación, Dresscode, Confirmación de asistencia).
+        */}
 
       </div>
     </div>
