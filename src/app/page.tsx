@@ -5,9 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Volume2, VolumeX, Calendar, Sparkles } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
-// SVG del sello de lacre convertido a Data URI (cadena pura para evitar errores de renderizado en servidor)
-const SELLO_LACRE_SVG = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><radialGradient id="wax" cx="40%" cy="30%" r="70%"><stop offset="0%" stop-color="%231e5f64"/><stop offset="60%" stop-color="%230f3c3f"/><stop offset="100%" stop-color="%23061c1e"/></radialGradient><linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="%23ffe699"/><stop offset="50%" stop-color="%23d4af37"/><stop offset="100%" stop-color="%23aa7c11"/></linearGradient></defs><circle cx="100" cy="100" r="90" fill="url(%23wax)" stroke="%230b292c" stroke-width="4"/><circle cx="100" cy="100" r="72" fill="none" stroke="%23082224" stroke-width="4" opacity="0.6"/><circle cx="100" cy="100" r="68" fill="none" stroke="%23d4af37" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.6"/><text x="100" y="112" text-anchor="middle" fill="url(%23gold)" font-size="64" font-family="Georgia, serif" font-weight="bold" font-style="italic">N</text><text x="100" y="58" text-anchor="middle" fill="%23d4af37" font-size="8" font-family="sans-serif" font-style="italic" letter-spacing="3" opacity="0.85">MIS XV</text><text x="100" y="148" text-anchor="middle" fill="%23d4af37" font-size="8" font-family="Georgia, serif" font-style="italic" letter-spacing="2" opacity="0.85">NATASHA</text></svg>`;
-
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -82,7 +79,7 @@ export default function Home() {
           >
             <div className="relative w-full max-w-4xl h-[85vh] max-h-[600px] bg-[#fcfaf7] border border-[#e5dec9] rounded-lg shadow-2xl overflow-hidden flex items-center justify-center">
               
-              {/* Solapas del sobre */}
+              {/* Solapas del sobre con CSS clip-path */}
               <div className="absolute inset-0 pointer-events-none opacity-40">
                 <div className="absolute top-0 left-0 w-full h-1/2 bg-[#f5f0e3] [clip-path:polygon(0_0,_100%_0,_50%_100%)] border-b border-[#e0d5be]" />
                 <div className="absolute bottom-0 left-0 w-full h-1/2 bg-[#f1ead7] [clip-path:polygon(0_100%,_100%_100%,_50%_0)] border-t border-[#e0d5be]" />
@@ -100,18 +97,30 @@ export default function Home() {
                 </motion.div>
               </div>
 
-              {/* SELLO RENDERIZADO COMO IMAGEN PURA (CERO ERRORES DE SVG) */}
+              {/* SELLO 100% CSS (SIN SVG) CON BORDES ONDULADOS/VIEIRAS */}
               <motion.button
                 whileHover={{ scale: 1.05, rotate: 2 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleOpenEnvelope}
-                className="relative z-30 w-52 h-52 sm:w-60 sm:h-60 flex items-center justify-center cursor-pointer drop-shadow-2xl"
+                className="relative z-30 w-48 h-48 sm:w-56 sm:h-56 rounded-full cursor-pointer shadow-2xl bg-gradient-to-br from-[#1e5f64] via-[#0f3c3f] to-[#061c1e] p-2 flex items-center justify-center border-4 border-[#0b292c]"
+                style={{
+                  boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.2)'
+                }}
               >
-                <img 
-                  src={SELLO_LACRE_SVG} 
-                  alt="Sello de Lacre Natasha" 
-                  className="w-full h-full object-contain pointer-events-none select-none"
-                />
+                {/* Borde interno punteado dorado */}
+                <div className="w-full h-full rounded-full border-2 border-dashed border-[#d4af37]/60 flex flex-col items-center justify-center p-4 text-center bg-[#0f3c3f]/40 backdrop-blur-[1px]">
+                  <span className="text-[10px] font-sans italic tracking-[0.25em] text-[#d4af37] opacity-80 uppercase mb-1">
+                    Mis XV
+                  </span>
+                  
+                  <span className="text-5xl sm:text-6xl font-serif font-bold italic text-transparent bg-clip-text bg-gradient-to-r from-[#ffe699] via-[#d4af37] to-[#aa7c11] drop-shadow-md my-1">
+                    N
+                  </span>
+
+                  <span className="text-[10px] font-serif italic tracking-[0.2em] text-[#d4af37] opacity-80 uppercase mt-1">
+                    Natasha
+                  </span>
+                </div>
               </motion.button>
 
             </div>
@@ -119,7 +128,7 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      {/* Contenido principal */}
+      {/* Contenido principal de la invitación */}
       <div className={`w-full max-w-xl mx-auto px-4 py-10 transition-all duration-1000 ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`}>
         
         <motion.header 
