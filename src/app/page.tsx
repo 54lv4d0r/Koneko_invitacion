@@ -37,6 +37,33 @@ export default function Home() {
     }
   };
 
+  // Generador geométrico de floripondio/festoneado perfectamente simétrico (24 ondas impecables)
+  const generateScallopedPath = (radius = 48, numScallops = 24, scallopDepth = 3.5) => {
+    const center = 50;
+    let path = '';
+    for (let i = 0; i < numScallops; i++) {
+      const angleStep = (Math.PI * 2) / numScallops;
+      const a1 = i * angleStep;
+      const a2 = (i + 1) * angleStep;
+      const aMid = (a1 + a2) / 2;
+
+      const x1 = center + radius * Math.cos(a1);
+      const y1 = center + radius * Math.sin(a1);
+      
+      const xMid = center + (radius + scallopDepth) * Math.cos(aMid);
+      const yMid = center + (radius + scallopDepth) * Math.sin(aMid);
+
+      const x2 = center + radius * Math.cos(a2);
+      const y2 = center + radius * Math.sin(a2);
+
+      if (i === 0) {
+        path += `M ${x1.toFixed(2)} ${y1.toFixed(2)} `;
+      }
+      path += `Q ${xMid.toFixed(2)} ${yMid.toFixed(2)}, ${x2.toFixed(2)} ${y2.toFixed(2)} `;
+    }
+    return path + 'Z';
+  };
+
   if (!isMounted) {
     return (
       <div className="min-h-screen bg-[#f8f6f0] flex items-center justify-center">
@@ -71,73 +98,66 @@ export default function Home() {
             exit={{ opacity: 0, transition: { duration: 0.8, delay: 0.2 } }}
             className="fixed inset-0 z-40 flex items-center justify-center bg-[#eae3d2] p-4"
           >
-            <div className="relative w-full max-w-2xl h-[65vh] max-h-[460px] flex items-center justify-center filter drop-shadow-2xl">
+            <div className="relative w-full max-w-2xl h-[62vh] max-h-[440px] flex items-center justify-center filter drop-shadow-2xl">
               
-              {/* VISTA VECTORIAL FIDELÍSIMA AL SOBRE FÍSICO DE REFERENCIA */}
+              {/* VECTOR DEL SOBRE CON SOLAPAS Y SOMBRAS UNIFICADAS */}
               <svg 
-                viewBox="0 0 600 420" 
+                viewBox="0 0 600 400" 
                 className="absolute inset-0 w-full h-full"
                 preserveAspectRatio="none"
               >
                 <defs>
-                  {/* Degradados para dar volumen real al papel */}
                   <linearGradient id="envelopeBg" x1="0%" y1="0%" x2="0%" y2="100%">
                     <stop offset="0%" stopColor="#eedfcc" />
                     <stop offset="100%" stopColor="#d9c5a7" />
                   </linearGradient>
 
                   <linearGradient id="flapTop" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#f7ebda" />
-                    <stop offset="100%" stopColor="#e3cfb3" />
+                    <stop offset="0%" stopColor="#f8edd8" />
+                    <stop offset="100%" stopColor="#e2ceb0" />
                   </linearGradient>
 
                   <linearGradient id="flapBottom" x1="0%" y1="100%" x2="0%" y2="0%">
                     <stop offset="0%" stopColor="#e2d0b5" />
-                    <stop offset="100%" stopColor="#ccb798" />
+                    <stop offset="100%" stopColor="#cbba9b" />
                   </linearGradient>
 
                   <linearGradient id="flapSide" x1="0%" y1="0%" x2="100%" y2="0%">
                     <stop offset="0%" stopColor="#ebdcc8" />
-                    <stop offset="100%" stopColor="#d2bf9f" />
+                    <stop offset="100%" stopColor="#cfbc9b" />
                   </linearGradient>
 
-                  {/* Sombra proyectada por la solapa superior */}
                   <filter id="shadowFlap" x="-10%" y="-10%" width="120%" height="130%">
-                    <feDropShadow dx="0" dy="4" stdDeviation="5" floodColor="#000000" floodOpacity="0.25" />
+                    <feDropShadow dx="0" dy="5" stdDeviation="4" floodColor="#000000" floodOpacity="0.22" />
                   </filter>
                 </defs>
 
                 {/* 1. Fondo base del sobre */}
-                <rect x="0" y="0" width="600" height="420" rx="8" fill="url(#envelopeBg)" />
+                <rect x="0" y="0" width="600" height="400" rx="6" fill="url(#envelopeBg)" />
 
-                {/* 2. Solapa Inferior (Triángulo inferior que sube hacia el centro) */}
-                <path d="M 0 420 L 300 230 L 600 420 Z" fill="url(#flapBottom)" />
+                {/* 2. Solapa Inferior */}
+                <path d="M 0 400 L 300 210 L 600 400 Z" fill="url(#flapBottom)" />
 
                 {/* 3. Solapa Izquierda */}
-                <path d="M 0 0 L 290 220 L 0 420 Z" fill="url(#flapSide)" opacity="0.9" />
+                <path d="M 0 0 L 285 200 L 0 400 Z" fill="url(#flapSide)" opacity="0.9" />
 
                 {/* 4. Solapa Derecha */}
-                <path d="M 600 0 L 310 220 L 600 420 Z" fill="url(#flapSide)" opacity="0.85" />
+                <path d="M 600 0 L 315 200 L 600 400 Z" fill="url(#flapSide)" opacity="0.85" />
 
-                {/* 5. Solapa Superior Real (Punta redondeada que abraza hacia abajo) */}
+                {/* 5. Solapa Superior Principal Limpia (Sin trazos o líneas superpuestas) */}
                 <path 
-                  d="M 12 0 
-                     L 588 0 
-                     C 595 0, 600 5, 595 15
-                     L 318 232 
-                     Q 300 248, 282 232 
-                     L 5 15 
-                     C 0 5, 5 0, 12 0 Z" 
+                  d="M 0 0 
+                     L 600 0 
+                     L 318 212 
+                     Q 300 226, 282 212 
+                     Z" 
                   fill="url(#flapTop)" 
                   filter="url(#shadowFlap)"
                 />
-
-                {/* Línea de pliegue sutil en los bordes superiores */}
-                <path d="M 0 0 L 300 238 L 600 0" stroke="#bda888" strokeWidth="1.5" fill="none" opacity="0.4" />
               </svg>
 
               {/* Indicador flotante superior */}
-              <div className="absolute z-20 flex flex-col items-center top-[6%] sm:top-[8%]">
+              <div className="absolute z-20 flex flex-col items-center top-[8%] sm:top-[10%]">
                 <motion.div
                   animate={{ y: [0, -4, 0] }}
                   transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
@@ -148,25 +168,22 @@ export default function Home() {
                 </motion.div>
               </div>
 
-              {/* SELLO DE LACRE CON BORDE ONDULADO/FESTONADO CORRECTO */}
-              <div className="relative z-30 flex items-center justify-center top-[8%]">
+              {/* SELLO DE LACRE PERFECTAMENTE CONCÉNTRICO Y SIMÉTRICO */}
+              <div className="absolute z-30 flex items-center justify-center top-[52%] left-[50%] -translate-x-1/2 -translate-y-1/2">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={handleOpenEnvelope}
-                  className="relative w-40 h-40 sm:w-48 sm:h-48 cursor-pointer flex items-center justify-center filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.35)]"
+                  className="relative w-40 h-40 sm:w-44 sm:h-44 cursor-pointer flex items-center justify-center filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.35)]"
                 >
-                  {/* Círculo con borde festoneado/ondulado mediante SVG inline */}
+                  {/* Vector del sello con bordes matemáticamente simétricos */}
                   <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full text-[#0a2e31]" fill="currentColor">
-                    <path d="
-                      M 50 5
-                      Q 53 1, 56 5 Q 60 1, 63 6 Q 68 3, 70 8 Q 75 6, 77 12 Q 82 11, 83 17 Q 88 17, 88 23 Q 93 25, 92 31 Q 97 34, 95 40 Q 99 44, 96 50 Q 99 56, 95 60 Q 97 66, 92 69 Q 93 75, 88 77 Q 88 83, 83 83 Q 82 89, 77 88 Q 75 94, 70 92 Q 68 97, 63 94 Q 60 99, 56 95 Q 53 99, 50 95 Q 47 99, 44 95 Q 40 99, 37 94 Q 32 97, 30 92 Q 25 94, 23 88 Q 18 89, 17 83 Q 12 83, 12 77 Q 7 75, 8 69 Q 3 66, 5 60 Q 1 56, 4 50 Q 1 44, 5 40 Q 3 34, 8 31 Q 7 25, 12 23 Q 12 17, 17 17 Q 18 11, 23 12 Q 25 6, 30 8 Q 32 3, 37 6 Q 40 1, 44 5 Z
-                    " />
+                    <path d={generateScallopedPath(44, 24, 3)} />
                   </svg>
 
-                  {/* Interior del sello */}
-                  <div className="relative z-10 w-[74%] h-[74%] rounded-full border-2 border-dashed border-[#d4af37]/80 flex flex-col items-center justify-center p-2 text-center bg-gradient-to-br from-[#1c5559] via-[#0f3c3f] to-[#061c1e] shadow-inner">
-                    <span className="text-[9px] font-sans italic tracking-[0.2em] text-[#d4af37] opacity-90 uppercase mb-0.5">
+                  {/* Contenido interior centrado milimétricamente */}
+                  <div className="relative z-10 w-[72%] h-[72%] rounded-full border border-dashed border-[#d4af37]/80 flex flex-col items-center justify-center p-2 text-center bg-gradient-to-br from-[#1c5559] via-[#0f3c3f] to-[#061c1e] shadow-inner">
+                    <span className="text-[8px] sm:text-[9px] font-sans italic tracking-[0.2em] text-[#d4af37] opacity-90 uppercase mb-0.5">
                       Mis XV
                     </span>
                     
@@ -174,7 +191,7 @@ export default function Home() {
                       N
                     </span>
 
-                    <span className="text-[9px] font-serif italic tracking-[0.18em] text-[#d4af37] opacity-90 uppercase mt-0.5">
+                    <span className="text-[8px] sm:text-[9px] font-serif italic tracking-[0.18em] text-[#d4af37] opacity-90 uppercase mt-0.5">
                       Natasha
                     </span>
                   </div>
