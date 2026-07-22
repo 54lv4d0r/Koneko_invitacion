@@ -12,16 +12,21 @@ export default function Home() {
   const [isMounted, setIsMounted] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  // 1. Evitar que Vercel ejecute lógica de cliente durante la generación estática
   useEffect(() => {
     setIsMounted(true);
 
     const fetchAssets = () => {
-      const { data } = supabase.storage
-        .from('invitaciones')
-        .getPublicUrl('portadaXV.jpg');
+      try {
+        const { data } = supabase.storage
+          .from('invitaciones')
+          .getPublicUrl('portadaXV.jpg');
 
-      if (data?.publicUrl) {
-        setPortadaUrl(data.publicUrl);
+        if (data?.publicUrl) {
+          setPortadaUrl(data.publicUrl);
+        }
+      } catch (error) {
+        console.error("Error al obtener imagen de Supabase:", error);
       }
     };
 
@@ -34,7 +39,7 @@ export default function Home() {
       audioRef.current.play().then(() => {
         setIsPlaying(true);
       }).catch((err) => {
-        console.log("Audio play deferred or blocked by browser:", err);
+        console.log("Audio reproducido tras interacción:", err);
       });
     }
   };
@@ -50,6 +55,15 @@ export default function Home() {
       }
     }
   };
+
+  // Si se está compilando en el servidor de Vercel, retornamos un HTML estático mínimo
+  if (!isMounted) {
+    return (
+      <div className="min-h-screen bg-[#f8f6f0] flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-teal-800 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="relative min-h-screen bg-[#f8f6f0] overflow-x-hidden flex flex-col items-center select-none font-sans">
@@ -70,7 +84,7 @@ export default function Home() {
 
       {/* Sobre de entrada */}
       <AnimatePresence>
-        {isMounted && !isOpen && (
+        {!isOpen && (
           <motion.div
             key="envelope"
             initial={{ opacity: 1 }}
@@ -79,10 +93,14 @@ export default function Home() {
           >
             <div className="relative w-full max-w-4xl h-[85vh] max-h-[600px] bg-[#fcfaf7] border border-[#e5dec9] rounded-lg shadow-2xl overflow-hidden flex items-center justify-center">
               
-              {/* Solapas del sobre con CSS clip-path */}
+              {/* Solapas decorativas */}
               <div className="absolute inset-0 pointer-events-none opacity-40">
-                <div className="absolute top-0 left-0 w-full h-1/2 bg-[#f5f0e3] [clip-path:polygon(0_0,_100%_0,_50%_100%)] border-b border-[#e0d5be]" />
-                <div className="absolute bottom-0 left-0 w-full h-1/2 bg-[#f1ead7] [clip-path:polygon(0_100%,_100%_100%,_50%_0)] border-t border-[#e0d5be]" />
+                <svg className="absolute top-0 left-0 w-full h-1/2" viewBox="0 0 100 50" preserveAspectRatio="none">
+                  <polygon points="0,0 100,0 50,50" fill="#f5f0e3" stroke="#e0d5be" strokeWidth="0.4" />
+                </svg>
+                <svg className="absolute bottom-0 left-0 w-full h-1/2" viewBox="0 0 100 50" preserveAspectRatio="none">
+                  <polygon points="0,50 100,50 50,0" fill="#f1ead7" stroke="#e0d5be" strokeWidth="0.4" />
+                </svg>
               </div>
 
               {/* Indicador flotante */}
@@ -97,29 +115,19 @@ export default function Home() {
                 </motion.div>
               </div>
 
-              {/* SELLO 100% CSS (SIN SVG) CON BORDES ONDULADOS/VIEIRAS */}
+              {/* Sello Lacre Estándar */}
               <motion.button
-                whileHover={{ scale: 1.05, rotate: 2 }}
+                whileHover={{ scale: 1.05, rotate: 1 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleOpenEnvelope}
-                className="relative z-30 w-48 h-48 sm:w-56 sm:h-56 rounded-full cursor-pointer shadow-2xl bg-gradient-to-br from-[#1e5f64] via-[#0f3c3f] to-[#061c1e] p-2 flex items-center justify-center border-4 border-[#0b292c]"
-                style={{
-                  boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.2)'
-                }}
+                className="relative z-30 w-52 h-52 sm:w-60 sm:h-60 flex items-center justify-center cursor-pointer drop-shadow-2xl"
               >
-                {/* Borde interno punteado dorado */}
-                <div className="w-full h-full rounded-full border-2 border-dashed border-[#d4af37]/60 flex flex-col items-center justify-center p-4 text-center bg-[#0f3c3f]/40 backdrop-blur-[1px]">
-                  <span className="text-[10px] font-sans italic tracking-[0.25em] text-[#d4af37] opacity-80 uppercase mb-1">
-                    Mis XV
-                  </span>
-                  
-                  <span className="text-5xl sm:text-6xl font-serif font-bold italic text-transparent bg-clip-text bg-gradient-to-r from-[#ffe699] via-[#d4af37] to-[#aa7c11] drop-shadow-md my-1">
-                    N
-                  </span>
-
-                  <span className="text-[10px] font-serif italic tracking-[0.2em] text-[#d4af37] opacity-80 uppercase mt-1">
-                    Natasha
-                  </span>
+                <div className="w-full h-full rounded-full bg-gradient-to-br from-teal-800 via-teal-900 to-teal-950 border-4 border-teal-900 shadow-2xl flex flex-col items-center justify-center p-4 text-center">
+                  <div className="w-full h-full rounded-full border border-dashed border-amber-400/50 flex flex-col items-center justify-center">
+                    <span className="text-[10px] font-sans italic tracking-widest text-amber-300/80 uppercase">Mis XV</span>
+                    <span className="text-6xl font-serif font-bold italic text-amber-200 my-1 drop-shadow">N</span>
+                    <span className="text-[10px] font-serif italic tracking-widest text-amber-300/80 uppercase">Natasha</span>
+                  </div>
                 </div>
               </motion.button>
 
