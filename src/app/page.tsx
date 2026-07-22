@@ -98,96 +98,119 @@ export default function Home() {
                 </motion.div>
               </div>
 
-              {/* SELLO DE LACRE HIPERREALISTA */}
+              {/* SELLO DE LACRE ARTESANAL BORDES ORGÁNICOS */}
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleOpenEnvelope}
-                className="relative z-30 w-52 h-52 sm:w-60 sm:h-60 flex items-center justify-center cursor-pointer group filter drop-shadow-[0_20px_25px_rgba(0,0,0,0.35)]"
+                className="relative z-30 w-52 h-52 sm:w-60 sm:h-60 flex items-center justify-center cursor-pointer drop-shadow-2xl"
               >
-                {/* Textura fotográfica/3D de la cera en alta resolución */}
-                <img
-                  src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80"
-                  alt="Sello de lacre real"
-                  className="absolute inset-0 w-full h-full object-cover rounded-full mix-blend-multiply opacity-90 [clip-path:polygon(30%_0%,_70%_0%,_100%_30%,_100%_70%,_70%_100%,_30%_100%,_0%_70%,_0%_30%)]"
-                  style={{
-                    maskImage: 'radial-gradient(circle, black 65%, transparent 72%)',
-                    WebkitMaskImage: 'radial-gradient(circle, black 65%, transparent 72%)'
-                  }}
-                />
-
-                {/* SVG Híbrido: Genera el bisel del troquel y la tipografía en bajorrelieve */}
-                <svg viewBox="0 0 200 200" className="relative z-10 w-full h-full">
+                <svg viewBox="0 0 200 200" className="w-full h-full overflow-visible">
                   <defs>
-                    {/* Gradiente metálico dorado para el monograma */}
-                    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#fff8e7" />
-                      <stop offset="30%" stopColor="#dfb254" />
-                      <stop offset="70%" stopColor="#b38128" />
-                      <stop offset="100%" stopColor="#69480d" />
+                    {/* Gradiente de volumen para la cera */}
+                    <radialGradient id="realWaxGrad" cx="35%" cy="30%" r="70%">
+                      <stop offset="0%" stopColor="#257a80" />
+                      <stop offset="40%" stopColor="#125155" />
+                      <stop offset="80%" stopColor="#082d30" />
+                      <stop offset="100%" stopColor="#021213" />
+                    </radialGradient>
+
+                    {/* Gradiente de profundidad interior */}
+                    <radialGradient id="pitDepth" cx="45%" cy="40%" r="55%">
+                      <stop offset="0%" stopColor="#1a6266" />
+                      <stop offset="70%" stopColor="#093538" />
+                      <stop offset="100%" stopColor="#031718" />
+                    </radialGradient>
+
+                    {/* Gradiente metálico para el monograma */}
+                    <linearGradient id="goldRelief" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#fff2c2" />
+                      <stop offset="30%" stopColor="#d8a84e" />
+                      <stop offset="70%" stopColor="#a37622" />
+                      <stop offset="100%" stopColor="#5e410b" />
                     </linearGradient>
 
-                    {/* Sombra de profundidad interior para el troquel */}
-                    <radialGradient id="innerShadow" cx="50%" cy="50%" r="50%">
-                      <stop offset="70%" stopColor="rgba(0,0,0,0)" />
-                      <stop offset="95%" stopColor="rgba(0,0,0,0.6)" />
-                      <stop offset="100%" stopColor="rgba(0,0,0,0.85)" />
-                    </radialGradient>
+                    {/* Sombra suave proyectada */}
+                    <filter id="shadow3d" x="-20%" y="-20%" width="140%" height="140%">
+                      <feDropShadow dx="2" dy="8" stdDeviation="6" floodColor="#021213" floodOpacity="0.5" />
+                    </filter>
                   </defs>
 
-                  {/* Bisel del hundimiento central */}
-                  <circle cx="100" cy="100" r="62" fill="url(#innerShadow)" />
-                  <circle cx="100" cy="100" r="61" fill="none" stroke="#113e41" strokeWidth="2" opacity="0.6" />
-                  <circle cx="100" cy="100" r="57" fill="none" stroke="#dfb254" strokeWidth="1" strokeDasharray="3 2" opacity="0.4" />
+                  {/* Cuerpo fluido e irregular de la cera derretida con filtro de sombra */}
+                  <g filter="url(#shadow3d)">
+                    <path
+                      d="M 100,10 C 135,4 172,18 185,46 C 198,74 195,112 178,142 C 161,172 130,196 95,192 C 60,188 22,170 12,136 C 2,102 12,62 36,34 C 60,6 65,16 100,10 Z"
+                      fill="url(#realWaxGrad)"
+                    />
+                  </g>
 
-                  {/* Monograma en bajorrelieve con sombras de grabado */}
-                  <g textAnchor="middle" dominantBaseline="central">
-                    {/* Sombra superior para dar la ilusión de grabado hacia adentro */}
+                  {/* Gotas de cera desbordadas en el borde */}
+                  <circle cx="178" cy="138" r="8" fill="#082d30" />
+                  <circle cx="20" cy="62" r="10" fill="#125155" />
+                  <circle cx="128" cy="186" r="7" fill="#021213" />
+
+                  {/* Bisel del pozo donde presiona el timbre */}
+                  <path
+                    d="M 100,36 C 132,34 158,54 160,88 C 162,122 140,154 108,158 C 76,162 44,142 40,108 C 36,74 68,38 100,36 Z"
+                    fill="url(#pitDepth)"
+                    stroke="#021213"
+                    strokeWidth="2.5"
+                  />
+
+                  {/* Brillo curvo reflectante de cera pulida */}
+                  <path
+                    d="M 52,48 C 75,32 125,30 148,42"
+                    fill="none"
+                    stroke="#ffffff"
+                    strokeWidth="3.5"
+                    strokeLinecap="round"
+                    opacity="0.35"
+                  />
+
+                  {/* Anillo troquelado interno */}
+                  <path
+                    d="M 100,44 C 126,42 148,58 150,86 C 152,114 134,142 106,144 C 78,146 50,130 48,102 C 46,74 74,46 100,44 Z"
+                    fill="none"
+                    stroke="#d8a84e"
+                    strokeWidth="1.2"
+                    strokeDasharray="4 2"
+                    opacity="0.45"
+                  />
+
+                  {/* Monograma "N" y detalles grabados */}
+                  <g transform="translate(100, 100)" textAnchor="middle" dominantBaseline="central">
+                    {/* Sombras de profundidad del grabado */}
                     <text
-                      x="99"
-                      y="98"
-                      fill="#031415"
-                      fontSize="64"
+                      x="1"
+                      y="3"
+                      fill="#01090a"
+                      fontSize="60"
                       fontFamily="Georgia, serif"
                       fontWeight="bold"
                       fontStyle="italic"
-                      opacity="0.9"
+                      opacity="0.85"
+                    >
+                      N
+                    </text>
+                    
+                    {/* Letra principal en oro */}
+                    <text
+                      x="0"
+                      y="0"
+                      fill="url(#goldRelief)"
+                      fontSize="60"
+                      fontFamily="Georgia, serif"
+                      fontWeight="bold"
+                      fontStyle="italic"
                     >
                       N
                     </text>
 
-                    {/* Brillo inferior para simular el borde expuesto a la luz */}
-                    <text
-                      x="101"
-                      y="102"
-                      fill="#ffffff"
-                      fontSize="64"
-                      fontFamily="Georgia, serif"
-                      fontWeight="bold"
-                      fontStyle="italic"
-                      opacity="0.3"
-                    >
-                      N
-                    </text>
-
-                    {/* Letra principal en oro metálico */}
-                    <text
-                      x="100"
-                      y="100"
-                      fill="url(#goldGradient)"
-                      fontSize="64"
-                      fontFamily="Georgia, serif"
-                      fontWeight="bold"
-                      fontStyle="italic"
-                    >
-                      N
-                    </text>
-
-                    {/* Texto perimetral sutil */}
-                    <text x="100" y="62" fill="#dfb254" fontSize="7.5" fontFamily="sans-serif" letterSpacing="3" opacity="0.75" className="font-semibold">
+                    {/* Leyendas grabadas en la cera */}
+                    <text y="-38" fill="#d8a84e" fontSize="8" fontFamily="sans-serif" letterSpacing="3" opacity="0.8">
                       MIS XV
                     </text>
-                    <text x="100" y="138" fill="#dfb254" fontSize="7.5" fontFamily="Georgia, serif" letterSpacing="2" opacity="0.75">
+                    <text y="38" fill="#d8a84e" fontSize="8" fontFamily="Georgia, serif" letterSpacing="2" opacity="0.8">
                       NATASHA
                     </text>
                   </g>
