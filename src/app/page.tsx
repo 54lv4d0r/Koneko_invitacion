@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Volume2, VolumeX, Calendar, MapPin, Gift, Mail, ChevronLeft, ChevronRight, MessageCircle } from 'lucide-react';
+import { Volume2, VolumeX, Calendar, MapPin, Gift, Mail, ChevronLeft, ChevronRight, MessageCircle, Church, PartyPopper } from 'lucide-react';
 
 // ==========================================
 // CONFIGURACIÓN DE DATOS
@@ -15,7 +15,10 @@ const EVENT_DATA = {
   quote: '"Hay momentos inolvidables que se atesoran en el corazón para siempre. Por esa razón, quiero que compartas conmigo este día tan especial."',
   whatsappNumber: "50500000000", // Cambia por tu número
   whatsappMessage: "¡Hola! Confirmo mi asistencia a los XV Años de Natasha ✨",
-  locationAddress: "Salón de Eventos El Imperio, León, Nicaragua",
+  
+  // Ubicaciones actualizadas
+  churchAddress: "Capilla de la Iglesia San Felipe, León — 6:00 PM",
+  receptionAddress: "Sutiaba, Casa Cural 1c. al oeste, 1/2c. al sur, León",
   googleMapsEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15582.528343764511!2d-86.883333!3d12.433333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f711e30a5ad8f6b%3A0xa618dbb2b622c7a!2sLe%C3%B3n!5e0!3m2!1ses!2sni!4v1620000000000!5m2!1es!2sni",
 };
 
@@ -71,7 +74,7 @@ const LuxuryGlitterOverlay = () => {
   );
 };
 
-// Componente Wrapper para los Paneles con Animación In/Out en Scroll
+// Componente Wrapper para los Paneles
 const LuxuryPanel = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => {
   return (
     <section className="h-screen w-full snap-start flex flex-col justify-center items-center relative overflow-hidden p-4 sm:p-6">
@@ -205,7 +208,6 @@ export default function Home() {
     }
   };
 
-  // Generador geométrico de floripondio para el sello de lacre
   const generateScallopedPath = (radius = 48, numScallops = 24, scallopDepth = 3.5) => {
     const center = 50;
     let path = '';
@@ -246,7 +248,7 @@ export default function Home() {
         </button>
       )}
 
-      {/* PANTALLA INICIAL: SOBRE VECTORIAL CON SELLO DE LACRE */}
+      {/* PANTALLA INICIAL: SOBRE CON SELLO DE LACRE */}
       <AnimatePresence>
         {!isOpen && (
           <motion.div
@@ -299,7 +301,6 @@ export default function Home() {
                 />
               </svg>
 
-              {/* Mensaje de apoyo arriba del sobre */}
               <div className="absolute z-20 flex flex-col items-center top-3 sm:top-5">
                 <motion.div
                   animate={{ y: [0, -3, 0] }}
@@ -311,7 +312,6 @@ export default function Home() {
                 </motion.div>
               </div>
 
-              {/* SELLO DE LACRE INTERACTIVO */}
               <div className="absolute z-30 flex items-center justify-center top-[52%] left-[50%] -translate-x-1/2 -translate-y-1/2">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
@@ -342,7 +342,7 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      {/* CONTENEDOR PRINCIPAL SCROLLABLE SNAP (10 PANELES) */}
+      {/* CONTENEDOR PRINCIPAL SNAP (10 PANELES) */}
       {isOpen && (
         <main className="h-screen w-full snap-y snap-mandatory overflow-y-scroll scroll-smooth">
 
@@ -424,16 +424,34 @@ export default function Home() {
             </div>
           </LuxuryPanel>
 
-          {/* PANEL 6: UBICACIÓN Y MAPA */}
+          {/* PANEL 6: UBICACIÓN Y MAPA (MISA Y RECEPCIÓN SEPARADAS) */}
           <LuxuryPanel>
             <div className="w-full h-full flex flex-col justify-between py-2 relative z-10">
-              <div className="text-center mt-4">
-                <MapPin className="w-8 h-8 text-amber-300 mx-auto mb-2" />
-                <h3 className="text-xl font-serif text-amber-200">Ubicación del Evento</h3>
-                <p className="text-xs text-amber-100/80 mt-1 max-w-xs mx-auto">{EVENT_DATA.locationAddress}</p>
+              <div className="text-center mt-2">
+                <MapPin className="w-6 h-6 text-amber-300 mx-auto mb-1" />
+                <h3 className="text-xl font-serif text-amber-200 mb-3">Ubicación del Evento</h3>
+                
+                {/* Bloque Misa */}
+                <div className="bg-[#092b27]/80 border border-amber-500/20 rounded-xl p-2.5 mb-2.5 text-left flex items-start gap-2.5 shadow-md">
+                  <Church className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+                  <div>
+                    <span className="text-xs font-serif font-bold text-amber-300 block uppercase tracking-wider">Misa</span>
+                    <p className="text-[11px] text-amber-100/90 leading-tight">{EVENT_DATA.churchAddress}</p>
+                  </div>
+                </div>
+
+                {/* Bloque Recepción */}
+                <div className="bg-[#092b27]/80 border border-amber-500/20 rounded-xl p-2.5 text-left flex items-start gap-2.5 shadow-md">
+                  <PartyPopper className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+                  <div>
+                    <span className="text-xs font-serif font-bold text-amber-300 block uppercase tracking-wider">Recepción</span>
+                    <p className="text-[11px] text-amber-100/90 leading-tight">{EVENT_DATA.receptionAddress}</p>
+                  </div>
+                </div>
               </div>
 
-              <div className="w-full aspect-square rounded-2xl overflow-hidden border border-amber-500/30 shadow-2xl my-auto">
+              {/* Mini mapa interactivo */}
+              <div className="w-full aspect-[4/3] rounded-2xl overflow-hidden border border-amber-500/30 shadow-2xl my-auto">
                 <iframe
                   src={EVENT_DATA.googleMapsEmbedUrl}
                   width="100%"
