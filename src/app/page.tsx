@@ -20,7 +20,7 @@ export default function Home() {
       audioRef.current.play().then(() => {
         setIsPlaying(true);
       }).catch((err) => {
-        console.log("Audio play deferred or blocked by browser:", err);
+        console.log("Audio play deferred or blocked:", err);
       });
     }
   };
@@ -73,14 +73,24 @@ export default function Home() {
           >
             <div className="relative w-full max-w-4xl h-[85vh] max-h-[600px] bg-[#fcfaf7] border border-[#e5dec9] rounded-lg shadow-2xl overflow-hidden flex items-center justify-center">
               
-              {/* Solapas del sobre recortadas mediante clip-path */}
-              <div className="absolute inset-0 pointer-events-none opacity-40">
-                <div className="absolute top-0 left-0 w-full h-1/2 bg-[#f5f0e3] [clip-path:polygon(0_0,_100%_0,_50%_100%)] border-b border-[#e0d5be]" />
-                <div className="absolute bottom-0 left-0 w-full h-1/2 bg-[#f1ead7] [clip-path:polygon(0_100%,_100%_100%,_50%_0)] border-t border-[#e0d5be]" />
+              {/* Solapas del sobre creadas con bordes CSS puros (Cero SVG) */}
+              <div className="absolute inset-0 pointer-events-none">
+                {/* Solapa superior */}
+                <div className="absolute top-0 left-0 w-full h-1/2 bg-[#f5f0e3] border-b border-[#dcd3bd] origin-top"
+                     style={{ clipPath: 'polygon(0 0, 100% 0, 50% 100%)' }} />
+                {/* Solapa inferior */}
+                <div className="absolute bottom-0 left-0 w-full h-1/2 bg-[#f1ead7] border-t border-[#dcd3bd] origin-bottom"
+                     style={{ clipPath: 'polygon(0 100%, 100% 100%, 50% 0)' }} />
+                {/* Solapa izquierda */}
+                <div className="absolute top-0 left-0 w-1/2 h-full bg-[#ede6d2] opacity-40"
+                     style={{ clipPath: 'polygon(0 0, 100% 50%, 0 100%)' }} />
+                {/* Solapa derecha */}
+                <div className="absolute top-0 right-0 w-1/2 h-full bg-[#ede6d2] opacity-40"
+                     style={{ clipPath: 'polygon(100% 0, 0 50%, 100% 100%)' }} />
               </div>
 
               {/* Indicador flotante */}
-              <div className="absolute z-20 flex flex-col items-center top-[18%] sm:top-[22%]">
+              <div className="absolute z-20 flex flex-col items-center top-[14%] sm:top-[18%]">
                 <motion.div
                   animate={{ y: [0, -6, 0] }}
                   transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
@@ -91,26 +101,29 @@ export default function Home() {
                 </motion.div>
               </div>
 
-              {/* Sello con monograma y degradados completos */}
+              {/* Sello de lacre con borde ondulado (usando border-style scalloped/rounded CSS) */}
               <motion.button
                 whileHover={{ scale: 1.05, rotate: 2 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleOpenEnvelope}
-                className="relative z-30 w-48 h-48 sm:w-56 sm:h-56 rounded-full cursor-pointer shadow-2xl bg-gradient-to-br from-[#1e5f64] via-[#0f3c3f] to-[#061c1e] p-2 flex items-center justify-center border-4 border-[#0b292c]"
+                className="relative z-30 w-52 h-52 sm:w-60 sm:h-60 rounded-full cursor-pointer shadow-2xl bg-gradient-to-br from-[#23686c] via-[#0f3c3f] to-[#051718] p-3 flex items-center justify-center border-4 border-dashed border-[#1a5255]"
                 style={{
-                  boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.2)'
+                  boxShadow: '0 12px 30px -5px rgba(0,0,0,0.6), inset 0 2px 6px rgba(255,255,255,0.2)',
+                  outline: '8px solid #0f3c3f',
+                  outlineOffset: '-12px'
                 }}
               >
-                <div className="w-full h-full rounded-full border-2 border-dashed border-[#d4af37]/60 flex flex-col items-center justify-center p-4 text-center bg-[#0f3c3f]/40 backdrop-blur-[1px]">
-                  <span className="text-[10px] font-sans italic tracking-[0.25em] text-[#d4af37] opacity-80 uppercase mb-1">
+                {/* Borde punteado de oro interno */}
+                <div className="w-full h-full rounded-full border-2 border-dashed border-[#d4af37]/70 flex flex-col items-center justify-center p-4 text-center bg-[#0f3c3f]/30 backdrop-blur-[1px]">
+                  <span className="text-[10px] font-sans italic tracking-[0.25em] text-[#d4af37] opacity-90 uppercase mb-0.5">
                     Mis XV
                   </span>
                   
-                  <span className="text-5xl sm:text-6xl font-serif font-bold italic text-transparent bg-clip-text bg-gradient-to-r from-[#ffe699] via-[#d4af37] to-[#aa7c11] drop-shadow-md my-1">
+                  <span className="text-5xl sm:text-6xl font-serif font-bold italic text-transparent bg-clip-text bg-gradient-to-r from-[#ffe699] via-[#d4af37] to-[#aa7c11] drop-shadow my-0.5">
                     N
                   </span>
 
-                  <span className="text-[10px] font-serif italic tracking-[0.2em] text-[#d4af37] opacity-80 uppercase mt-1">
+                  <span className="text-[10px] font-serif italic tracking-[0.2em] text-[#d4af37] opacity-90 uppercase mt-0.5">
                     Natasha
                   </span>
                 </div>
