@@ -13,7 +13,6 @@ export default function Home() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    // Garantiza que los SVG complejos solo se rendericen en el cliente
     setIsMounted(true);
 
     const fetchAssets = () => {
@@ -69,7 +68,7 @@ export default function Home() {
         </motion.button>
       )}
 
-      {/* Sobre de entrada: Solo se renderiza cuando el cliente ya está listo */}
+      {/* Sobre de entrada */}
       <AnimatePresence>
         {isMounted && !isOpen && (
           <motion.div
@@ -80,7 +79,7 @@ export default function Home() {
           >
             <div className="relative w-full max-w-4xl h-[85vh] max-h-[600px] bg-[#fcfaf7] border border-[#e5dec9] rounded-lg shadow-2xl overflow-hidden flex items-center justify-center">
               
-              {/* Solapas decorativas */}
+              {/* Solapas decorativas básicas */}
               <div className="absolute inset-0 pointer-events-none opacity-40">
                 <svg className="absolute top-0 left-0 w-full h-1/2" viewBox="0 0 100 50" preserveAspectRatio="none">
                   <polygon points="0,0 100,0 50,50" fill="#f5f0e3" stroke="#e0d5be" strokeWidth="0.4" />
@@ -102,90 +101,50 @@ export default function Home() {
                 </motion.div>
               </div>
 
-              {/* SELLO DE LACRE ARTESANAL */}
+              {/* SELLO DE LACRE - FORMA ONDULADA / FLORAL SIMPLIFICADA */}
               <motion.button
-                whileHover={{ scale: 1.05, rotate: 1 }}
+                whileHover={{ scale: 1.05, rotate: 2 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleOpenEnvelope}
                 className="relative z-30 w-52 h-52 sm:w-60 sm:h-60 flex items-center justify-center cursor-pointer drop-shadow-2xl"
               >
-                <svg viewBox="0 0 200 200" className="w-full h-full overflow-visible">
+                <svg viewBox="0 0 200 200" className="w-full h-full">
                   <defs>
-                    <radialGradient id="realWaxGrad" cx="35%" cy="30%" r="70%">
-                      <stop offset="0%" stopColor="#216a70" />
-                      <stop offset="35%" stopColor="#124f53" />
-                      <stop offset="70%" stopColor="#082d30" />
-                      <stop offset="100%" stopColor="#031617" />
+                    <radialGradient id="waxBase" cx="40%" cy="30%" r="70%">
+                      <stop offset="0%" stopColor="#1e5f64" />
+                      <stop offset="60%" stopColor="#0f3c3f" />
+                      <stop offset="100%" stopColor="#061c1e" />
                     </radialGradient>
-
-                    <radialGradient id="pitDepth" cx="45%" cy="40%" r="55%">
-                      <stop offset="0%" stopColor="#1a6266" />
-                      <stop offset="75%" stopColor="#082d30" />
-                      <stop offset="100%" stopColor="#021112" />
-                    </radialGradient>
-
-                    <linearGradient id="goldReliefGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#fff2c2" />
-                      <stop offset="30%" stopColor="#d8a84e" />
-                      <stop offset="70%" stopColor="#a37622" />
-                      <stop offset="100%" stopColor="#5e410b" />
+                    
+                    <linearGradient id="goldText" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#ffe699" />
+                      <stop offset="50%" stopColor="#d4af37" />
+                      <stop offset="100%" stopColor="#aa7c11" />
                     </linearGradient>
                   </defs>
 
+                  {/* Círculo con 16 ondas en los bordes para simular lacre real */}
                   <path
-                    d="M 100,10 C 130,4 168,14 182,42 C 196,70 198,106 182,138 C 166,170 138,194 102,190 C 66,186 28,172 14,138 C 0,104 10,64 32,34 C 54,4 68,16 100,10 Z"
-                    fill="url(#realWaxGrad)"
+                    d="
+                      M 100,10 
+                      Q 108,12 115,16 Q 123,12 130,19 Q 138,20 143,29 Q 152,32 155,42 Q 164,48 165,59 Q 173,68 171,79 Q 178,90 174,101 Q 178,112 171,123 Q 173,134 165,143 Q 164,154 155,160 Q 152,170 143,173 Q 138,182 130,183 Q 123,190 115,186 Q 108,190 100,190 Q 92,190 85,186 Q 77,190 70,183 Q 62,182 57,173 Q 48,170 45,160 Q 36,154 35,143 Q 27,134 29,123 Q 22,112 26,101 Q 22,90 29,79 Q 27,68 35,59 Q 36,48 45,42 Q 48,32 57,29 Q 62,20 70,19 Q 77,12 85,16 Q 92,12 100,10 Z
+                    "
+                    fill="url(#waxBase)"
+                    stroke="#0b292c"
+                    strokeWidth="3"
                   />
 
-                  <circle cx="176" cy="132" r="7" fill="#082d30" />
-                  <circle cx="25" cy="58" r="9" fill="#124f53" />
-                  <circle cx="135" cy="184" r="6" fill="#031617" />
-                  <circle cx="55" cy="180" r="8" fill="#062224" />
+                  {/* Anillo de hendidura interno */}
+                  <circle cx="100" cy="100" r="62" fill="none" stroke="#082224" strokeWidth="4" opacity="0.6" />
+                  <circle cx="100" cy="100" r="59" fill="none" stroke="#d4af37" strokeWidth="1" strokeDasharray="3 3" opacity="0.5" />
 
-                  <path
-                    d="M 100,36 C 132,34 158,54 160,88 C 162,122 140,154 108,158 C 76,162 44,142 40,108 C 36,74 68,38 100,36 Z"
-                    fill="url(#pitDepth)"
-                    stroke="#021112"
-                    strokeWidth="2.5"
-                  />
-
-                  <path
-                    d="M 48,36 C 70,20 130,18 152,34"
-                    fill="none"
-                    stroke="#ffffff"
-                    strokeWidth="3.5"
-                    strokeLinecap="round"
-                    opacity="0.3"
-                  />
-
-                  <path
-                    d="M 100,44 C 126,42 148,58 150,86 C 152,114 134,142 106,144 C 78,146 50,130 48,102 C 46,74 74,46 100,44 Z"
-                    fill="none"
-                    stroke="#d8a84e"
-                    strokeWidth="1.2"
-                    strokeDasharray="4 2"
-                    opacity="0.45"
-                  />
-
-                  <g transform="translate(100, 100)" textAnchor="middle" dominantBaseline="central">
+                  {/* Monograma y Textos Dorados */}
+                  <g textAnchor="middle" dominantBaseline="central">
                     <text
-                      x="1"
-                      y="3"
-                      fill="#01090a"
-                      fontSize="62"
-                      fontFamily="Georgia, serif"
-                      fontWeight="bold"
-                      fontStyle="italic"
-                      opacity="0.8"
-                    >
-                      N
-                    </text>
-                    
-                    <text
-                      x="0"
-                      y="0"
-                      fill="url(#goldReliefGrad)"
-                      fontSize="62"
+                      x="100"
+                      y="98"
+                      fill="url(#goldText)"
+                      fontSize="64"
                       fontFamily="Georgia, serif"
                       fontWeight="bold"
                       fontStyle="italic"
@@ -193,10 +152,10 @@ export default function Home() {
                       N
                     </text>
 
-                    <text y="-38" fill="#d8a84e" fontSize="8.5" fontFamily="sans-serif" letterSpacing="3" opacity="0.8">
+                    <text x="100" y="60" fill="#d4af37" fontSize="8" fontStyle="italic" letterSpacing="3" opacity="0.85">
                       MIS XV
                     </text>
-                    <text y="40" fill="#d8a84e" fontSize="8.5" fontFamily="Georgia, serif" letterSpacing="2" opacity="0.8">
+                    <text x="100" y="140" fill="#d4af37" fontSize="8" fontStyle="italic" letterSpacing="2" opacity="0.85">
                       NATASHA
                     </text>
                   </g>
