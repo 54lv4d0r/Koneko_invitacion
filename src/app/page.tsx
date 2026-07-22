@@ -4,6 +4,59 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Volume2, VolumeX, Calendar, Sparkles } from 'lucide-react';
 
+// ==========================================
+// CONFIGURACIÓN RÁPIDA DE DATOS
+// ==========================================
+const EVENT_DATA = {
+  quinceaneraName: "Natasha",
+  subtitle: "TE INVITO A CELEBRAR MIS XV AÑOS",
+  dateText: "27 de Septiembre, 2025",
+  quote: '"Hay momentos inolvidables que se atesoran en el corazón para siempre. Por esa razón, quiero que compartas conmigo este día tan especial."',
+  // Ruta local en public/galeria/foto_banner001.jpg o URL de Supabase Storage
+  bannerImage: "/galeria/foto_banner001.jpg", 
+};
+
+// Generador de destellos/estrellas animadas para el banner
+const SparkleStars = () => {
+  // Arreglo de 12 estrellas con posiciones y animaciones independientes
+  const stars = Array.from({ length: 12 });
+
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden z-10">
+      {stars.map((_, i) => {
+        const top = Math.floor(Math.random() * 90) + 5;
+        const left = Math.floor(Math.random() * 90) + 5;
+        const duration = 2 + Math.random() * 2.5;
+        const delay = Math.random() * 2;
+        const size = Math.floor(Math.random() * 12) + 10;
+
+        return (
+          <motion.div
+            key={i}
+            className="absolute text-amber-200/90 filter drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]"
+            style={{ top: `${top}%`, left: `${left}%` }}
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{
+              opacity: [0, 0.9, 0],
+              scale: [0.3, 1.2, 0.3],
+              rotate: [0, 90, 180],
+              y: [0, -12, 0],
+            }}
+            transition={{
+              duration: duration,
+              repeat: Infinity,
+              delay: delay,
+              ease: "easeInOut",
+            }}
+          >
+            <Sparkles style={{ width: `${size}px`, height: `${size}px` }} />
+          </motion.div>
+        );
+      })}
+    </div>
+  );
+};
+
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -82,7 +135,7 @@ export default function Home() {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           onClick={toggleAudio}
-          className="fixed top-4 right-4 z-50 bg-teal-800/80 hover:bg-teal-800 text-white p-3 rounded-full shadow-lg backdrop-blur-md transition-all border border-teal-600/30 cursor-pointer"
+          className="fixed top-4 right-4 z-50 bg-teal-900/80 hover:bg-teal-900 text-white p-3 rounded-full shadow-lg backdrop-blur-md transition-all border border-amber-500/30 cursor-pointer"
           title={isPlaying ? "Pausar música" : "Reproducir música"}
         >
           {isPlaying ? <Volume2 className="w-5 h-5 animate-pulse" /> : <VolumeX className="w-5 h-5" />}
@@ -98,7 +151,6 @@ export default function Home() {
             exit={{ opacity: 0, transition: { duration: 0.8, delay: 0.2 } }}
             className="fixed inset-0 z-40 flex items-center justify-center bg-[#eae3d2] p-4 sm:p-6"
           >
-            {/* Contenedor principal con relación de aspecto fija 3:2 optimizado para móvil */}
             <div className="relative w-full max-w-md sm:max-w-lg aspect-[3/2] flex items-center justify-center filter drop-shadow-2xl">
               
               {/* VECTOR DEL SOBRE */}
@@ -133,21 +185,12 @@ export default function Home() {
                   </filter>
                 </defs>
 
-                {/* Base del sobre */}
                 <rect x="0" y="0" width="600" height="400" rx="6" fill="url(#envelopeBg)" />
-
-                {/* Solapas inferiores y laterales */}
                 <path d="M 0 400 L 300 210 L 600 400 Z" fill="url(#flapBottom)" />
                 <path d="M 0 0 L 285 200 L 0 400 Z" fill="url(#flapSide)" opacity="0.9" />
                 <path d="M 600 0 L 315 200 L 600 400 Z" fill="url(#flapSide)" opacity="0.85" />
-
-                {/* Solapa Superior */}
                 <path 
-                  d="M 0 0 
-                     L 600 0 
-                     L 318 212 
-                     Q 300 226, 282 212 
-                     Z" 
+                  d="M 0 0 L 600 0 L 318 212 Q 300 226, 282 212 Z" 
                   fill="url(#flapTop)" 
                   filter="url(#shadowFlap)"
                 />
@@ -165,7 +208,7 @@ export default function Home() {
                 </motion.div>
               </div>
 
-              {/* SELLO DE LACRE CON TAMAÑO RESPONSIVO */}
+              {/* SELLO DE LACRE */}
               <div className="absolute z-30 flex items-center justify-center top-[52%] left-[50%] -translate-x-1/2 -translate-y-1/2">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
@@ -173,23 +216,19 @@ export default function Home() {
                   onClick={handleOpenEnvelope}
                   className="relative w-32 h-32 sm:w-40 sm:h-40 cursor-pointer flex items-center justify-center filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.35)]"
                 >
-                  {/* Vector exterior del sello */}
                   <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full text-[#0a2e31]" fill="currentColor">
                     <path d={generateScallopedPath(44, 24, 3)} />
                   </svg>
 
-                  {/* Contenedor interior equilibrado al 80% */}
                   <div className="relative z-10 w-[80%] h-[80%] rounded-full border border-dashed border-[#d4af37]/80 flex flex-col items-center justify-center p-2 text-center bg-gradient-to-br from-[#1c5559] via-[#0f3c3f] to-[#061c1e] shadow-inner">
                     <span className="text-[7px] sm:text-[9px] font-sans italic tracking-[0.2em] text-[#d4af37] opacity-90 uppercase mb-0.5">
                       Mis XV
                     </span>
-                    
                     <span className="text-2xl sm:text-4xl font-serif font-bold italic text-transparent bg-clip-text bg-gradient-to-r from-[#ffe699] via-[#d4af37] to-[#aa7c11] drop-shadow-md my-0">
-                      N
+                      {EVENT_DATA.quinceaneraName.charAt(0)}
                     </span>
-
                     <span className="text-[7px] sm:text-[9px] font-serif italic tracking-[0.18em] text-[#d4af37] opacity-90 uppercase mt-0.5">
-                      Natasha
+                      {EVENT_DATA.quinceaneraName}
                     </span>
                   </div>
                 </motion.button>
@@ -200,39 +239,57 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      {/* Contenido principal de la invitación */}
-      <div className={`w-full max-w-md sm:max-w-xl mx-auto px-4 py-8 sm:py-10 transition-all duration-1000 ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`}>
+      {/* CONTENIDO PRINCIPAL DE LA INVITACIÓN */}
+      <div className={`w-full max-w-md sm:max-w-xl mx-auto px-4 py-6 sm:py-8 transition-all duration-1000 ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`}>
         
-        <motion.header 
+        {/* TARJETA HERO DE BANNER CON FOTO + DESTELLOS + NOMBRES */}
+        <motion.div 
           initial={{ y: 20, opacity: 0 }}
           animate={isOpen ? { y: 0, opacity: 1 } : {}}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-center mb-8"
+          className="relative w-full rounded-3xl overflow-hidden shadow-2xl mb-8 border border-teal-900/10 bg-teal-950 min-h-[380px] sm:min-h-[440px] flex flex-col justify-between p-6 sm:p-8 text-center"
         >
-          <span className="text-teal-800 tracking-[0.3em] uppercase text-xs font-bold block mb-2">Te invito a celebrar</span>
-          <h1 className="text-4xl sm:text-6xl font-serif text-teal-950 font-normal my-2">
-            Natasha
-          </h1>
-          <p className="text-teal-700/80 font-serif italic text-base sm:text-lg">Mis XV Años</p>
-        </motion.header>
+          {/* 1. Foto de Fondo Banner */}
+          <img 
+            src={EVENT_DATA.bannerImage} 
+            alt={`Banner de ${EVENT_DATA.quinceaneraName}`}
+            className="absolute inset-0 w-full h-full object-cover object-center opacity-70"
+            onError={(e) => {
+              // Fallback elegante mientras no está subida la foto real
+              (e.target as HTMLElement).style.display = 'none';
+            }}
+          />
 
-        <motion.section 
-          initial={{ y: 20, opacity: 0 }}
-          animate={isOpen ? { y: 0, opacity: 1 } : {}}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="bg-white/80 backdrop-blur-sm border border-teal-900/10 rounded-2xl p-6 sm:p-8 text-center shadow-lg mb-8"
-        >
-          <p className="text-gray-600 italic text-sm leading-relaxed max-w-sm mx-auto mb-6">
-            "Hay momentos inolvidables que se atesoran en el corazón para siempre. Por esa razón, quiero que compartas conmigo este día tan especial."
-          </p>
+          {/* 2. Capa de degradado para asegurar contraste legibilidad de textos */}
+          <div className="absolute inset-0 bg-gradient-to-t from-teal-950 via-teal-950/40 to-black/30 z-0" />
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4 border-t border-teal-900/10 text-teal-900">
-            <div className="flex items-center gap-2">
-              <Calendar className="w-5 h-5 text-teal-700" />
-              <span className="font-medium text-sm">27 de Septiembre, 2025</span>
+          {/* 3. Animación de destellos brillantes flotantes */}
+          <SparkleStars />
+
+          {/* 4. Textos Superpuestos */}
+          <div className="relative z-20 pt-4">
+            <span className="text-amber-200 tracking-[0.25em] uppercase text-[10px] sm:text-xs font-semibold drop-shadow-md block mb-3">
+              {EVENT_DATA.subtitle}
+            </span>
+            
+            <h1 className="text-5xl sm:text-7xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#fff5d6] via-[#ffd97d] to-[#d4af37] drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)] my-1 tracking-wide">
+              {EVENT_DATA.quinceaneraName}
+            </h1>
+          </div>
+
+          {/* Tarjeta inferior con cita y fecha integrada en la tarjeta del banner */}
+          <div className="relative z-20 mt-6 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-5 text-white shadow-lg">
+            <p className="text-amber-100/90 italic text-xs sm:text-sm leading-relaxed max-w-sm mx-auto mb-4 font-serif">
+              {EVENT_DATA.quote}
+            </p>
+
+            <div className="flex items-center justify-center gap-2 pt-3 border-t border-white/15 text-amber-200">
+              <Calendar className="w-4 h-4 text-amber-300" />
+              <span className="font-medium text-xs sm:text-sm tracking-wide">{EVENT_DATA.dateText}</span>
             </div>
           </div>
-        </motion.section>
+
+        </motion.div>
 
       </div>
     </div>
