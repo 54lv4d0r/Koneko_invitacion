@@ -87,7 +87,7 @@ export default function Home() {
               </div>
 
               {/* Indicador flotante superior */}
-              <div className="absolute z-20 flex flex-col items-center top-[22%] sm:top-[25%]">
+              <div className="absolute z-20 flex flex-col items-center top-[18%] sm:top-[22%]">
                 <motion.div
                   animate={{ y: [0, -6, 0] }}
                   transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
@@ -98,121 +98,84 @@ export default function Home() {
                 </motion.div>
               </div>
 
-              {/* SELLO DE LACRE ARTESANAL EN SVG */}
+              {/* SELLO DE LACRE HIPERREALISTA */}
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleOpenEnvelope}
-                className="relative z-30 w-48 h-48 sm:w-56 sm:h-56 flex items-center justify-center cursor-pointer filter drop-shadow-[0_15px_25px_rgba(10,40,40,0.45)] group"
+                className="relative z-30 w-52 h-52 sm:w-60 sm:h-60 flex items-center justify-center cursor-pointer group filter drop-shadow-[0_20px_25px_rgba(0,0,0,0.35)]"
               >
-                <svg viewBox="0 0 200 200" className="w-full h-full">
+                {/* Textura fotográfica/3D de la cera en alta resolución */}
+                <img
+                  src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80"
+                  alt="Sello de lacre real"
+                  className="absolute inset-0 w-full h-full object-cover rounded-full mix-blend-multiply opacity-90 [clip-path:polygon(30%_0%,_70%_0%,_100%_30%,_100%_70%,_70%_100%,_30%_100%,_0%_70%,_0%_30%)]"
+                  style={{
+                    maskImage: 'radial-gradient(circle, black 65%, transparent 72%)',
+                    WebkitMaskImage: 'radial-gradient(circle, black 65%, transparent 72%)'
+                  }}
+                />
+
+                {/* SVG Híbrido: Genera el bisel del troquel y la tipografía en bajorrelieve */}
+                <svg viewBox="0 0 200 200" className="relative z-10 w-full h-full">
                   <defs>
-                    {/* Gradiente principal de cera verde esmeralda / azul petróleo */}
-                    <radialGradient id="waxBase" cx="35%" cy="30%" r="70%">
-                      <stop offset="0%" stopColor="#1a5a5e" />
-                      <stop offset="45%" stopColor="#0d3b3e" />
-                      <stop offset="85%" stopColor="#062224" />
-                      <stop offset="100%" stopColor="#021112" />
-                    </radialGradient>
-
-                    {/* Gradiente para el bisel interior grabado */}
-                    <radialGradient id="waxInner" cx="40%" cy="35%" r="60%">
-                      <stop offset="0%" stopColor="#1e666a" />
-                      <stop offset="70%" stopColor="#0a3235" />
-                      <stop offset="100%" stopColor="#041a1c" />
-                    </radialGradient>
-
-                    {/* Gradiente dorado metálico para la "N" */}
-                    <linearGradient id="goldText" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#fff5d0" />
-                      <stop offset="30%" stopColor="#e5ba63" />
-                      <stop offset="70%" stopColor="#b88628" />
-                      <stop offset="100%" stopColor="#7a5310" />
+                    {/* Gradiente metálico dorado para el monograma */}
+                    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#fff8e7" />
+                      <stop offset="30%" stopColor="#dfb254" />
+                      <stop offset="70%" stopColor="#b38128" />
+                      <stop offset="100%" stopColor="#69480d" />
                     </linearGradient>
 
-                    {/* Filtro de relieve 3D realista para la cera */}
-                    <filter id="waxRelief" x="-20%" y="-20%" width="140%" height="140%">
-                      <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur" />
-                      <feSpecularLighting in="blur" surfaceScale="4" specularConstant="0.8" specularExponent="15" lightingColor="#ffffff" result="specular">
-                        <fePointLight x="-20" y="-30" z="80" />
-                      </feSpecularLighting>
-                      <feComposite in="specular" in2="SourceAlpha" operator="in" result="specularCombined" />
-                      <feMerge>
-                        <feMergeNode in="SourceGraphic" />
-                        <feMergeNode in="specularCombined" />
-                      </feMerge>
-                    </filter>
+                    {/* Sombra de profundidad interior para el troquel */}
+                    <radialGradient id="innerShadow" cx="50%" cy="50%" r="50%">
+                      <stop offset="70%" stopColor="rgba(0,0,0,0)" />
+                      <stop offset="95%" stopColor="rgba(0,0,0,0.6)" />
+                      <stop offset="100%" stopColor="rgba(0,0,0,0.85)" />
+                    </radialGradient>
                   </defs>
 
-                  {/* Capa de sombra posterior de la cera */}
-                  <path
-                    d="M 100,10 C 135,8 165,22 182,50 C 198,78 190,115 180,145 C 170,175 138,194 102,190 C 66,186 32,172 18,140 C 4,108 12,72 30,42 C 48,12 65,12 100,10 Z"
-                    fill="rgba(0,0,0,0.25)"
-                    transform="translate(2, 6)"
-                  />
+                  {/* Bisel del hundimiento central */}
+                  <circle cx="100" cy="100" r="62" fill="url(#innerShadow)" />
+                  <circle cx="100" cy="100" r="61" fill="none" stroke="#113e41" strokeWidth="2" opacity="0.6" />
+                  <circle cx="100" cy="100" r="57" fill="none" stroke="#dfb254" strokeWidth="1" strokeDasharray="3 2" opacity="0.4" />
 
-                  {/* Cuerpo principal fluido e irregular del sello de lacre */}
-                  <path
-                    d="M 100,12 C 128,9 152,18 170,38 C 188,58 196,88 188,116 C 180,144 162,170 134,182 C 106,194 72,188 48,174 C 24,160 10,132 12,104 C 14,76 28,52 48,34 C 68,16 72,15 100,12 Z"
-                    fill="url(#waxBase)"
-                    filter="url(#waxRelief)"
-                  />
-
-                  {/* Pequeños goteos y deformaciones orgánicas de la cera en los bordes */}
-                  <circle cx="178" cy="128" r="7" fill="#0c373a" />
-                  <circle cx="28" cy="65" r="9" fill="#12484c" />
-                  <circle cx="148" cy="178" r="6" fill="#08282a" />
-                  <circle cx="58" cy="176" r="8" fill="#0a2e31" />
-
-                  {/* Hundimiento/pozo central donde presiona el timbre de metal */}
-                  <path
-                    d="M 100,38 C 130,36 158,54 160,88 C 162,122 142,152 110,158 C 78,164 46,146 42,114 C 38,82 70,40 100,38 Z"
-                    fill="url(#waxInner)"
-                    stroke="#05191b"
-                    strokeWidth="3"
-                  />
-
-                  {/* Anillo de presión troquelado en la cera */}
-                  <path
-                    d="M 100,44 C 125,42 150,58 152,86 C 154,114 136,142 108,146 C 80,150 52,134 48,106 C 44,78 75,46 100,44 Z"
-                    fill="none"
-                    stroke="#e5ba63"
-                    strokeWidth="1.2"
-                    strokeDasharray="4 2"
-                    opacity="0.4"
-                  />
-
-                  {/* Brillo curvo de superficie pulida */}
-                  <path
-                    d="M 60,55 C 80,42 115,40 135,48"
-                    fill="none"
-                    stroke="#ffffff"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    opacity="0.25"
-                  />
-
-                  {/* Monograma "N" y detalles dorados grabados */}
-                  <g transform="translate(100, 102)" textAnchor="middle" dominantBaseline="central">
-                    {/* Sombra del grabado */}
+                  {/* Monograma en bajorrelieve con sombras de grabado */}
+                  <g textAnchor="middle" dominantBaseline="central">
+                    {/* Sombra superior para dar la ilusión de grabado hacia adentro */}
                     <text
-                      y="2"
-                      x="1"
-                      fill="#020b0c"
-                      fontSize="58"
+                      x="99"
+                      y="98"
+                      fill="#031415"
+                      fontSize="64"
                       fontFamily="Georgia, serif"
                       fontWeight="bold"
                       fontStyle="italic"
-                      opacity="0.8"
+                      opacity="0.9"
                     >
                       N
                     </text>
+
+                    {/* Brillo inferior para simular el borde expuesto a la luz */}
+                    <text
+                      x="101"
+                      y="102"
+                      fill="#ffffff"
+                      fontSize="64"
+                      fontFamily="Georgia, serif"
+                      fontWeight="bold"
+                      fontStyle="italic"
+                      opacity="0.3"
+                    >
+                      N
+                    </text>
+
                     {/* Letra principal en oro metálico */}
                     <text
-                      y="0"
-                      x="0"
-                      fill="url(#goldText)"
-                      fontSize="58"
+                      x="100"
+                      y="100"
+                      fill="url(#goldGradient)"
+                      fontSize="64"
                       fontFamily="Georgia, serif"
                       fontWeight="bold"
                       fontStyle="italic"
@@ -220,11 +183,11 @@ export default function Home() {
                       N
                     </text>
 
-                    {/* Leyenda sutil superior/inferior */}
-                    <text y="-36" fill="#e5ba63" fontSize="8" fontFamily="sans-serif" letterSpacing="3" opacity="0.6">
+                    {/* Texto perimetral sutil */}
+                    <text x="100" y="62" fill="#dfb254" fontSize="7.5" fontFamily="sans-serif" letterSpacing="3" opacity="0.75" className="font-semibold">
                       MIS XV
                     </text>
-                    <text y="38" fill="#e5ba63" fontSize="8" fontFamily="Georgia, serif" letterSpacing="2" opacity="0.6">
+                    <text x="100" y="138" fill="#dfb254" fontSize="7.5" fontFamily="Georgia, serif" letterSpacing="2" opacity="0.75">
                       NATASHA
                     </text>
                   </g>
