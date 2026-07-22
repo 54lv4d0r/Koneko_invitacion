@@ -27,7 +27,6 @@ const EVENT_DATA = {
     reception: {
       title: "RECEPCIÓN",
       address: "Sutiaba, Casa Cural 1c. al oeste, 1/2c. al sur, León",
-      // Coordenadas exactas: 12°25'57.9"N 86°53'46.0"W -> 12.432750, -86.896111
       mapEmbedUrl: "https://maps.google.com/maps?q=12.432750,-86.896111&z=16&output=embed",
       directMapUrl: "https://www.google.com/maps/search/?api=1&query=12.432750,-86.896111"
     }
@@ -364,28 +363,30 @@ export default function Home() {
       {isOpen && (
         <main className="h-screen w-full snap-y snap-mandatory overflow-y-scroll scroll-smooth">
 
-          {/* PANEL 1: BANNER PORTADA */}
+          {/* PANEL 1: BANNER PORTADA (TEXTO MOVIDO ABAJO) */}
           <LuxuryPanel>
             <div className="absolute inset-0 z-0">
-              <img src="/galeria/banner_portada.jpg" alt="Portada" className="w-full h-full object-cover opacity-50" />
-              <div className="absolute inset-0 bg-gradient-to-b from-[#061917]/80 via-transparent to-[#041211]/90" />
+              <img src="/galeria/banner_portada.jpg" alt="Portada" className="w-full h-full object-cover opacity-60" />
+              <div className="absolute inset-0 bg-gradient-to-b from-[#061917]/30 via-transparent to-[#041211]/95" />
             </div>
             <LuxuryGlitterOverlay />
 
-            <div className="relative z-20 text-center pt-8">
-              <span className="text-amber-200/90 tracking-[0.3em] uppercase text-xs font-serif block mb-3">
-                {EVENT_DATA.subtitle}
-              </span>
-              <h1 className="text-5xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#fff3cc] via-[#f7d774] to-[#cba33f] drop-shadow-md">
-                {EVENT_DATA.quinceaneraName}
-              </h1>
-            </div>
+            <div className="relative z-20 text-center w-full mt-auto space-y-3">
+              <div>
+                <span className="text-amber-200/90 tracking-[0.3em] uppercase text-xs font-serif block mb-1 drop-shadow-md">
+                  {EVENT_DATA.subtitle}
+                </span>
+                <h1 className="text-5xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#fff3cc] via-[#f7d774] to-[#cba33f] drop-shadow-lg">
+                  {EVENT_DATA.quinceaneraName}
+                </h1>
+              </div>
 
-            <div className="relative z-20 pb-4 text-center border-t border-amber-500/20 pt-3 w-full">
-              <span className="text-amber-300 font-serif text-sm tracking-widest uppercase flex items-center justify-center gap-2">
-                <Calendar className="w-4 h-4 text-amber-400" />
-                {EVENT_DATA.dateText}
-              </span>
+              <div className="pb-2 text-center border-t border-amber-500/20 pt-3 w-full">
+                <span className="text-amber-300 font-serif text-sm tracking-widest uppercase flex items-center justify-center gap-2 drop-shadow-md">
+                  <Calendar className="w-4 h-4 text-amber-400" />
+                  {EVENT_DATA.dateText}
+                </span>
+              </div>
             </div>
           </LuxuryPanel>
 
@@ -464,7 +465,6 @@ export default function Home() {
                   </p>
                 </div>
 
-                {/* Contenedor del mapa envuelto completamente en el enlace */}
                 <a
                   href={EVENT_DATA.locations.church.directMapUrl}
                   target="_blank"
@@ -499,7 +499,6 @@ export default function Home() {
                   </p>
                 </div>
 
-                {/* Contenedor del mapa envuelto completamente en el enlace */}
                 <a
                   href={EVENT_DATA.locations.reception.directMapUrl}
                   target="_blank"
