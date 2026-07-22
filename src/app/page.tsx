@@ -2,12 +2,16 @@
 
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Volume2, VolumeX, Calendar } from 'lucide-react';
+import { Volume2, VolumeX, Calendar, MapPin, Sparkles } from 'lucide-react';
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Reemplaza esta URL con la URL base de tu bucket de Supabase
+  const SUPABASE_STORAGE_URL = 'https://TU-PROYECTO.supabase.co/storage/v1/object/public/invitaciones';
+  const portadaUrl = `${SUPABASE_STORAGE_URL}/portadaXV.jpg`;
 
   const handleOpenEnvelope = () => {
     setIsOpen(true);
@@ -33,27 +37,29 @@ export default function Home() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#f8f6f0] overflow-hidden flex flex-col items-center justify-center">
+    <div className="relative min-h-screen bg-[#f8f6f0] overflow-x-hidden flex flex-col items-center">
       <audio ref={audioRef} loop src="https://invitacion-celebriq.b-cdn.net/wp-content/uploads/2025/07/Coldplay.mp3" />
 
+      {/* Botón flotante de audio */}
       {isOpen && (
         <motion.button
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           onClick={toggleAudio}
-          className="fixed top-5 right-5 z-50 bg-teal-700/80 hover:bg-teal-700 text-white p-3 rounded-full shadow-lg backdrop-blur-md transition-all flex items-center justify-center border border-teal-500/30"
+          className="fixed top-5 right-5 z-50 bg-teal-800/80 hover:bg-teal-800 text-white p-3 rounded-full shadow-lg backdrop-blur-md transition-all border border-teal-600/30 cursor-pointer"
           title={isPlaying ? "Pausar música" : "Reproducir música"}
         >
           {isPlaying ? <Volume2 className="w-5 h-5 animate-pulse" /> : <VolumeX className="w-5 h-5" />}
         </motion.button>
       )}
 
+      {/* Sobre de entrada */}
       <AnimatePresence>
         {!isOpen && (
           <motion.div
             key="envelope"
             initial={{ opacity: 1 }}
-            exit={{ opacity: 0, transition: { duration: 0.8, delay: 0.5 } }}
+            exit={{ opacity: 0, transition: { duration: 0.8, delay: 0.2 } }}
             className="fixed inset-0 z-40 flex items-center justify-center bg-[#f4f0e6] shadow-inner p-4"
           >
             <div className="relative w-full max-w-4xl h-[85vh] max-h-[600px] bg-[#fcfaf7] border border-[#e5dec9] rounded-lg shadow-2xl overflow-hidden flex items-center justify-center">
@@ -64,12 +70,6 @@ export default function Home() {
                 </svg>
                 <svg className="absolute bottom-0 left-0 w-full h-1/2" viewBox="0 0 100 50" preserveAspectRatio="none">
                   <polygon points="0,50 100,50 50,0" fill="#f1ead7" stroke="#e0d5be" strokeWidth="0.4" />
-                </svg>
-                <svg className="absolute top-0 left-0 w-1/2 h-full" viewBox="0 0 50 100" preserveAspectRatio="none">
-                  <polygon points="0,0 0,100 50,50" fill="#ede5d0" stroke="#e0d5be" strokeWidth="0.4" />
-                </svg>
-                <svg className="absolute top-0 right-0 w-1/2 h-full" viewBox="0 0 50 100" preserveAspectRatio="none">
-                  <polygon points="50,0 50,100 0,50" fill="#ede5d0" stroke="#e0d5be" strokeWidth="0.4" />
                 </svg>
               </div>
 
@@ -87,53 +87,79 @@ export default function Home() {
                 whileHover={{ scale: 1.08 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleOpenEnvelope}
-                className="relative z-30 w-36 h-36 sm:w-40 sm:h-40 rounded-full bg-teal-700 shadow-2xl flex flex-col items-center justify-center text-amber-100 p-2 cursor-pointer border-4 border-teal-800 transition-all group"
+                className="relative z-30 w-36 h-36 sm:w-40 sm:h-40 rounded-full bg-teal-800 shadow-2xl flex flex-col items-center justify-center text-amber-100 p-2 cursor-pointer border-4 border-teal-900 transition-all group"
                 style={{
                   boxShadow: '0 10px 25px -5px rgba(20, 82, 86, 0.6), inset 0 2px 6px rgba(255, 255, 255, 0.4), inset 0 -4px 8px rgba(0, 0, 0, 0.5)'
                 }}
               >
                 <div className="text-amber-200 mb-1 group-hover:scale-110 transition-transform">
-                  <svg className="w-8 h-8 fill-current" viewBox="0 0 24 24">
-                    <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/>
-                  </svg>
+                  <Sparkles className="w-7 h-7" />
                 </div>
-
-                <span className="text-sm font-serif italic tracking-wide text-amber-100/90 font-light">Mis XV</span>
-                <span className="text-xl sm:text-2xl font-serif font-bold text-amber-100 tracking-wider font-cursive">Natasha</span>
+                <span className="text-xs font-serif italic tracking-wide text-amber-100/90">Mis XV</span>
+                <span className="text-xl sm:text-2xl font-serif font-bold text-amber-100 tracking-wider">Natasha</span>
               </motion.button>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <div className={`w-full max-w-xl mx-auto min-h-screen px-4 py-12 transition-opacity duration-1000 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-        <motion.div 
-          initial={{ y: 30, opacity: 0 }}
+      {/* Contenido principal de la invitación */}
+      <div className={`w-full max-w-xl mx-auto px-4 py-10 transition-all duration-1000 ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`}>
+        
+        {/* Encabezado / Bienvenida */}
+        <motion.header 
+          initial={{ y: 20, opacity: 0 }}
           animate={isOpen ? { y: 0, opacity: 1 } : {}}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="bg-white/80 backdrop-blur-sm border border-teal-900/10 rounded-2xl p-8 sm:p-12 text-center shadow-xl mb-8 relative overflow-hidden"
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="text-center mb-8"
         >
-          <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-teal-600 via-emerald-600 to-teal-800"></div>
-
-          <p className="text-teal-800 tracking-[0.3em] uppercase text-xs font-semibold mb-2">Te invito a celebrar</p>
-          <h1 className="text-5xl sm:text-6xl font-serif text-teal-900 my-4 font-normal" style={{ fontFamily: "'Cinzel', serif" }}>
+          <span className="text-teal-800 tracking-[0.3em] uppercase text-xs font-bold block mb-2">Te invito a celebrar</span>
+          <h1 className="text-5xl sm:text-6xl font-serif text-teal-950 font-normal my-2">
             Natasha
           </h1>
-          <div className="flex items-center justify-center gap-3 my-2">
-            <span className="h-[1px] w-12 bg-teal-700/30"></span>
-            <span className="text-2xl font-serif italic text-teal-700 font-light">Mis XV Años</span>
-            <span className="h-[1px] w-12 bg-teal-700/30"></span>
-          </div>
+          <p className="text-teal-700/80 font-serif italic text-lg">Mis XV Años</p>
+        </motion.header>
 
-          <p className="text-gray-600 italic text-sm my-6 max-w-sm mx-auto leading-relaxed">
-            "Hay momentos inolvidables que se atesoran en el corazón para siempre, por esa razón, quiero que compartas conmigo este día tan especial."
+        {/* Foto de portada (Supabase) */}
+        <motion.div 
+          initial={{ scale: 0.95, opacity: 0 }}
+          animate={isOpen ? { scale: 1, opacity: 1 } : {}}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl border-4 border-white mb-10 bg-teal-900/10"
+        >
+          <img 
+            src={portadaUrl} 
+            alt="Portada Natasha XV Años" 
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              // Si la imagen de Supabase aún no está subida, muestra un placeholder elegante temporal
+              const target = e.target as HTMLImageElement;
+              target.onerror = null;
+              target.src = "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1000&auto=format&fit=crop";
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-teal-950/40 via-transparent to-transparent"></div>
+        </motion.div>
+
+        {/* Tarjeta de Mensaje y Fecha */}
+        <motion.section 
+          initial={{ y: 20, opacity: 0 }}
+          animate={isOpen ? { y: 0, opacity: 1 } : {}}
+          transition={{ duration: 0.8, delay: 0.8 }}
+          className="bg-white/80 backdrop-blur-sm border border-teal-900/10 rounded-2xl p-8 text-center shadow-lg mb-8"
+        >
+          <p className="text-gray-600 italic text-sm leading-relaxed max-w-sm mx-auto mb-6">
+            "Hay momentos inolvidables que se atesoran en el corazón para siempre. Por esa razón, quiero que compartas conmigo este día tan especial."
           </p>
 
-          <div className="inline-flex items-center gap-2 bg-teal-50 border border-teal-200/60 rounded-full px-6 py-2 text-teal-800 text-sm font-medium">
-            <Calendar className="w-4 h-4 text-teal-700" />
-            <span>27 de Septiembre, 2025</span>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4 border-t border-teal-900/10 text-teal-900">
+            <div className="flex items-center gap-2">
+              <Calendar className="w-5 h-5 text-teal-700" />
+              <span className="font-medium text-sm">27 de Septiembre, 2025</span>
+            </div>
           </div>
-        </motion.div>
+        </motion.section>
+
       </div>
     </div>
   );
