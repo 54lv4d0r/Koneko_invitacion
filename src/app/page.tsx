@@ -4,7 +4,7 @@ import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Volume2, VolumeX, Sparkles, MapPin, Calendar, Heart } from 'lucide-react';
 
-export default function Home() {
+function Home() {
   const [isOpen, setIsOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -138,3 +138,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default Home;
