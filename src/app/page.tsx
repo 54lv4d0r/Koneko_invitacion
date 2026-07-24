@@ -13,7 +13,7 @@ const EVENT_DATA = {
   dateText: "15 de Agosto, 2026",
   targetDate: "2026-08-15T18:00:00",
   quote: '"Hay momentos inolvidables que se atesoran en el corazón para siempre. Por esa razón, quiero que compartas conmigo este día tan especial."',
-  whatsappNumber: "50500000000",
+  whatsappNumber: "50584748314",
   whatsappMessage: "¡Hola! Confirmo mi asistencia a los XV Años de Marelynk ✨",
   
   // Ubicaciones
@@ -419,7 +419,7 @@ export default function Home() {
             </div>
           </LuxuryPanel>
 
-        {/* PANEL 4: CONFIRMACIÓN WHATSAPP */}
+      {/* PANEL 4: CONFIRMACIÓN WHATSAPP */}
 <LuxuryPanel>
   <div className="absolute inset-0 z-0">
     <img 
@@ -430,9 +430,11 @@ export default function Home() {
     <div className="absolute inset-0 bg-[#061917]/75" />
   </div>
 
-  <div className="my-auto text-center relative z-10 flex flex-col items-center gap-6 px-4">
+  <div className="my-auto text-center relative z-10 flex flex-col items-center gap-5 px-4 w-full">
     <MessageCircle className="w-12 h-12 text-amber-300" />
+    
     <h2 className="text-2xl font-serif text-amber-200 italic">"Nos encantaría que nos acompañes"</h2>
+    
     <a
       href={`https://wa.me/${EVENT_DATA.whatsappNumber}?text=${encodeURIComponent(EVENT_DATA.whatsappMessage)}`}
       target="_blank"
@@ -441,6 +443,13 @@ export default function Home() {
     >
       Confirmar por WhatsApp
     </a>
+
+    {/* Nota amable sobre los niños */}
+    <div className="bg-[#092b27]/80 border border-amber-500/20 rounded-xl p-3 max-w-xs backdrop-blur-sm mt-2">
+      <p className="text-[11px] text-amber-100/80 leading-relaxed font-serif italic">
+        Agradecemos amablemente que la asistencia sea exclusivamente para adultos y niños mayores de 5 años.
+      </p>
+    </div>
   </div>
 </LuxuryPanel>
 
