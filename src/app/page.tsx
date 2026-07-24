@@ -392,19 +392,21 @@ export default function Home() {
             </div>
           </LuxuryPanel>
 
-          {/* PANEL 2: MENSAJE CON FONDO PERSONALIZABLE */}
-          <LuxuryPanel>
-            <div className="absolute inset-0 z-0">
-              <img src="/galeria/fondopanel2.jpg" alt="Fondo Mensaje" className="w-full h-full object-cover opacity-40" />
-              <div className="absolute inset-0 bg-[#061917]/70 backdrop-blur-xs" />
-            </div>
-            <div className="my-auto relative z-10 text-center px-4">
-              <LuxurySparkle size={24} className="mx-auto mb-6" />
-              <p className="italic text-base sm:text-lg leading-relaxed font-serif text-amber-100/90 drop-shadow-md">
-                {EVENT_DATA.quote}
-              </p>
-            </div>
-          </LuxuryPanel>
+         {/* PANEL 2: MENSAJE CON FONDO PERSONALIZABLE */}
+<LuxuryPanel>
+  <div className="absolute inset-0 z-0">
+    <img src="/galeria/fondopanel2.jpg" alt="Fondo Mensaje" className="w-full h-full object-cover opacity-40" />
+    <div className="absolute inset-0 bg-[#061917]/70 backdrop-blur-xs" />
+  </div>
+  <div className="my-auto relative z-10 text-center px-4">
+    <LuxurySparkle size={24} className="mx-auto mb-6" />
+    
+    {/* Texto ampliado para mejor lectura en móviles */}
+    <p className="italic text-lg sm:text-xl leading-relaxed font-serif text-amber-100/90 drop-shadow-md">
+      {EVENT_DATA.quote}
+    </p>
+  </div>
+</LuxuryPanel>
 
           {/* PANEL 3: CONTEO REGRESIVO */}
           <LuxuryPanel>
@@ -413,9 +415,9 @@ export default function Home() {
               <div className="absolute inset-0 bg-[#061917]/75" />
             </div>
             <div className="my-auto relative z-10 text-center flex flex-col items-center w-full">
-              <span className="text-amber-300 text-xs tracking-widest uppercase mb-2 font-serif">Faltan tan solo:</span>
+              <span className="text-amber-300 text-sm tracking-widest uppercase mb-2 font-serif">Faltan tan solo:</span>
               <CountdownTimer targetDate={EVENT_DATA.targetDate} />
-              <span className="text-amber-200/80 text-xs italic font-serif mt-2">Para el gran día</span>
+              <span className="text-amber-200/80 text-sm italic font-serif mt-2">Para el gran día</span>
             </div>
           </LuxuryPanel>
 
@@ -425,7 +427,7 @@ export default function Home() {
     <img 
       src="/galeria/fondo-panel4.jpg" 
       alt="Fondo Panel 4" 
-      className="w-full h-full object-cover opacity-40" 
+      className="w-full h-full object-cover opacity-60" 
     />
     <div className="absolute inset-0 bg-[#061917]/75" />
   </div>
@@ -539,7 +541,7 @@ export default function Home() {
     <img 
       src="/galeria/fondo-panel7.png" 
       alt="Fondo Código de Vestimenta" 
-      className="w-full h-full object-cover opacity-40" 
+      className="w-full h-full object-cover opacity-60" 
     />
     <div className="absolute inset-0 bg-[#061917]/75" />
   </div>
@@ -581,7 +583,7 @@ export default function Home() {
     <img 
       src="/galeria/fondo-panel10.png" 
       alt="Fondo lluvia de sobres" 
-      className="w-full h-full object-cover opacity-40" 
+      className="w-full h-full object-cover opacity-60" 
     />
     <div className="absolute inset-0 bg-[#061917]/75" />
   </div>
