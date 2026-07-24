@@ -409,7 +409,7 @@ export default function Home() {
           {/* PANEL 3: CONTEO REGRESIVO */}
           <LuxuryPanel>
             <div className="absolute inset-0 z-0">
-              <img src="/galeria/fondo_panel3.jpg" alt="Fondo Contador" className="w-full h-full object-cover opacity-40" />
+              <img src="/galeria/fondo_panel3.png" alt="Fondo Contador" className="w-full h-full object-cover opacity-40" />
               <div className="absolute inset-0 bg-[#061917]/75" />
             </div>
             <div className="my-auto relative z-10 text-center flex flex-col items-center w-full">
