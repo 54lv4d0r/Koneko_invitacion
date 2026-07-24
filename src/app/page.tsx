@@ -423,8 +423,8 @@ export default function Home() {
           <LuxuryPanel>
             <div className="absolute inset-0 z-0">
               <img 
-                src="/galeria/fondo-panel5.png" 
-                alt="Fondo Panel 5" 
+                src="/galeria/fondo-panel4.png" 
+                alt="Fondo Panel 4" 
                 className="w-full h-full object-cover" 
               />
             </div>
