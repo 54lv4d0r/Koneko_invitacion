@@ -16,7 +16,6 @@ const EVENT_DATA = {
   whatsappNumber: "50500000000",
   whatsappMessage: "¡Hola! Confirmo mi asistencia a los XV Años de Marelynk ✨",
   
-  // Ubicaciones
   locations: {
     church: {
       title: "MISA",
@@ -33,7 +32,6 @@ const EVENT_DATA = {
   }
 };
 
-// Generador del borde festoneado/ondulado para el sello de lacre
 function generateScallopedPath(radius = 48, numScallops = 24, scallopDepth = 3.5) {
   const center = 50;
   let path = '';
@@ -60,7 +58,6 @@ function generateScallopedPath(radius = 48, numScallops = 24, scallopDepth = 3.5
   return path + 'Z';
 }
 
-// Componente de Brillo Lujoso
 const LuxurySparkle = ({ size = 16, className = "" }: { size?: number; className?: string }) => (
   <svg 
     width={size} 
@@ -74,7 +71,6 @@ const LuxurySparkle = ({ size = 16, className = "" }: { size?: number; className
   </svg>
 );
 
-// Destellos flotantes animados
 const LuxuryGlitterOverlay = () => {
   const sparkles = Array.from({ length: 12 });
   return (
@@ -112,7 +108,6 @@ const LuxuryGlitterOverlay = () => {
   );
 };
 
-// Componente Wrapper para los Paneles
 const LuxuryPanel = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => {
   return (
     <section className="h-screen w-full snap-start flex flex-col justify-center items-center relative overflow-hidden p-4 sm:p-6">
@@ -129,7 +124,6 @@ const LuxuryPanel = ({ children, className = "" }: { children: React.ReactNode; 
   );
 };
 
-// Lógica de Conteo Regresivo
 const CountdownTimer = ({ targetDate }: { targetDate: string }) => {
   const [timeLeft, setTimeLeft] = useState({ dias: 0, horas: 0, min: 0, seg: 0 });
 
@@ -170,7 +164,6 @@ const CountdownTimer = ({ targetDate }: { targetDate: string }) => {
   );
 };
 
-// Carrusel Estilo Polaroid
 const PolaroidCarousel = () => {
   const photos = Array.from({ length: 30 }, (_, i) => `/galeria/foto_${i + 1}.jpg`);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -222,9 +215,6 @@ const PolaroidCarousel = () => {
   );
 };
 
-// ==========================================
-// COMPONENTE PRINCIPAL
-// ==========================================
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -233,7 +223,11 @@ export default function Home() {
   const handleOpenEnvelope = () => {
     setIsOpen(true);
     if (audioRef.current) {
-      audioRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
+      audioRef.current.load(); // Forzar carga limpia
+      audioRef.current
+        .play()
+        .then(() => setIsPlaying(true))
+        .catch((err) => console.log('Error de reproduccion:', err));
     }
   };
 
@@ -243,8 +237,10 @@ export default function Home() {
         audioRef.current.pause();
         setIsPlaying(false);
       } else {
-        audioRef.current.play();
-        setIsPlaying(true);
+        audioRef.current
+          .play()
+          .then(() => setIsPlaying(true))
+          .catch((err) => console.log('Error al reanudar:', err));
       }
     }
   };
@@ -253,10 +249,14 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen bg-[#040e0d] text-amber-50 select-none font-sans">
-      {/* CAMBIO DE CANCIÓN: Tercer Cielo - No Crezcas Más */}
-      <audio ref={audioRef} loop src="https://invitacion-celebriq.b-cdn.net/wp-content/uploads/2025/07/Tercer-Cielo-No-Crezcas-Mas.mp3" />
+      {/* RUTA DE AUDIO OPTIMIZADA CON PRELOAD */}
+      <audio
+        ref={audioRef}
+        loop
+        preload="auto"
+        src="/musica/no-crezcas-mas.mp3" 
+      />
 
-      {/* BOTÓN FLOTANTE DE AUDIO */}
       {isOpen && (
         <button
           onClick={toggleAudio}
@@ -266,7 +266,6 @@ export default function Home() {
         </button>
       )}
 
-      {/* PANTALLA INICIAL: SOBRE CON SELLO DE LACRE */}
       <AnimatePresence>
         {!isOpen && (
           <motion.div
@@ -276,7 +275,6 @@ export default function Home() {
             className="fixed inset-0 z-40 flex items-center justify-center bg-[#061816] p-4 sm:p-6"
           >
             <div className="relative w-full max-w-md aspect-[3/2] flex items-center justify-center filter drop-shadow-2xl">
-              
               <svg 
                 viewBox="0 0 600 400" 
                 className="absolute inset-0 w-full h-full"
@@ -354,17 +352,13 @@ export default function Home() {
                   </div>
                 </motion.button>
               </div>
-
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* CONTENEDOR PRINCIPAL SNAP (10 PANELES) */}
       {isOpen && (
         <main className="h-screen w-full snap-y snap-mandatory overflow-y-scroll scroll-smooth">
-
-          {/* PANEL 1: BANNER PORTADA (TEXTO MOVIDO ABAJO) */}
           <LuxuryPanel>
             <div className="absolute inset-0 z-0">
               <img src="/galeria/banner_portada.jpg" alt="Portada" className="w-full h-full object-cover opacity-60" />
@@ -391,7 +385,6 @@ export default function Home() {
             </div>
           </LuxuryPanel>
 
-          {/* PANEL 2: MENSAJE CON FONDO PERSONALIZABLE */}
           <LuxuryPanel>
             <div className="absolute inset-0 z-0">
               <img src="/galeria/fondo_panel2.jpg" alt="Fondo Mensaje" className="w-full h-full object-cover opacity-40" />
@@ -405,7 +398,6 @@ export default function Home() {
             </div>
           </LuxuryPanel>
 
-          {/* PANEL 3: CONTEO REGRESIVO */}
           <LuxuryPanel>
             <div className="absolute inset-0 z-0">
               <img src="/galeria/fondo_panel3.jpg" alt="Fondo Contador" className="w-full h-full object-cover opacity-40" />
@@ -418,7 +410,6 @@ export default function Home() {
             </div>
           </LuxuryPanel>
 
-          {/* PANEL 4: CONFIRMACIÓN WHATSAPP */}
           <LuxuryPanel>
             <div className="my-auto text-center relative z-10 flex flex-col items-center gap-6 px-4">
               <MessageCircle className="w-12 h-12 text-amber-300" />
@@ -434,17 +425,13 @@ export default function Home() {
             </div>
           </LuxuryPanel>
 
-          {/* PANEL 5: CAJÓN VACÍO PARA FOTO 1 */}
           <LuxuryPanel>
             <div className="absolute inset-0 z-0">
               <img src="/galeria/foto_panel5.jpg" alt="Panel 5" className="w-full h-full object-cover opacity-60" />
             </div>
-            <div className="my-auto z-10 text-center">
-              {/* Espacio reservado para foto */}
-            </div>
+            <div className="my-auto z-10 text-center" />
           </LuxuryPanel>
         
-          {/* PANEL 6: UBICACIÓN Y MAPAS DE MISA Y RECEPCIÓN */}
           <LuxuryPanel>
             <div className="w-full h-full flex flex-col justify-between py-1 relative z-10 overflow-y-auto no-scrollbar gap-2">
               <div className="text-center">
@@ -452,7 +439,6 @@ export default function Home() {
                 <h3 className="text-lg font-serif text-amber-200">Ubicación del Evento</h3>
               </div>
 
-              {/* 1. MISA - DIRECCIÓN Y MAPA */}
               <div className="flex flex-col gap-1.5">
                 <div className="bg-[#092b27]/90 border border-amber-500/30 rounded-xl p-2.5 text-left shadow-md">
                   <div className="flex items-center gap-1.5 mb-0.5">
@@ -486,7 +472,6 @@ export default function Home() {
                 </a>
               </div>
 
-              {/* 2. RECEPCIÓN - DIRECCIÓN Y MAPA */}
               <div className="flex flex-col gap-1.5">
                 <div className="bg-[#092b27]/90 border border-amber-500/30 rounded-xl p-2.5 text-left shadow-md">
                   <div className="flex items-center gap-1.5 mb-0.5">
@@ -523,7 +508,6 @@ export default function Home() {
             </div>
           </LuxuryPanel>
 
-          {/* PANEL 7: CÓDIGO DE VESTIMENTA */}
           <LuxuryPanel>
             <div className="my-auto text-center relative z-10 flex flex-col items-center gap-4 px-4">
               <div className="w-12 h-12 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center">
@@ -538,7 +522,6 @@ export default function Home() {
             </div>
           </LuxuryPanel>
 
-          {/* PANEL 8: CARRUSEL RECUERDOS (POLAROID - 30 FOTOS) */}
           <LuxuryPanel>
             <div className="my-auto w-full flex flex-col items-center z-10">
               <h3 className="text-xl font-serif text-amber-200 mb-4">Mis Recuerdos</h3>
@@ -546,17 +529,13 @@ export default function Home() {
             </div>
           </LuxuryPanel>
 
-          {/* PANEL 9: CAJÓN VACÍO PARA FOTO 2 */}
           <LuxuryPanel>
             <div className="absolute inset-0 z-0">
               <img src="/galeria/foto_panel9.jpg" alt="Panel 9" className="w-full h-full object-cover opacity-60" />
             </div>
-            <div className="my-auto z-10 text-center">
-              {/* Espacio reservado para foto */}
-            </div>
+            <div className="my-auto z-10 text-center" />
           </LuxuryPanel>
 
-          {/* PANEL 10: MESA DE REGALOS Y LLUVIA DE SOBRES */}
           <LuxuryPanel>
             <div className="my-auto text-center relative z-10 flex flex-col items-center gap-6 px-4 w-full">
               <div className="flex gap-4">
@@ -577,7 +556,6 @@ export default function Home() {
               </div>
             </div>
           </LuxuryPanel>
-
         </main>
       )}
     </div>
