@@ -8,13 +8,13 @@ import { Volume2, VolumeX, Calendar, MapPin, Gift, Mail, ChevronLeft, ChevronRig
 // CONFIGURACIÓN DE DATOS Y FUNCIONES AUXILIARES
 // ==========================================
 const EVENT_DATA = {
-  quinceaneraName: "Natasha",
+  quinceaneraName: "Marelynk",
   subtitle: "TE INVITO A MIS XV AÑOS",
   dateText: "15 de Agosto, 2026",
   targetDate: "2026-08-15T18:00:00",
   quote: '"Hay momentos inolvidables que se atesoran en el corazón para siempre. Por esa razón, quiero que compartas conmigo este día tan especial."',
   whatsappNumber: "50500000000",
-  whatsappMessage: "¡Hola! Confirmo mi asistencia a los XV Años de Natasha ✨",
+  whatsappMessage: "¡Hola! Confirmo mi asistencia a los XV Años de Marelynk ✨",
   
   // Ubicaciones
   locations: {
