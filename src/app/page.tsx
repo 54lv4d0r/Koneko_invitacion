@@ -115,13 +115,13 @@ const LuxuryGlitterOverlay = () => {
 // Componente Wrapper para los Paneles
 const LuxuryPanel = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => {
   return (
-    <section className="h-screen w-full snap-start flex flex-col justify-center items-center relative overflow-hidden p-4 sm:p-6">
+    <section className="h-[100dvh] w-full snap-start flex flex-col justify-center items-center relative overflow-hidden p-3 sm:p-6">
       <motion.div
         initial={{ opacity: 0, y: 40, scale: 0.96 }}
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
         viewport={{ amount: 0.4 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className={`w-full h-full max-w-md mx-auto rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.7)] border border-amber-500/20 relative flex flex-col items-center justify-between p-6 bg-[#071e1c] ${className}`}
+        className={`w-full h-full max-w-md mx-auto rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.7)] border border-amber-500/20 relative flex flex-col items-center justify-between p-4 sm:p-6 bg-[#071e1c] ${className}`}
       >
         {children}
       </motion.div>
