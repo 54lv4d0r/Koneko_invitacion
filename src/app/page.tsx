@@ -254,7 +254,7 @@ export default function Home() {
   return (
     <div className="relative min-h-screen bg-[#040e0d] text-amber-50 select-none font-sans">
       
-      {/* ARCHIVO DE AUDIO LOCAL ACTUALIZADO */}
+      {/* ARCHIVO DE AUDIO LOCAL */}
       <audio ref={audioRef} loop src="/musica/NoCrezcasMas.mp3" />
 
       {/* BOTÓN FLOTANTE DE AUDIO */}
@@ -365,24 +365,37 @@ export default function Home() {
       {isOpen && (
         <main className="h-screen w-full snap-y snap-mandatory overflow-y-scroll scroll-smooth">
 
-          {/* PANEL 2: MENSAJE CON FONDO PERSONALIZABLE */}
+          {/* PANEL 1: BANNER PORTADA */}
           <LuxuryPanel>
             <div className="absolute inset-0 z-0">
-              <img src="/galeria/fondopanel2.jpg" alt="Fondo Mensaje" className="w-full h-full object-cover opacity-40" />
-              <div className="absolute inset-0 bg-[#061917]/70 backdrop-blur-xs" />
+              <img src="/galeria/banner_portada.jpg" alt="Portada" className="w-full h-full object-cover opacity-60" />
+              <div className="absolute inset-0 bg-gradient-to-b from-[#061917]/30 via-transparent to-[#041211]/95" />
             </div>
-            <div className="my-auto relative z-10 text-center px-4">
-              <LuxurySparkle size={24} className="mx-auto mb-6" />
-              <p className="italic text-base sm:text-lg leading-relaxed font-serif text-amber-100/90 drop-shadow-md">
-                {EVENT_DATA.quote}
-              </p>
+            <LuxuryGlitterOverlay />
+
+            <div className="relative z-20 text-center w-full mt-auto space-y-3">
+              <div>
+                <span className="text-amber-200/90 tracking-[0.3em] uppercase text-xs font-serif block mb-1 drop-shadow-md">
+                  {EVENT_DATA.subtitle}
+                </span>
+                <h1 className="text-5xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#fff3cc] via-[#f7d774] to-[#cba33f] drop-shadow-lg">
+                  {EVENT_DATA.quinceaneraName}
+                </h1>
+              </div>
+
+              <div className="pb-2 text-center border-t border-amber-500/20 pt-3 w-full">
+                <span className="text-amber-300 font-serif text-sm tracking-widest uppercase flex items-center justify-center gap-2 drop-shadow-md">
+                  <Calendar className="w-4 h-4 text-amber-400" />
+                  {EVENT_DATA.dateText}
+                </span>
+              </div>
             </div>
           </LuxuryPanel>
 
           {/* PANEL 2: MENSAJE CON FONDO PERSONALIZABLE */}
           <LuxuryPanel>
             <div className="absolute inset-0 z-0">
-              <img src="/galeria/fondo_panel2.jpg" alt="Fondo Mensaje" className="w-full h-full object-cover opacity-40" />
+              <img src="/galeria/fondopanel2.jpg" alt="Fondo Mensaje" className="w-full h-full object-cover opacity-40" />
               <div className="absolute inset-0 bg-[#061917]/70 backdrop-blur-xs" />
             </div>
             <div className="my-auto relative z-10 text-center px-4">
