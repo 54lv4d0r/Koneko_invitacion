@@ -195,9 +195,7 @@ const PolaroidCarousel = () => {
               (e.target as HTMLElement).style.display = 'none';
             }}
           />
-          <div className="absolute inset-0 flex items-center justify-center text-amber-200/40 text-xs italic font-serif">
-            Foto #{currentIndex + 1}
-          </div>
+         
         </div>
         <p className="text-center font-serif italic text-neutral-800 text-xs mt-3 tracking-widest">
           Recuerdos ✨ ({currentIndex + 1} / {photos.length})
