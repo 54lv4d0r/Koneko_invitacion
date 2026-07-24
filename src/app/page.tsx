@@ -423,7 +423,7 @@ export default function Home() {
 <LuxuryPanel>
   <div className="absolute inset-0 z-0">
     <img 
-      src="/galeria/fondo-panel4.png" 
+      src="/galeria/fondo-panel4.jpg" 
       alt="Fondo Panel 4" 
       className="w-full h-full object-cover opacity-40" 
     />
@@ -533,20 +533,29 @@ export default function Home() {
             </div>
           </LuxuryPanel>
 
-          {/* PANEL 7: CÓDIGO DE VESTIMENTA */}
-          <LuxuryPanel>
-            <div className="my-auto text-center relative z-10 flex flex-col items-center gap-4 px-4">
-              <div className="w-12 h-12 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center">
-                <LuxurySparkle size={20} />
-              </div>
-              <h3 className="text-2xl font-serif text-amber-200">Código de Vestimenta</h3>
-              <p className="text-lg font-serif italic text-amber-100">Traje Formal</p>
-              <div className="w-12 h-[1px] bg-amber-500/40 my-1" />
-              <p className="text-xs text-amber-200/80 tracking-wide max-w-xs bg-[#092b27]/80 p-3 rounded-xl border border-amber-500/20">
-                Se reserva amablemente el color <span className="text-emerald-400 font-bold">Verde</span> para la quinceañera.
-              </p>
-            </div>
-          </LuxuryPanel>
+       {/* PANEL 7: CÓDIGO DE VESTIMENTA */}
+<LuxuryPanel>
+  <div className="absolute inset-0 z-0">
+    <img 
+      src="/galeria/fondo-panel7.png" 
+      alt="Fondo Código de Vestimenta" 
+      className="w-full h-full object-cover opacity-40" 
+    />
+    <div className="absolute inset-0 bg-[#061917]/75" />
+  </div>
+
+  <div className="my-auto text-center relative z-10 flex flex-col items-center gap-4 px-4">
+    <div className="w-12 h-12 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center">
+      <LuxurySparkle size={20} />
+    </div>
+    <h3 className="text-2xl font-serif text-amber-200">Código de Vestimenta</h3>
+    <p className="text-lg font-serif italic text-amber-100">Traje Formal</p>
+    <div className="w-12 h-[1px] bg-amber-500/40 my-1" />
+    <p className="text-xs text-amber-200/80 tracking-wide max-w-xs bg-[#092b27]/80 p-3 rounded-xl border border-amber-500/20 backdrop-blur-sm">
+      Se reserva amablemente el color <span className="text-emerald-400 font-bold">Verde</span> para la quinceañera.
+    </p>
+  </div>
+</LuxuryPanel>
 
           {/* PANEL 8: CARRUSEL RECUERDOS (POLAROID - 30 FOTOS) */}
           <LuxuryPanel>
