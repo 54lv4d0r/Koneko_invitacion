@@ -421,6 +421,13 @@ export default function Home() {
 
           {/* PANEL 4: CONFIRMACIÓN WHATSAPP */}
           <LuxuryPanel>
+            <div className="absolute inset-0 z-0">
+              <img 
+                src="/galeria/fondo-panel5.png" 
+                alt="Fondo Panel 5" 
+                className="w-full h-full object-cover" 
+              />
+            </div>
             <div className="my-auto text-center relative z-10 flex flex-col items-center gap-6 px-4">
               <MessageCircle className="w-12 h-12 text-amber-300" />
               <h2 className="text-2xl font-serif text-amber-200 italic">"Nos encantaría que nos acompañes"</h2>
