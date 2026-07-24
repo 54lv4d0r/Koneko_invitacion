@@ -253,7 +253,8 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen bg-[#040e0d] text-amber-50 select-none font-sans">
-      <audio ref={audioRef} loop src="https://invitacion-celebriq.b-cdn.net/wp-content/uploads/2025/07/Coldplay.mp3" />
+      {/* CAMBIO DE CANCIÓN: Tercer Cielo - No Crezcas Más */}
+      <audio ref={audioRef} loop src="https://invitacion-celebriq.b-cdn.net/wp-content/uploads/2025/07/Tercer-Cielo-No-Crezcas-Mas.mp3" />
 
       {/* BOTÓN FLOTANTE DE AUDIO */}
       {isOpen && (
