@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Mis XV - Natasha",
+  title: "Mis XV - Marelynk Nicole Altamirano",
   description: "Invitación Digital",
 };
 
