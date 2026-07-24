@@ -223,11 +223,12 @@ export default function Home() {
   const handleOpenEnvelope = () => {
     setIsOpen(true);
     if (audioRef.current) {
-      audioRef.current.load(); // Forzar carga limpia
-      audioRef.current
-        .play()
+      audioRef.current.play()
         .then(() => setIsPlaying(true))
-        .catch((err) => console.log('Error de reproduccion:', err));
+        .catch((err) => {
+          console.log('Error al reproducir audio automáticamente:', err);
+          setIsPlaying(false);
+        });
     }
   };
 
@@ -237,10 +238,9 @@ export default function Home() {
         audioRef.current.pause();
         setIsPlaying(false);
       } else {
-        audioRef.current
-          .play()
+        audioRef.current.play()
           .then(() => setIsPlaying(true))
-          .catch((err) => console.log('Error al reanudar:', err));
+          .catch((err) => console.log('Error al reanudar audio:', err));
       }
     }
   };
@@ -249,7 +249,6 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen bg-[#040e0d] text-amber-50 select-none font-sans">
-      {/* RUTA DE AUDIO OPTIMIZADA CON PRELOAD */}
       <audio
         ref={audioRef}
         loop
@@ -262,7 +261,7 @@ export default function Home() {
           onClick={toggleAudio}
           className="fixed top-4 right-4 z-50 bg-[#09221f]/90 text-amber-200 p-3 rounded-full shadow-2xl backdrop-blur-md border border-amber-500/30 cursor-pointer"
         >
-          {isPlaying ? <Volume2 className="w-5 h-5 animate-pulse" /> : <VolumeX className="w-5 h-5" />}
+          {isPlaying ? <Volume2 className="w-5 h-5 animate-pulse text-amber-300" /> : <VolumeX className="w-5 h-5 text-amber-500/60" />}
         </button>
       )}
 
