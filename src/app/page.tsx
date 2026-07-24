@@ -419,28 +419,30 @@ export default function Home() {
             </div>
           </LuxuryPanel>
 
-          {/* PANEL 4: CONFIRMACIÓN WHATSAPP */}
-          <LuxuryPanel>
-            <div className="absolute inset-0 z-0">
-              <img 
-                src="/galeria/fondo-panel4.png" 
-                alt="Fondo Panel 4" 
-                className="w-full h-full object-cover" 
-              />
-            </div>
-            <div className="my-auto text-center relative z-10 flex flex-col items-center gap-6 px-4">
-              <MessageCircle className="w-12 h-12 text-amber-300" />
-              <h2 className="text-2xl font-serif text-amber-200 italic">"Nos encantaría que nos acompañes"</h2>
-              <a
-                href={`https://wa.me/${EVENT_DATA.whatsappNumber}?text=${encodeURIComponent(EVENT_DATA.whatsappMessage)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-amber-50 font-medium px-6 py-3 rounded-full shadow-lg border border-amber-300/30 flex items-center gap-2 active:scale-95 transition-all text-sm tracking-wide"
-              >
-                Confirmar por WhatsApp
-              </a>
-            </div>
-          </LuxuryPanel>
+        {/* PANEL 4: CONFIRMACIÓN WHATSAPP */}
+<LuxuryPanel>
+  <div className="absolute inset-0 z-0">
+    <img 
+      src="/galeria/fondo-panel4.png" 
+      alt="Fondo Panel 4" 
+      className="w-full h-full object-cover opacity-40" 
+    />
+    <div className="absolute inset-0 bg-[#061917]/75" />
+  </div>
+
+  <div className="my-auto text-center relative z-10 flex flex-col items-center gap-6 px-4">
+    <MessageCircle className="w-12 h-12 text-amber-300" />
+    <h2 className="text-2xl font-serif text-amber-200 italic">"Nos encantaría que nos acompañes"</h2>
+    <a
+      href={`https://wa.me/${EVENT_DATA.whatsappNumber}?text=${encodeURIComponent(EVENT_DATA.whatsappMessage)}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-amber-50 font-medium px-6 py-3 rounded-full shadow-lg border border-amber-300/30 flex items-center gap-2 active:scale-95 transition-all text-sm tracking-wide"
+    >
+      Confirmar por WhatsApp
+    </a>
+  </div>
+</LuxuryPanel>
 
           {/* PANEL 5: CAJÓN VACÍO PARA FOTO 1 */}
           <LuxuryPanel>
