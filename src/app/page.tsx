@@ -21,14 +21,14 @@ const EVENT_DATA = {
     church: {
       title: "MISA",
       address: "Capilla de la Iglesia San Felipe, León — 6:00 PM",
-      mapEmbedUrl: "https://maps.google.com/maps?q=12.4358,-86.8795&z=16&output=embed",
-      directMapUrl: "https://www.google.com/maps/search/?api=1&query=12.4358,-86.8795"
+      mapEmbedUrl: "https://maps.google.com/maps?q=Iglesia+San+Felipe+Leon+Nicaragua&z=16&output=embed",
+      directMapUrl: "https://www.google.com/maps/search/?api=1&query=Iglesia+San+Felipe+Leon+Nicaragua"
     },
     reception: {
       title: "RECEPCIÓN",
-      address: "Sutiaba, Casa Cural 1c. al oeste, 1/2c. al sur, León",
-      mapEmbedUrl: "https://maps.google.com/maps?q=12.432750,-86.896111&z=16&output=embed",
-      directMapUrl: "https://www.google.com/maps/search/?api=1&query=12.432750,-86.896111"
+      address: "Casa Cural sutiaba 1c al oeste, 1/2c al sur, Restaurante Twins, Sutiaba, León",
+      mapEmbedUrl: "https://maps.google.com/maps?q=Restaurante+Twins+Sutiaba+Leon+Nicaragua&z=16&output=embed",
+      directMapUrl: "https://www.google.com/maps/search/?api=1&query=Restaurante+Twins+Sutiaba+Leon+Nicaragua"
     }
   }
 };
@@ -195,7 +195,6 @@ const PolaroidCarousel = () => {
               (e.target as HTMLElement).style.display = 'none';
             }}
           />
-         
         </div>
         <p className="text-center font-serif italic text-neutral-800 text-xs mt-3 tracking-widest">
           Recuerdos ✨ ({currentIndex + 1} / {photos.length})
@@ -390,21 +389,20 @@ export default function Home() {
             </div>
           </LuxuryPanel>
 
-         {/* PANEL 2: MENSAJE CON FONDO PERSONALIZABLE */}
-<LuxuryPanel>
-  <div className="absolute inset-0 z-0">
-    <img src="/galeria/fondopanel2.jpg" alt="Fondo Mensaje" className="w-full h-full object-cover opacity-40" />
-    <div className="absolute inset-0 bg-[#061917]/70 backdrop-blur-xs" />
-  </div>
-  <div className="my-auto relative z-10 text-center px-4">
-    <LuxurySparkle size={24} className="mx-auto mb-6" />
-    
-    {/* Texto ampliado para mejor lectura en móviles */}
-    <p className="italic text-lg sm:text-xl leading-relaxed font-serif text-amber-100/90 drop-shadow-md">
-      {EVENT_DATA.quote}
-    </p>
-  </div>
-</LuxuryPanel>
+          {/* PANEL 2: MENSAJE CON FONDO PERSONALIZABLE */}
+          <LuxuryPanel>
+            <div className="absolute inset-0 z-0">
+              <img src="/galeria/fondopanel2.jpg" alt="Fondo Mensaje" className="w-full h-full object-cover opacity-40" />
+              <div className="absolute inset-0 bg-[#061917]/70 backdrop-blur-xs" />
+            </div>
+            <div className="my-auto relative z-10 text-center px-4">
+              <LuxurySparkle size={24} className="mx-auto mb-6" />
+              
+              <p className="italic text-lg sm:text-xl leading-relaxed font-serif text-amber-100/90 drop-shadow-md">
+                {EVENT_DATA.quote}
+              </p>
+            </div>
+          </LuxuryPanel>
 
           {/* PANEL 3: CONTEO REGRESIVO */}
           <LuxuryPanel>
@@ -419,39 +417,38 @@ export default function Home() {
             </div>
           </LuxuryPanel>
 
-      {/* PANEL 4: CONFIRMACIÓN WHATSAPP */}
-<LuxuryPanel>
-  <div className="absolute inset-0 z-0">
-    <img 
-      src="/galeria/fondo-panel4.jpg" 
-      alt="Fondo Panel 4" 
-      className="w-full h-full object-cover opacity-60" 
-    />
-    <div className="absolute inset-0 bg-[#061917]/75" />
-  </div>
+          {/* PANEL 4: CONFIRMACIÓN WHATSAPP */}
+          <LuxuryPanel>
+            <div className="absolute inset-0 z-0">
+              <img 
+                src="/galeria/fondo-panel4.jpg" 
+                alt="Fondo Panel 4" 
+                className="w-full h-full object-cover opacity-60" 
+              />
+              <div className="absolute inset-0 bg-[#061917]/75" />
+            </div>
 
-  <div className="my-auto text-center relative z-10 flex flex-col items-center gap-5 px-4 w-full">
-    <MessageCircle className="w-12 h-12 text-amber-300" />
-    
-    <h2 className="text-2xl font-serif text-amber-200 italic">"Nos encantaría que nos acompañes"</h2>
-    
-    <a
-      href={`https://wa.me/${EVENT_DATA.whatsappNumber}?text=${encodeURIComponent(EVENT_DATA.whatsappMessage)}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-amber-50 font-medium px-6 py-3 rounded-full shadow-lg border border-amber-300/30 flex items-center gap-2 active:scale-95 transition-all text-sm tracking-wide"
-    >
-      Confirmar por WhatsApp
-    </a>
+            <div className="my-auto text-center relative z-10 flex flex-col items-center gap-5 px-4 w-full">
+              <MessageCircle className="w-12 h-12 text-amber-300" />
+              
+              <h2 className="text-2xl font-serif text-amber-200 italic">"Nos encantaría que nos acompañes"</h2>
+              
+              <a
+                href={`https://wa.me/${EVENT_DATA.whatsappNumber}?text=${encodeURIComponent(EVENT_DATA.whatsappMessage)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-amber-50 font-medium px-6 py-3 rounded-full shadow-lg border border-amber-300/30 flex items-center gap-2 active:scale-95 transition-all text-sm tracking-wide"
+              >
+                Confirmar por WhatsApp
+              </a>
 
-    {/* Nota amable sobre los niños */}
-    <div className="bg-[#092b27]/80 border border-amber-500/20 rounded-xl p-3 max-w-xs backdrop-blur-sm mt-2">
-      <p className="text-[11px] text-amber-100/80 leading-relaxed font-serif italic">
-        Agradecemos amablemente que la asistencia sea exclusivamente para adultos y niños mayores de 5 años.
-      </p>
-    </div>
-  </div>
-</LuxuryPanel>
+              <div className="bg-[#092b27]/80 border border-amber-500/20 rounded-xl p-3 max-w-xs backdrop-blur-sm mt-2">
+                <p className="text-[11px] text-amber-100/80 leading-relaxed font-serif italic">
+                  Agradecemos amablemente que la asistencia sea exclusivamente para adultos y niños mayores de 5 años.
+                </p>
+              </div>
+            </div>
+          </LuxuryPanel>
 
           {/* PANEL 5: CAJÓN VACÍO PARA FOTO 1 */}
           <LuxuryPanel>
@@ -465,75 +462,67 @@ export default function Home() {
         
           {/* PANEL 6: UBICACIÓN Y MAPAS DE MISA Y RECEPCIÓN */}
           <LuxuryPanel>
-            <div className="w-full h-full flex flex-col justify-between py-1 relative z-10 overflow-y-auto no-scrollbar gap-2">
-              <div className="text-center">
-                <MapPin className="w-5 h-5 text-amber-300 mx-auto mb-0.5" />
-                <h3 className="text-lg font-serif text-amber-200">Ubicación del Evento</h3>
+            <div className="my-auto relative z-10 flex flex-col items-center w-full gap-2 sm:gap-3 px-1">
+              
+              {/* Encabezado */}
+              <div className="text-center flex flex-col items-center mb-0.5">
+                <MapPin className="w-6 h-6 text-amber-300 mb-0.5" />
+                <h3 className="text-xl font-serif text-amber-200">Ubicación del Evento</h3>
               </div>
 
-              {/* 1. MISA - DIRECCIÓN Y MAPA */}
-              <div className="flex flex-col gap-1.5">
-                <div className="bg-[#092b27]/90 border border-amber-500/30 rounded-xl p-2.5 text-left shadow-md">
-                  <div className="flex items-center gap-1.5 mb-0.5">
-                    <Church className="w-3.5 h-3.5 text-amber-300" />
-                    <span className="text-[10px] font-serif font-bold text-amber-300 uppercase tracking-widest">
-                      {EVENT_DATA.locations.church.title}
-                    </span>
-                  </div>
-                  <p className="text-[11px] text-amber-100/90 leading-snug">
-                    {EVENT_DATA.locations.church.address}
-                  </p>
+              {/* 1. MISA - TARJETA Y MAPA */}
+              <div className="w-full bg-[#092b27]/90 border border-amber-500/30 rounded-2xl p-2.5 shadow-lg flex flex-col gap-1.5">
+                <div className="flex items-center gap-1.5 text-amber-300">
+                  <Church className="w-4 h-4 shrink-0" />
+                  <span className="text-[10px] font-serif font-bold uppercase tracking-widest">
+                    {EVENT_DATA.locations.church.title}
+                  </span>
                 </div>
+                <p className="text-[11px] text-amber-100/90 leading-tight font-serif">
+                  {EVENT_DATA.locations.church.address}
+                </p>
 
                 <a
                   href={EVENT_DATA.locations.church.directMapUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full h-32 rounded-xl overflow-hidden border border-amber-500/30 shadow-lg relative block group cursor-pointer"
+                  className="w-full h-28 sm:h-32 rounded-xl overflow-hidden border border-amber-500/20 shadow-inner relative block group cursor-pointer"
                 >
                   <iframe
                     src={EVENT_DATA.locations.church.mapEmbedUrl}
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
+                    className="w-full h-full border-0 pointer-events-none"
                     loading="lazy"
-                    className="pointer-events-none"
                   />
-                  <div className="absolute top-2 left-2 bg-white/95 text-neutral-900 text-[10px] font-medium px-2 py-1 rounded shadow border border-neutral-300 flex items-center gap-1 group-hover:bg-amber-100 transition-all z-20">
+                  <div className="absolute top-2 left-2 bg-white/95 text-neutral-900 text-[10px] font-medium px-2 py-0.5 rounded shadow border border-neutral-300 flex items-center gap-1 group-hover:bg-amber-100 transition-all z-20">
                     <span>Abrir Misa en Maps</span>
                   </div>
                 </a>
               </div>
 
-              {/* 2. RECEPCIÓN - DIRECCIÓN Y MAPA */}
-              <div className="flex flex-col gap-1.5">
-                <div className="bg-[#092b27]/90 border border-amber-500/30 rounded-xl p-2.5 text-left shadow-md">
-                  <div className="flex items-center gap-1.5 mb-0.5">
-                    <PartyPopper className="w-3.5 h-3.5 text-amber-300" />
-                    <span className="text-[10px] font-serif font-bold text-amber-300 uppercase tracking-widest">
-                      {EVENT_DATA.locations.reception.title}
-                    </span>
-                  </div>
-                  <p className="text-[11px] text-amber-100/90 leading-snug">
-                    {EVENT_DATA.locations.reception.address}
-                  </p>
+              {/* 2. RECEPCIÓN - TARJETA Y MAPA */}
+              <div className="w-full bg-[#092b27]/90 border border-amber-500/30 rounded-2xl p-2.5 shadow-lg flex flex-col gap-1.5">
+                <div className="flex items-center gap-1.5 text-amber-300">
+                  <PartyPopper className="w-4 h-4 shrink-0" />
+                  <span className="text-[10px] font-serif font-bold uppercase tracking-widest">
+                    {EVENT_DATA.locations.reception.title}
+                  </span>
                 </div>
+                <p className="text-[11px] text-amber-100/90 leading-tight font-serif">
+                  {EVENT_DATA.locations.reception.address}
+                </p>
 
                 <a
                   href={EVENT_DATA.locations.reception.directMapUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full h-32 rounded-xl overflow-hidden border border-amber-500/30 shadow-lg relative block group cursor-pointer"
+                  className="w-full h-28 sm:h-32 rounded-xl overflow-hidden border border-amber-500/20 shadow-inner relative block group cursor-pointer"
                 >
                   <iframe
                     src={EVENT_DATA.locations.reception.mapEmbedUrl}
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
+                    className="w-full h-full border-0 pointer-events-none"
                     loading="lazy"
-                    className="pointer-events-none"
                   />
-                  <div className="absolute top-2 left-2 bg-white/95 text-neutral-900 text-[10px] font-medium px-2 py-1 rounded shadow border border-neutral-300 flex items-center gap-1 group-hover:bg-amber-100 transition-all z-20">
+                  <div className="absolute top-2 left-2 bg-white/95 text-neutral-900 text-[10px] font-medium px-2 py-0.5 rounded shadow border border-neutral-300 flex items-center gap-1 group-hover:bg-amber-100 transition-all z-20">
                     <span>Abrir Recepción en Maps</span>
                   </div>
                 </a>
@@ -542,29 +531,29 @@ export default function Home() {
             </div>
           </LuxuryPanel>
 
-       {/* PANEL 7: CÓDIGO DE VESTIMENTA */}
-<LuxuryPanel>
-  <div className="absolute inset-0 z-0">
-    <img 
-      src="/galeria/fondo-panel7.png" 
-      alt="Fondo Código de Vestimenta" 
-      className="w-full h-full object-cover opacity-60" 
-    />
-    <div className="absolute inset-0 bg-[#061917]/75" />
-  </div>
+          {/* PANEL 7: CÓDIGO DE VESTIMENTA */}
+          <LuxuryPanel>
+            <div className="absolute inset-0 z-0">
+              <img 
+                src="/galeria/fondo-panel7.png" 
+                alt="Fondo Código de Vestimenta" 
+                className="w-full h-full object-cover opacity-60" 
+              />
+              <div className="absolute inset-0 bg-[#061917]/75" />
+            </div>
 
-  <div className="my-auto text-center relative z-10 flex flex-col items-center gap-4 px-4">
-    <div className="w-12 h-12 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center">
-      <LuxurySparkle size={20} />
-    </div>
-    <h3 className="text-2xl font-serif text-amber-200">Código de Vestimenta</h3>
-    <p className="text-lg font-serif italic text-amber-100">Traje Formal</p>
-    <div className="w-12 h-[1px] bg-amber-500/40 my-1" />
-    <p className="text-xs text-amber-200/80 tracking-wide max-w-xs bg-[#092b27]/80 p-3 rounded-xl border border-amber-500/20 backdrop-blur-sm">
-      Se reserva amablemente el color <span className="text-emerald-400 font-bold">Verde</span> para la quinceañera.
-    </p>
-  </div>
-</LuxuryPanel>
+            <div className="my-auto text-center relative z-10 flex flex-col items-center gap-4 px-4">
+              <div className="w-12 h-12 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center">
+                <LuxurySparkle size={20} />
+              </div>
+              <h3 className="text-2xl font-serif text-amber-200">Código de Vestimenta</h3>
+              <p className="text-lg font-serif italic text-amber-100">Traje Formal</p>
+              <div className="w-12 h-[1px] bg-amber-500/40 my-1" />
+              <p className="text-xs text-amber-200/80 tracking-wide max-w-xs bg-[#092b27]/80 p-3 rounded-xl border border-amber-500/20 backdrop-blur-sm">
+                Se reserva amablemente el color <span className="text-emerald-400 font-bold">Verde</span> para la quinceañera.
+              </p>
+            </div>
+          </LuxuryPanel>
 
           {/* PANEL 8: CARRUSEL RECUERDOS (POLAROID - 30 FOTOS) */}
           <LuxuryPanel>
@@ -584,36 +573,36 @@ export default function Home() {
             </div>
           </LuxuryPanel>
 
-        {/* PANEL 10: MESA DE REGALOS Y LLUVIA DE SOBRES */}
-<LuxuryPanel>
-  <div className="absolute inset-0 z-0">
-    <img 
-      src="/galeria/fondo-panel10.png" 
-      alt="Fondo lluvia de sobres" 
-      className="w-full h-full object-cover opacity-60" 
-    />
-    <div className="absolute inset-0 bg-[#061917]/75" />
-  </div>
+          {/* PANEL 10: MESA DE REGALOS Y LLUVIA DE SOBRES */}
+          <LuxuryPanel>
+            <div className="absolute inset-0 z-0">
+              <img 
+                src="/galeria/fondo-panel10.png" 
+                alt="Fondo lluvia de sobres" 
+                className="w-full h-full object-cover opacity-60" 
+              />
+              <div className="absolute inset-0 bg-[#061917]/75" />
+            </div>
 
-  <div className="my-auto text-center relative z-10 flex flex-col items-center gap-5 px-4 w-full">
-    <div className="flex gap-4 items-center justify-center">
-      <Gift className="w-8 h-8 text-amber-300" />
-      <Mail className="w-8 h-8 text-amber-300" />
-    </div>
+            <div className="my-auto text-center relative z-10 flex flex-col items-center gap-5 px-4 w-full">
+              <div className="flex gap-4 items-center justify-center">
+                <Gift className="w-8 h-8 text-amber-300" />
+                <Mail className="w-8 h-8 text-amber-300" />
+              </div>
 
-    <h3 className="text-2xl font-serif text-amber-200">Mesa de Regalos</h3>
+              <h3 className="text-2xl font-serif text-amber-200">Mesa de Regalos</h3>
 
-    <div className="bg-[#092b27]/90 border border-amber-500/30 rounded-2xl p-5 w-full max-w-xs text-center shadow-xl space-y-3 backdrop-blur-sm">
-      <p className="text-xs italic font-serif text-amber-100/90 leading-relaxed">
-        "Tu presencia es nuestro mejor regalo, pero si deseas hacernos un presente..."
-      </p>
-      <div className="pt-2 border-t border-amber-500/20">
-        <span className="text-sm font-serif font-bold text-amber-300 block">Lluvia de Sobres</span>
-        <span className="text-[10px] text-amber-100/70 block mt-0.5">Habrá una urna disponible el día del evento</span>
-      </div>
-    </div>
-  </div>
-</LuxuryPanel>
+              <div className="bg-[#092b27]/90 border border-amber-500/30 rounded-2xl p-5 w-full max-w-xs text-center shadow-xl space-y-3 backdrop-blur-sm">
+                <p className="text-xs italic font-serif text-amber-100/90 leading-relaxed">
+                  "Tu presencia es nuestro mejor regalo, pero si deseas hacernos un presente..."
+                </p>
+                <div className="pt-2 border-t border-amber-500/20">
+                  <span className="text-sm font-serif font-bold text-amber-300 block">Lluvia de Sobres</span>
+                  <span className="text-[10px] text-amber-100/70 block mt-0.5">Habrá una urna disponible el día del evento</span>
+                </div>
+              </div>
+            </div>
+          </LuxuryPanel>
         </main>
       )}
     </div>
