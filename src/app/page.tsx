@@ -575,28 +575,36 @@ export default function Home() {
             </div>
           </LuxuryPanel>
 
-          {/* PANEL 10: MESA DE REGALOS Y LLUVIA DE SOBRES */}
-          <LuxuryPanel>
-            <div className="my-auto text-center relative z-10 flex flex-col items-center gap-6 px-4 w-full">
-              <div className="flex gap-4">
-                <Gift className="w-8 h-8 text-amber-300" />
-                <Mail className="w-8 h-8 text-amber-300" />
-              </div>
-              
-              <h3 className="text-2xl font-serif text-amber-200">Mesa de Regalos</h3>
+        {/* PANEL 10: MESA DE REGALOS Y LLUVIA DE SOBRES */}
+<LuxuryPanel>
+  <div className="absolute inset-0 z-0">
+    <img 
+      src="/galeria/fondo-panel10.png" 
+      alt="Fondo lluvia de sobres" 
+      className="w-full h-full object-cover opacity-40" 
+    />
+    <div className="absolute inset-0 bg-[#061917]/75" />
+  </div>
 
-              <div className="bg-[#092b27]/90 border border-amber-500/30 rounded-2xl p-5 w-full max-w-xs text-center shadow-xl space-y-3">
-                <p className="text-xs italic font-serif text-amber-100/90 leading-relaxed">
-                  "Tu presencia es nuestro mejor regalo, pero si deseas hacernos un presente..."
-                </p>
-                <div className="pt-2 border-t border-amber-500/20">
-                  <span className="text-sm font-serif font-bold text-amber-300 block">Lluvia de Sobres</span>
-                  <span className="text-[10px] text-amber-100/70">Habrá una urna disponible el día del evento</span>
-                </div>
-              </div>
-            </div>
-          </LuxuryPanel>
+  <div className="my-auto text-center relative z-10 flex flex-col items-center gap-5 px-4 w-full">
+    <div className="flex gap-4 items-center justify-center">
+      <Gift className="w-8 h-8 text-amber-300" />
+      <Mail className="w-8 h-8 text-amber-300" />
+    </div>
 
+    <h3 className="text-2xl font-serif text-amber-200">Mesa de Regalos</h3>
+
+    <div className="bg-[#092b27]/90 border border-amber-500/30 rounded-2xl p-5 w-full max-w-xs text-center shadow-xl space-y-3 backdrop-blur-sm">
+      <p className="text-xs italic font-serif text-amber-100/90 leading-relaxed">
+        "Tu presencia es nuestro mejor regalo, pero si deseas hacernos un presente..."
+      </p>
+      <div className="pt-2 border-t border-amber-500/20">
+        <span className="text-sm font-serif font-bold text-amber-300 block">Lluvia de Sobres</span>
+        <span className="text-[10px] text-amber-100/70 block mt-0.5">Habrá una urna disponible el día del evento</span>
+      </div>
+    </div>
+  </div>
+</LuxuryPanel>
         </main>
       )}
     </div>
