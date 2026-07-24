@@ -253,7 +253,9 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen bg-[#040e0d] text-amber-50 select-none font-sans">
-      <audio ref={audioRef} loop src="https://invitacion-celebriq.b-cdn.net/wp-content/uploads/2025/07/Coldplay.mp3" />
+      
+      {/* ARCHIVO DE AUDIO LOCAL ACTUALIZADO */}
+      <audio ref={audioRef} loop src="/musica/NoCrezcasMas.mp3" />
 
       {/* BOTÓN FLOTANTE DE AUDIO */}
       {isOpen && (
@@ -363,7 +365,7 @@ export default function Home() {
       {isOpen && (
         <main className="h-screen w-full snap-y snap-mandatory overflow-y-scroll scroll-smooth">
 
-          {/* PANEL 1: BANNER PORTADA (TEXTO MOVIDO ABAJO) */}
+          {/* PANEL 1: BANNER PORTADA */}
           <LuxuryPanel>
             <div className="absolute inset-0 z-0">
               <img src="/galeria/banner_portada.jpg" alt="Portada" className="w-full h-full object-cover opacity-60" />
